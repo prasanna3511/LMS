@@ -7,6 +7,7 @@ import StudentLogin from "./Components/StudentLogin"
 import Admin from "./Components/Admin"
 import CreateSession from './Components/CreateSession'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Sidebar from "./Components/Sidebar/sidebar";
 
 function App() {
   return (
@@ -31,18 +32,12 @@ function App() {
         <Route path="/Admin" element={<Admin/>}></Route>
         <Route path="/CreateSession" element={<CreateSession />}></Route>
       </Routes>
-        <div style={{ display: "flex" }}>
-          <Routes>
-            <Route path="/" element={<Slider />}></Route>
-          </Routes>
-
-          <div style={{ flexGrow: 1, padding: "20px" }}>
+      
             <Routes>
               <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Sidebar />} />
+              {/* <Route path="/dash" element={<Dashboard />} /> */}
             </Routes>
-          </div>
-        </div>
       </BrowserRouter>
     </>
   );
