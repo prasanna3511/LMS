@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import logout from '../../images/logout1.png'
+import logout from "../../images/logout1.png";
 import Dashboard from "../Dashboard";
-import TeacherDashboard from '../Teacher/TeacherDashboard'
+import TeacherDashboard from "../Teacher/TeacherDashboard";
+import MaterialAndFurnituresForm from "../material/MaterialInput";
+import MaterialsTable from "../material/MaterialTable";
+import HolidayManager from "../HolidayManager/HolidayInput";
 
 const Sidebar = () => {
   const sidebarStyle = {
@@ -42,14 +45,14 @@ const Sidebar = () => {
   const logoutButtonStyle = {
     marginTop: "40px",
     padding: "10px",
-    display:'flex',
-    justifyContent:'space between'
+    display: "flex",
+    justifyContent: "space between",
   };
 
-  const [role,setRole]=useState('teacher')
+  const [role, setRole] = useState("holidayInput");
 
   return (
-    <div style={{display:'flex', flexDirection:'row', width:'100%'}} >
+    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
       <div style={sidebarStyle}>
         <div style={titleStyle}>📚 Eduonix™ Dashboard</div>
 
@@ -144,19 +147,27 @@ const Sidebar = () => {
             <
             <img style={{marginTop:'10px'}} src={logout} />Logout
             </button> */}
-            <div style={logoutButtonStyle} >
-            <img style={{marginTop:'15px', height:30}} onClick={()=>console.log("clicked")} src={logout} />
-            <h3 style={{cursor:'pointer'}}  onClick={()=>console.log("clicked")} >Logout</h3>
-            </div>
+        <div style={logoutButtonStyle}>
+          <img
+            style={{ marginTop: "15px", height: 30 }}
+            onClick={() => console.log("clicked")}
+            src={logout}
+          />
+          <h3
+            style={{ cursor: "pointer" }}
+            onClick={() => console.log("clicked")}
+          >
+            Logout
+          </h3>
+        </div>
       </div>
-        {
-          role === 'admin' &&
-      <Dashboard/>
-        }
-         {
-          role === 'teacher' &&
-      <TeacherDashboard/>
-        }
+      <div style={{ flex: 1, overflowY: "auto", padding: "20px" }}>
+        {role === "admin" && <Dashboard />}
+        {role === "teacher" && <TeacherDashboard />}
+        {role === "material" && <MaterialAndFurnituresForm />}
+        {role === "materialtable" && <MaterialsTable />}
+        {role === "holidayInput" && <HolidayManager />}
+      </div>
     </div>
   );
 };
