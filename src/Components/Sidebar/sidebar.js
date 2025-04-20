@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import logout from '../../images/logout1.png'
 import Dashboard from "../Dashboard";
+import TeacherDashboard from '../Teacher/TeacherDashboard'
 
 const Sidebar = () => {
   const sidebarStyle = {
@@ -44,6 +45,8 @@ const Sidebar = () => {
     display:'flex',
     justifyContent:'space between'
   };
+
+  const [role,setRole]=useState('teacher')
 
   return (
     <div style={{display:'flex', flexDirection:'row', width:'100%'}} >
@@ -146,8 +149,14 @@ const Sidebar = () => {
             <h3 style={{cursor:'pointer'}}  onClick={()=>console.log("clicked")} >Logout</h3>
             </div>
       </div>
-
+        {
+          role === 'admin' &&
       <Dashboard/>
+        }
+         {
+          role === 'teacher' &&
+      <TeacherDashboard/>
+        }
     </div>
   );
 };
