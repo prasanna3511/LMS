@@ -47,7 +47,8 @@ const SpecialProjectReportForm = () => {
     height: "150px",
     backgroundColor: "#eee",
     borderRadius: "15px",
-    marginBottom: "15px",
+    marginBottom: "25px",
+    marginLeft: "38%"
   };
 
   const buttonStyle = {
@@ -67,12 +68,13 @@ const SpecialProjectReportForm = () => {
 
 <div style={{...rowStyle,marginLeft:20}}>
   <div style={columnStyle}>
-    <label style={labelStyle}>School Name</label>
+    <label style={labelStyle}>School Name</label> 
     <input type="text" style={inputStyle} />
   </div>
 </div>
+<div style={{ ...imageBoxStyle }} />
         </div>
-  <div style={{ ...imageBoxStyle }} />
+  
    
 
       <div style={rowStyle}>
@@ -162,8 +164,8 @@ const SpecialProjectReportForm = () => {
           <input type="password" style={inputStyle} />
         </div>
       </div>
-
-      <button style={buttonStyle}>Save</button>
+     <div style={{display:"flex",justifyContent:"center"}}>
+      <button style={buttonStyle}>Save</button></div>
     </div>
   );
 };

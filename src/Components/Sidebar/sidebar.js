@@ -54,7 +54,7 @@ const Sidebar = () => {
     justifyContent: "space between",
   };
 
-  const [role, setRole] = useState("teacher");
+  const [role, setRole] = useState("projectReportTable");
 
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden",width:'100%'}}>
@@ -168,14 +168,14 @@ const Sidebar = () => {
       </div>
       <div style={{ flex: 1, overflowY: "auto", padding: "20px", width:'100%' }}>
         {role === "admin" && <Dashboard />}
-        {role === "teacher" && <TeacherDashboard />}
+        {role === "teacher" && <TeacherDashboard />}   
         {role === "material" && <MaterialAndFurnituresForm />}
-        {role === "materialtable" && <MaterialsTable />}
+        {role === "materialtable" && <MaterialsTable />}  
         {role === "holidayInput" && <HolidayManager />}
         {role === "holidayTable" && <HolidayTablePage />}
         {role === "specialProject" && <SpecialProjectForm />}
-        {role === "projectReport" && <SpecialProjectReport />}
-        {role === "projectReportTable" && <SpecialProjectTable />}
+        {role === "projectReport" && <SpecialProjectReport />} 
+        {role === "projectReportTable" && <SpecialProjectTable />}  
         {role === "test" && <CreateTest />}
       </div>
     </div>

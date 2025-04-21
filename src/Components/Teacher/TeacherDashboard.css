@@ -1,0 +1,253 @@
+.dashboard-container {
+    font-family: Arial, sans-serif;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+  
+  .dashboard-main {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .dashboard-header input[type="text"] {
+    padding: 8px;
+    width: 300px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .dashboard-buttons button {
+    margin: 0 5px;
+    padding: 8px 16px;
+    color: white;
+    border: none;
+    border-radius: 20px;
+  }
+  
+  .start-day-btn {
+    background-color: green;
+  }
+  .end-day-btn {
+    background-color: #A9290E;
+  }
+  .create-login-btn {
+    background-color: #241F63;
+  }
+  
+  .dashboard-avatar {
+    display: flex;
+    align-items: center;
+  }
+  .dashboard-avatar img {
+    border-radius: 50%;
+  }
+  .dashboard-avatar div {
+    margin-left: 10px;
+  }
+  
+  .dashboard-welcome {
+    width: 100%;
+    height: 100px;
+    background-color: #ABBFFC80;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding-left: 10px;
+  }
+  
+  .dashboard-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .dashboard-left {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  .today-session {
+    background-color: #dbe6ff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-right: 20px;
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .today-session h2 {
+    color: #241F63;
+    margin-top: 10px;
+  }
+  
+  .today-session table {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px;
+  }
+  
+  .today-session th,
+  .today-session td {
+    font-size: 12px;
+    padding: 5px;
+  }
+  
+  .today-session button {
+    background-color: #372b7e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+  
+  .right-widgets {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .widget-box {
+    background-color: #dbe6ff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    height: 130px;
+  }
+  
+  .widget-box .icon-circle {
+    background-color: #241F63;
+    height: 45px;
+    width: 45px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .widget-box p {
+    color: #241F63;
+    font-weight: 800;
+    margin-top: -5px;
+  }
+  
+  .widget-info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
+  
+  .widget-info p {
+    font-size: 10px;
+    margin: 0;
+  }
+  
+  .calendar-container {
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  .week-days {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .week-day {
+    width: 32px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .week-day .date-box {
+    border-radius: 25px;
+    padding: 6px 0;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .week-day .date-box.selected {
+    background-color: #43369d;
+    color: white;
+    border: 2px solid #261d82;
+  }
+  
+  .week-day .circle {
+    margin-top: 4px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 13px;
+    border-radius: 50%;
+    background-color: #eee;
+    color: #555;
+  }
+  
+  .week-day .circle.selected {
+    background-color: #b0a7f9;
+    color: black;
+    border: 1px solid #43369d;
+  }
+  
+  .message-box,
+  .special-project {
+    background-color: #f5f7fb;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  textarea {
+    width: 100%;
+    resize: none;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .dashboard-body {
+      flex-direction: column;
+    }
+  
+    .dashboard-left,
+    .right-widgets {
+      width: 100%;
+    }
+  
+    .today-session {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+  }
+  

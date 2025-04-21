@@ -163,6 +163,6 @@ const btnStyle = (bgColor) => ({
   cursor: bgColor === '#ccc' ? 'not-allowed' : 'pointer',
   fontWeight: 'bold',
   fontSize: '14px',
-});
+}); 
 
 export default MaterialsTable;

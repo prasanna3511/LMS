@@ -94,6 +94,7 @@
 // export default DashboardMainContent;
 
 import React, { useState } from "react";
+import './TeacherDashboard.css'
 
 const Dashboard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -286,7 +287,7 @@ const Dashboard = () => {
                   width: "100%",
                   marginTop: -10,
                   backgroundColor: "#ffffff",
-                  height: "80%",
+                  height: "70%",
                   padding: 5,
                   borderRadius: 10,
                 }}
@@ -320,7 +321,7 @@ const Dashboard = () => {
                   width: "100%",
                   display: "flex",
                   justifyContent: "flex-end",
-                  marginTop: 2.5,
+                  marginTop:"20px",
                 }}
               >
                 <button
@@ -511,7 +512,7 @@ const Dashboard = () => {
             
             <div
       style={{
-        width: "98%",
+        width: "80%",
         padding: "10px",
         fontFamily: "Arial, sans-serif",
         backgroundColor: "white",
@@ -602,7 +603,7 @@ const Dashboard = () => {
                 backgroundColor: "#f5f7fb",
                 padding: "20px",
                 borderRadius: "10px",
-                width:'90%',marginBottom:2
+                width:'70%',marginBottom:2
                 
               }}
             >
@@ -617,7 +618,7 @@ const Dashboard = () => {
                 backgroundColor: "#f5f7fb",
                 padding: "20px",
                 borderRadius: "10px",
-                width:'90%'
+                width:'70%'
               }}
             >
               <h4>Special project by Student :</h4>
