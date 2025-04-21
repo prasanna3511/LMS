@@ -1,810 +1,626 @@
-// import React from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useState } from "react";
-// import Manager1 from "../../images/Teacher.png";
+// import React from 'react';
 
-// export default function Dashboard() {
-//   const [present, setPresent] = useState(30);
-//   const [absent, setAbsent] = useState(2);
-//   const total = present + absent;
-//   const attendancePercentage =
-//     total > 0 ? ((present / total) * 100).toFixed(1) : 0;
-
-//   const navigate = useNavigate();
-//   const handleContact = () => {
-//     navigate("/Login");
-//   };
-
-//   const containerStyle = {
-//     display: "flex",
-//     flexDirection: "column",
-//     gap: "20px",
-//     width: "320px",
-//     marginBottom: "2%",
-//   };
-
-//   const sectionStyle = {
-//     backgroundColor: "#F8F8F8",
-//     padding: "20px",
-//     borderRadius: "10px",
-//     textAlign: "center",
-//   };
-
-//   const titleStyle1 = {
-//     fontSize: "16px",
-//     fontWeight: "bold",
-//     color: "#d9534f",
-//     marginBottom: "10px",
-//   };
-
-//   const chartContainerStyle = {
-//     display: "flex",
-//     flexDirection: "column",
-//     alignItems: "center",
-//   };
-
-//   const chartStyle = {
-//     width: "80px",
-//     height: "80px",
-//     borderRadius: "50%",
-//     border: "8px solid #1a1a56",
-//     borderTopColor: "transparent",
-//     display: "flex",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     fontWeight: "bold",
-//     fontSize: "14px",
-//   };
-
-//   const textRowStyle = {
-//     display: "flex",
-//     justifyContent: "space-between",
-//     fontSize: "12px",
-//     marginTop: "10px",
-//   };
-
-//   const inputStyle = {
-//     padding: "5px",
-//     width: "70px",
-//     margin: "5px",
-//     borderRadius: "5px",
-//     border: "1px solid #ccc",
-//     textAlign: "center",
-//   };
-
-//   const cardStyle = {
-//     // backgroundColor: "#ABBFFC",
-//     backgroundColor: "#F8F8F8",
-//     padding: "15px",
-//     borderRadius: "10px",
-//     width: "250px",
-//   };
-
-//   const titleStyle = {
-//     fontSize: "20px",
-//     fontWeight: "bold",
-//     color: "#d9534f",
-//     marginBottom: "10px",
-//   };
-
-//   const buttonStyle = {
-//     backgroundColor: "#1a1a56",
-//     color: "white",
-//     padding: "10px",
-//     borderRadius: "20px",
-//     border: "none",
-//     width: "100%",
-//     textAlign: "center",
-//     cursor: "pointer",
-//     marginTop: "20px",
-//     height: "40px",
-//     fontSize: "15px",
-//   };
-
+// const DashboardMainContent = () => {
 //   return (
-//     <div style={{ display: "flex", flexDirection: "column", width: "80%" ,marginLeft:10}}>
-//       <div>
-//         <div
-//           style={{
-//             padding: "15px",
-//             borderRadius: "10px",
-//             marginBottom: "20px",
-//             display: "flex",
-//             justifyContent: "space-evenly",
-//             alignItems: "center",
-//           }}
-//         >
-//           <div
-//             style={{
-//               display: "flex",
-//               alignItems: "center",
-//             }}
-//           >
-//             <input
-//               type="text"
-//               placeholder="Select School"
-//               style={{
-//                 padding: "10px",
-//                 borderRadius: "17px",
-//                 border: "1px solid #ccc",
-//                 outline: "none",
-//                 fontSize: "15px",
-//               }}
-//             />
-//             <button
-//               style={{
-//                 backgroundColor: "#1a1a56",
-//                 color: "white",
-//                 padding: "10px 15px",
-//                 borderRadius: "17px",
-//                 border: "none",
-//                 cursor: "pointer",
-//                 fontSize: "15px",
-//               }}
-//             >
-//               Search
-//             </button>
-//           </div>
-  
-
-             
-//           <button
-//             onClick={handleContact}
-//             style={{
-//               backgroundColor: "#1a1a56",
-//               color: "white",
-//               padding: "10px 15px",
-//               borderRadius: "17px",
-//               border: "none",
-//               cursor: "pointer",
-//               fontSize: "15px",
-//               width:'180px'
-//             }}
-//           >
-//             <a style={{ color: "white", textDecoration: "none" }}>
-//               Add New School
-//             </a>
-//           </button>
-//           <button
-//             onClick={handleContact}
-//             style={{
-//               backgroundColor: "#1a1a56",
-//               color: "white",
-//               padding: "10px 15px",
-//               borderRadius: "17px",
-//               border: "none",
-//               cursor: "pointer",
-//               fontSize: "15px",
-//               width:'180px'
-
-//             }}
-//           >
-//             <a style={{ color: "white", textDecoration: "none" }}>
-//              Create Login
-//             </a>
-//           </button>
-
-
-// <div style={{display:'flex', flexDirection:'row'}}>
-
-//           <div
-//             style={{
-//               display: "flex",
-//               alignItems: "center",
-//               gap: "10px",
-//             }}
-//           >
-//             <div
-//               style={{
-//                 width: "40px",
-//                 height: "40px",
-//                 borderRadius: "50%",
-//                 backgroundColor: "#f0f0f0",
-//                 display: "flex",
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 fontWeight: "bold",
-//               }}
-//             >
-//               👤
-//             </div>
-//             <div>
-//               <p style={{ margin: 0, fontWeight: "bold" }}>Bhavin</p>
-//               <p style={{ margin: 0, fontSize: "12px", color: "gray" }}>
-//                 Admin
-//               </p>
-//             </div>
-//           </div>
-//           <img style={{height:30, width:30, marginLeft:20}} src={require('../../images/bell-ringing.png')} />
-
-// </div>
-
+//     <div style={{ padding: '30px', fontFamily: 'Arial, sans-serif', backgroundColor: '#f6f7fb', minHeight: '100vh' }}>
+//       {/* Header Section */}
+//       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+//         <h2 style={{ fontWeight: 'bold', color: '#fc7d26' }}>Welcome Back Teacher !</h2>
+//         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+//           <input
+//             type="text"
+//             placeholder="Search"
+//             style={{ padding: '8px 16px', borderRadius: '20px', border: '1px solid #ccc', width: '200px' }}
+//           />
+//           <button style={{ backgroundColor: 'green', color: 'white', padding: '8px 16px', border: 'none', borderRadius: '8px' }}>Start Day</button>
+//           <button style={{ backgroundColor: 'red', color: 'white', padding: '8px 16px', border: 'none', borderRadius: '8px' }}>End Day</button>
+//           <button style={{ backgroundColor: '#2e2eaa', color: 'white', padding: '8px 16px', border: 'none', borderRadius: '8px' }}>Create Student Login</button>
 //         </div>
 //       </div>
-//       {/* panel code */}
-//       <div style={{ display: "flex", flexDirection: "row",marginTop:-25 }}>
-//         <div
-//           style={{
-//             display: "flex",
-//             flexDirection: "column",
-//             width: "70%",
-//             justifyContent: "center",
-//           }}
-//         >
-//          <div
-//   style={{
-//     display: "flex",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//     backgroundColor: "#ABBFFC80",
-//     padding: "10px",
-//     borderRadius: "10px",
-//     position: "relative",
-//     overflow: "visible", 
-//     height:75 
-//   }}
-// >
-//   <div>
-//     <h3
-//       style={{
-//         margin: "5px 0",
-//         color: "#F75F00",
-//       }}
-//     >
-//       Welcome back, Admin
-//     </h3>
-//   </div>
-//   <div>
-//     <img
-//       src={Manager1}
-//       alt="Manager"
-//       style={{
-//         position: "absolute",
-//         top: "-37px", // Adjust as needed
-//         right: "2px", // Adjust position on the right
-//         width: "130px", // Adjust size
-//         height: "130px",
-//       }}
-//     />
-//   </div>
-// </div>
-// {/* 1 */}
-// <div style={{width:'100%',display:'flex',flexDirection:'row',justifyContent:'space-between',marginTop:10,height:'70%'}}>
 
-//           <div style={{width:'49%',height:'95%',backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-//             <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-//             <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
-//             </div>
-//             <div style={{marginTop:-10}}>
-//               <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
-//             </div>
-//             <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//             </div>
-//           </div>
-//           <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-//             <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-//             <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
-//             </div>
-//             <div style={{marginTop:-10}}>
-//               <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
-//             </div>
-//             <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//             </div>
-//           </div>
-// </div>
-// {/* 2 */}
-// {/* <div style={{width:'100%',display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-
-//           <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-//             <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-//             <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
-//             </div>
-//             <div style={{marginTop:-10}}>
-//               <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
-//             </div>
-//             <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//             </div>
-//           </div>
-//           <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-//             <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-//             <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
-//             </div>
-//             <div style={{marginTop:-10}}>
-//               <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
-//             </div>
-//             <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//             </div>
-//           </div>
-// </div> */}
-// {/* 3 */}
-// {/* <div style={{width:'100%',display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-
-//           <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-//             <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-//             <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
-//             </div>
-//             <div style={{marginTop:-10}}>
-//               <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
-//             </div>
-//             <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//             </div>
-//           </div>
-//           <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-//             <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-//             <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
-//             </div>
-//             <div style={{marginTop:-10}}>
-//               <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
-//             </div>
-//             <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-//               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-//                 <p style={{fontSize:10}}>86</p>
-//                 <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-//               </div>
-//             </div>
-//           </div>
-// </div> */}
-
+//       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '30px' }}>
+//         {/* Today's Session */}
+//         <div style={{ backgroundColor: 'white', borderRadius: '15px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+//           <h3 style={{ marginBottom: '20px' }}>📘 Today's Session</h3>
+//           <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
+//             <thead>
+//               <tr style={{ borderBottom: '1px solid #eee', textAlign: 'left' }}>
+//                 <th style={{ padding: '8px' }}>Grade</th>
+//                 <th style={{ padding: '8px' }}>Name of the Topic</th>
+//                 <th style={{ padding: '8px' }}>Description</th>
+//                 <th style={{ padding: '8px' }}>Completed</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               <tr>
+//                 <td style={{ padding: '8px' }}><input type="checkbox" /></td>
+//                 <td style={{ padding: '8px' }}>Algebra</td>
+//                 <td style={{ padding: '8px' }}>Introduction to variables</td>
+//                 <td style={{ padding: '8px' }}><input type="checkbox" /></td>
+//               </tr>
+//             </tbody>
+//           </table>
+//           <button style={{ backgroundColor: '#2e2eaa', color: 'white', padding: '10px 20px', borderRadius: '10px', border: 'none' }}>
+//             Submit
+//           </button>
 //         </div>
 
-//         <div
-//           style={{
-//             display: "flex",
-//             justifyContent: "space-evenly",
-//             marginLeft: "20px",
-//           }}
-//         >
-//           <div style={containerStyle}>
-//             {/* Attendance Report */}
-//             <div>
-//               <p style={titleStyle1}>Attendance Report</p>
-//               <div style={sectionStyle}>
-//                 <div style={chartContainerStyle}>
-//                   <div style={chartStyle}>{attendancePercentage}%</div>
-//                 </div>
-//                 <div style={textRowStyle}>
-//                   <span>
-//                     <input
-//                       type="number"
-//                       value={present}
-//                       onChange={(e) => setPresent(Number(e.target.value))}
-//                       style={inputStyle}
-//                       placeholder="Present"
-//                     />{" "}
-//                     <br /> Present Students
-//                   </span>
-//                   <span>
-//                     <input
-//                       type="number"
-//                       value={absent}
-//                       onChange={(e) => setAbsent(Number(e.target.value))}
-//                       style={inputStyle}
-//                       placeholder="Absent"
-//                     />{" "}
-//                     <br /> Absent Students
-//                   </span>
-//                   <span>
-//                     <input
-//                       type="number"
-//                       value={total}
-//                       onChange={(e) => setPresent(Number(e.target.value))}
-//                       style={inputStyle}
-//                       placeholder="Total"
-//                     />{" "}
-//                     <br /> Total Students
-//                   </span>
-//                 </div>
-//               </div>
+//         {/* Create Cards */}
+//         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+//           {[
+//             { title: 'Create Holiday', count: 6 },
+//             { title: 'Create Test Result', count: 6 },
+//             { title: 'Create Question Bank', count: 6 },
+//           ].map((item, index) => (
+//             <div
+//               key={index}
+//               style={{ backgroundColor: '#e8edfc', padding: '20px', borderRadius: '15px', boxShadow: '0 4px 10px rgba(0,0,0,0.03)' }}
+//             >
+//               <h4 style={{ marginBottom: '10px' }}>{item.title}</h4>
+//               <div style={{ fontSize: '14px', color: '#666' }}>Total Items Created</div>
+//               <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{item.count}</div>
 //             </div>
+//           ))}
+//         </div>
 
-//             {/* Message Box */}
-//             <div>
-//               <p style={titleStyle1}>Message Box</p>
-//               <div
-//                 style={{
-//                   backgroundColor: "#F8F8F8",
-//                   padding: "20px",
-//                   borderRadius: "10px",
-//                   textAlign: "center",
-//                   height: "100px",
-//                 }}
-//               >
-//                 &nbsp;{" "}
-//                 <input
-//                   type="text"
-//                   style={{ borderRadius: "10px", height: "100%" }}
-//                 />{" "}
-//               </div>
+//         {/* Right Column: Calendar + Message + Special Project */}
+//         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+//           {/* Calendar Placeholder */}
+//           <div style={{ backgroundColor: 'white', borderRadius: '15px', padding: '20px', boxShadow: '0 4px 10px rgba(0,0,0,0.03)' }}>
+//             <h4 style={{ marginBottom: '10px' }}>🗓️ December 2021</h4>
+//             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+//               <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
 //             </div>
+//             <div style={{ marginTop: '10px', color: '#888' }}>Calendar UI here</div>
+//           </div>
 
-//             {/* Special Projects */}
-//             <div>
-//               <p style={titleStyle1}>Special Projects</p>
-//               <div
-//                 style={{
-//                   backgroundColor: "#F8F8F8",
-//                   padding: "20px",
-//                   borderRadius: "10px",
-//                   textAlign: "center",
-//                   height: "100px",
-//                 }}
-//               >
-//                 &nbsp;
-//               </div>
-//             </div>
+//           {/* Message Box */}
+//           <div style={{ backgroundColor: 'white', borderRadius: '15px', padding: '20px', boxShadow: '0 4px 10px rgba(0,0,0,0.03)' }}>
+//             <h4>📬 Message Box</h4>
+//             <p style={{ fontSize: '14px', color: '#666' }}>No new messages</p>
+//           </div>
+
+//           {/* Special Project */}
+//           <div style={{ backgroundColor: 'white', borderRadius: '15px', padding: '20px', boxShadow: '0 4px 10px rgba(0,0,0,0.03)' }}>
+//             <h4>🎓 Special project by Student:</h4>
+//             <p style={{ fontSize: '14px', color: '#666' }}>None listed</p>
 //           </div>
 //         </div>
 //       </div>
 //     </div>
 //   );
-// }
+// };
 
-import { BellIcon, LogOutIcon, Menu } from "lucide-react";
+// export default DashboardMainContent;
+
 import React, { useState } from "react";
 
-const createMenuItems = [
-  { label: "Create Session", active: true },
-  { label: "Create Question Bank" },
-  { label: "Create Test" },
-  { label: "Create Holiday" },
-  { label: "Create Expense" },
-];
+const Dashboard = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-const reportMenuItems = [
-  { label: "Teacher Report" },
-  { label: "Student Report" },
-  { label: "Test Report" },
-  { label: "School Report" },
-  { label: "Principal /Admin Report" },
-];
+  const startOfWeek = (date) => {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+    return new Date(d.setDate(diff));
+  };
 
-const viewMenuItems = [
-  { label: "Question bank" },
-  { label: "Test" },
-  { label: "Accounts" },
-  { label: "School Holidays" },
-];
+  const getWeekDates = (date) => {
+    const start = startOfWeek(date);
+    return Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      return d;
+    });
+  };
 
-const previousSessions = [{ name: "xcvdhfghgfug" }];
+  const isSameDay = (d1, d2) =>
+    d1.getDate() === d2.getDate() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getFullYear() === d2.getFullYear();
 
- const TeacherDashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const goToPreviousWeek = () => {
+    const prev = new Date(currentDate);
+    prev.setDate(currentDate.getDate() - 7);
+    setCurrentDate(prev);
+  };
 
+  const goToNextWeek = () => {
+    const next = new Date(currentDate);
+    next.setDate(currentDate.getDate() + 7);
+    setCurrentDate(next);
+  };
+
+  const monthYear = `${currentDate.toLocaleString("default", {
+    month: "long",
+  })} ${currentDate.getFullYear()}`;
+  const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
+  const weekDates = getWeekDates(currentDate);
+  const sessionData = [
+    {
+      grade: 6,
+      topic: "Math Basics",
+      description: "Introduction to fractions",
+      completed: false,
+    },
+    {
+      grade: 7,
+      topic: "Algebra",
+      description: "Linear equations",
+      completed: true,
+    },
+    {
+      grade: 8,
+      topic: "Geometry",
+      description: "Angles and lines",
+      completed: false,
+    },
+  ];
   return (
-    <div style={{ backgroundColor: "white", minHeight: "100vh" ,width:'100%'}}>
-      <div style={{ maxWidth: "1440px", margin: "0 auto", position: "relative", padding: "0 20px" }}>
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+    <div
+      style={{
+        fontFamily: "Arial, sans-serif",
+        display: "flex",
+        minHeight: "100vh",
+      }}
+    >
+      {/* Main Content */}
+      <div style={{ flex: 1, padding: "20px" }}>
+        <div
           style={{
-            position: "fixed",
-            top: "16px",
-            left: "16px",
-            padding: "8px",
-            backgroundColor: "#241f63",
-            borderRadius: "8px",
-            border: "none",
-            cursor: "pointer",
-            zIndex: 50,
-            display: window.innerWidth > 1024 ? "none" : "block"
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <Menu color="white" size={24} />
-        </button>
-
-        {/* Sidebar */}
-    
-
-        {/* Main Content */}
-        <div style={{  paddingTop: window.innerWidth > 1024 ? "32px" : "64px" }}>
-          {/* Header */}
-          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "8px", marginBottom: "32px",width:'100%' }}>
-            <div style={{
-              width: "31px",
-              height: "31px",
-              backgroundColor: "#abbffc",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}>
-              <BellIcon color="#241f63" size={15} />
-            </div>
-
-            <div style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "50%",
-              border: "2px solid #925fe2",
-              overflow: "hidden"
-            }}>
-              <img src="/frame-19.svg" alt="Profile" style={{ width: "100%", height: "100%" }} />
-            </div>
-
-            <div>
-              <div style={{ fontSize: "14px", fontWeight: 600 }}>Bhavin</div>
-              <div style={{ fontSize: "12px", color: "rgba(0,0,0,0.5)" }}>Admin</div>
+          <input
+            type="text"
+            placeholder="Search"
+            style={{ padding: "8px", width: "300px", borderRadius: 10 }}
+          />
+          <div>
+            <button
+              style={{
+                margin: "0 5px",
+                padding: "8px 16px",
+                backgroundColor: "green",
+                color: "white",
+                border: "none",
+                borderRadius: 20,
+              }}
+            >
+              Start Day
+            </button>
+            <button
+              style={{
+                margin: "0 5px",
+                padding: "8px 16px",
+                backgroundColor: "#A9290E",
+                color: "white",
+                border: "none",
+                borderRadius: 20,
+              }}
+            >
+              End Day
+            </button>
+            <button
+              style={{
+                margin: "0 5px",
+                padding: "8px 16px",
+                backgroundColor: "#241F63",
+                color: "white",
+                border: "none",
+                borderRadius: 20,
+              }}
+            >
+              Create Student Login
+            </button>
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img
+              src="https://via.placeholder.com/40"
+              alt="avatar"
+              style={{ borderRadius: "50%" }}
+            />
+            <div style={{ marginLeft: "10px" }}>
+              <div>Sangeeta</div>
+              <small>Teacher</small>
             </div>
           </div>
+        </div>
 
-          <h1 style={{ color: "#f75e00", fontSize: "32px", fontWeight: 600}}>
-            Create Session
-          </h1>
-
-          <div style={{ display: "grid", gridTemplateColumns: window.innerWidth > 1280 ? "3fr 1fr" : "1fr", gap: "24px" }}>
-            <div>
-              {/* Session Section */}
-              <div style={{ }}>
-                <h2 style={{ color: "#241f63", fontSize: "20px", fontWeight: 600, marginBottom: "16px" }}>
-                  Session : 1 Name of the session
-                </h2>
-
-                <div style={{ display: "flex", gap: "16px", marginBottom: "8px" }}>
-                  <select style={{
-                    width: "162px",
-                    height: "40px",
-                    border: "1px solid #241f63",
-                    borderRadius: "4px",
-                    padding: "0 8px"
-                  }}>
-                    <option value="">Select Subject</option>
-                    <option value="subject1">Subject 1</option>
-                    <option value="subject2">Subject 2</option>
-                  </select>
-
-                  <select style={{
-                    width: "162px",
-                    height: "40px",
-                    border: "1px solid #241f63",
-                    borderRadius: "4px",
-                    padding: "0 8px"
-                  }}>
-                    <option value="">Select Std</option>
-                    <option value="std1">Std 1</option>
-                    <option value="std2">Std 2</option>
-                  </select>
-                </div>
-
-                <div style={{ backgroundColor: "#f8f8f8", padding: "16px", borderRadius: "13px" }}>
-                  <div style={{ marginBottom: "8px" }}>Description of the Topic :</div>
-                  <textarea
-                    style={{
-                      width: "100%",
-                      height: "60px",
-                      backgroundColor: "transparent",
-                      border: "none",
-                      resize: "none"
-                    }}
-                  />
-                </div>
+        <div
+          style={{
+            width: "67%",
+            height: 100,
+            backgroundColor: "#ABBFFC80",
+            display: "flex",
+            alignItems: "center",
+            marginTop: 10,
+            borderRadius: 10,
+          }}
+        >
+          <h2 style={{ color: "#ff6600", marginLeft: 5 }}>
+            Welcome Back Teacher !
+          </h2>
+        </div>
+        <div style={{ width: "100%", display: "flex", flexDirection: "row" }}>
+          <div style={{ display: "flex", marginTop: "20px", width: "80%" }}>
+            {/* Today's Session */}
+            <div
+              style={{
+                marginRight: "20px",
+                backgroundColor: "#dbe6ff",
+                padding: "20px",
+                borderRadius: "10px",
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "#241F63",
+                  height: 45,
+                  width: 45,
+                  borderRadius: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: -2,
+                  marginBottom: 3,
+                }}
+              >
+                <img src={require("../../images/Vector (3).png")} />
               </div>
-
-              {/* Practical Section */}
-              <div style={{ marginBottom: "24px" }}>
-                <h2 style={{ color: "#241f63", fontSize: "20px", fontWeight: 600, marginBottom: "16px" }}>
-                  Practical : Name of Practical
-                </h2>
-
-                <div style={{ backgroundColor: "#f8f8f8", padding: "16px", borderRadius: "13px" }}>
-                  <div style={{ marginBottom: "8px" }}>Description of the Practical :</div>
-                  <textarea
-                    style={{
-                      width: "100%",
-                      height: "40px",
-                      backgroundColor: "transparent",
-                      border: "none",
-                      resize: "none"
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Demo Link Section */}
-              <div style={{ marginBottom: "24px" }}>
-                <h2 style={{ color: "#241f63", fontSize: "20px", fontWeight: 600, marginBottom: "16px" }}>
-                  Demo Link
-                </h2>
-
-                <div style={{ backgroundColor: "#f8f8f8", padding: "16px", borderRadius: "13px", display: "flex", alignItems: "center", gap: "8px" }}>
-                  <div>Link of video</div>
-                  <input
-                    style={{
-                      flex: 1,
-                      backgroundColor: "transparent",
-                      border: "none"
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Demo Description */}
-              <div style={{ backgroundColor: "#f8f8f8", padding: "16px", borderRadius: "13px", marginBottom: "24px" }}>
-                <div style={{ marginBottom: "8px" }}>Description of the Demo :</div>
-                <textarea
-                  style={{
-                    width: "100%",
-                    height: "50px",
-                    backgroundColor: "transparent",
-                    border: "none",
-                    resize: "none"
-                  }}
-                />
-              </div>
-
-              {/* Save Button */}
-              <div style={{ display: "flex", justifyContent: window.innerWidth > 768 ? "flex-end" : "center" }}>
+              <p
+                style={{
+                  color: "#241F63",
+                  fontWeight: 800,
+                  marginTop: -2,
+                  paddingTop: 3,
+                }}
+              >
+                Today's session
+              </p>
+              <table
+                style={{
+                  width: "100%",
+                  marginTop: -10,
+                  backgroundColor: "#ffffff",
+                  height: "80%",
+                  padding: 5,
+                  borderRadius: 10,
+                }}
+              >
+                <thead>
+                  <tr>
+                    <th>Grade</th>
+                    <th>Name of the topic</th>
+                    <th>Description</th>
+                    <th>Completed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sessionData.map((session, index) => (
+                    <tr key={index}>
+                      <td>{session.grade}</td>
+                      <td>{session.topic}</td>
+                      <td>{session.description}</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          defaultChecked={session.completed}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  marginTop: 2.5,
+                }}
+              >
                 <button
                   style={{
-                    width: window.innerWidth > 768 ? "172px" : "100%",
-                    height: "43px",
-                    backgroundColor: "#241f63",
+                    padding: "8px 12px",
+                    backgroundColor: "#372b7e",
                     color: "white",
                     border: "none",
-                    borderRadius: "18px",
-                    fontSize: "18px",
-                    fontWeight: 500,
-                    cursor: "pointer"
+                    alignSelf: "flex-end",
+                    borderRadius: 10,
                   }}
                 >
-                  Save
+                  Submit
                 </button>
               </div>
             </div>
 
-            {/* Previous Sessions */}
-            <div>
-              <h2 style={{ color: "#241f63", fontSize: "20px", fontWeight: 600, marginBottom: "16px" }}>
-                Previous Sessions
-              </h2>
-
-              <div style={{ backgroundColor: "#f8f8f8", borderRadius: "13px" }}>
-                <div style={{
-                  padding: "14px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  borderBottom: "1px solid #e5e7eb"
-                }}>
-                  <div style={{ fontSize: "12px" }}>Name</div>
-                  <div style={{ fontSize: "12px" }}>Edit</div>
-                  <div style={{ fontSize: "12px" }}>Delete</div>
-                </div>
-
-                {previousSessions.map((session, index) => (
+            {/* Right Side Widgets */}
+            <div style={{width:'35%'}}>
+              <div
+                style={{
+                  backgroundColor: "#dbe6ff",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  borderRadius: "10px",
+                  height: 130,
+                  width:'100%'
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: "#241F63",
+                    height: 45,
+                    width: 45,
+                    borderRadius: 30,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={require("../../images/Vector (3).png")} />
+                </div>{" "}
+                <div style={{ marginTop: -5 }}>
+                  <p style={{ color: "#241F63", fontWeight: 800 }}>
+                    Create Holiday
+                  </p>
                   <div
-                    key={index}
                     style={{
-                      padding: "14px",
                       display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center"
+                      flexDirection: "column",
+                      height: "100%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginLeft: 1,
+                      backgroundColor: "white",
                     }}
                   >
-                    <div style={{ fontSize: "12px" }}>{session.name}</div>
-                    <button
-                      style={{
-                        backgroundColor: "transparent",
-                        border: "none",
-                        padding: "4px 8px",
-                        cursor: "pointer",
-                        fontSize: "12px"
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      style={{
-                        backgroundColor: "transparent",
-                        border: "none",
-                        padding: "4px 8px",
-                        cursor: "pointer"
-                      }}
-                    >
-                      <img
-                        src="/vector-2.svg"
-                        alt="Delete"
-                        style={{ width: "16px", height: "18px" }}
-                      />
-                    </button>
+                    <p style={{ fontSize: 10 }}>86</p>
+                    <p style={{ fontSize: 10, marginTop: -10 }}>
+                      Total Tests Created
+                    </p>
                   </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  backgroundColor: "#dbe6ff",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  borderRadius: "10px",
+                  height: 130,
+                  width:'100%'
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: "#241F63",
+                    height: 45,
+                    width: 45,
+                    borderRadius: 30,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={require("../../images/Vector (4).png")} />
+                </div>
+                <div style={{ marginTop: -5 }}>
+                  <p style={{ color: "#241F63", fontWeight: 800 }}>
+                    Create Test Result{" "}
+                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginLeft: 1,
+                      backgroundColor: "white",
+                    }}
+                  >
+                    <p style={{ fontSize: 10 }}>86</p>
+                    <p style={{ fontSize: 10, marginTop: -10 }}>
+                      Total Tests Created
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  backgroundColor: "#dbe6ff",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  borderRadius: "10px",
+                  height: 130,
+                  width: '100%',
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: "#241F63",
+                    height: 45,
+                    width: 45,
+                    borderRadius: 30,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={require("../../images/Vector (5).png")} />
+                </div>{" "}
+                <div style={{ marginTop: -5 }}>
+                  <p style={{ color: "#241F63", fontWeight: 800 }}>
+                    Create Question Bank
+                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginLeft: 1,
+                      backgroundColor: "white",
+                    }}
+                  >
+                    <p style={{ fontSize: 10 }}>86</p>
+                    <p style={{ fontSize: 10, marginTop: -10 }}>
+                      Total Question Bank Created
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginLeft: 15,
+              width:'30%',
+              
+              justifyContent:'center',
+              alignItems:'center'
+            }}
+          >
+            {/* Calendar */}
+            {/* <div
+              style={{
+                flex: 1,
+                backgroundColor: "#f5f7fb",
+                padding: "20px",
+                borderRadius: "10px",
+                // marginRight: "20px",
+                width:'90%',marginBottom:2
+              }}
+            >
+              <h4>December 2021</h4>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                {["M", "T", "W", "T", "F", "S", "S"].map((day) => (
+                  <div key={day}>{day}</div>
                 ))}
               </div>
+              <div style={{ marginTop: "10px" }}>26</div>
+            </div> */}
+            
+            <div
+      style={{
+        width: "98%",
+        padding: "10px",
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "white",
+        borderRadius: "10px",
+        marginBottom:10,
+        backgroundColor:'#F8F8F8'
+      }}
+    >
+      {/* Header */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          fontSize: "14px",
+          marginBottom: "15px",
+        }}
+      >
+        <div style={{ cursor: "pointer" }} onClick={goToPreviousWeek}>
+          ❮
+        </div>
+        <div style={{ fontWeight: "bold" }}>{monthYear}</div>
+        <div style={{ cursor: "pointer" }} onClick={goToNextWeek}>
+          ❯
+        </div>
+      </div>
+
+      {/* Week Row */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        {weekDates.map((date, index) => {
+          const selected = isSameDay(date, selectedDate);
+          return (
+            <div
+              key={index}
+              onClick={() => setSelectedDate(date)}
+              style={{
+                width: "32px",
+                textAlign: "center",
+                cursor: "pointer",
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: selected ? "#43369d" : "transparent",
+                  color: selected ? "white" : "#333",
+                  borderRadius: "25px",
+                  padding: "6px 0",
+                  height: "60px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: selected ? "2px solid #261d82" : "none",
+                }}
+              >
+                <div style={{ fontSize: "12px" }}>{weekDays[index]}</div>
+                <div
+                  style={{
+                    marginTop: "4px",
+                    width: "24px",
+                    height: "24px",
+                    lineHeight: "24px",
+                    fontSize: "13px",
+                    borderRadius: "50%",
+                    backgroundColor: selected ? "#b0a7f9" : "#eee",
+                    color: selected ? "#000" : "#555",
+                    border: selected ? "1px solid #43369d" : "none",
+                  }}
+                >
+                  {date.getDate()}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+            {/* Message Box */}
+            <div
+              style={{
+                flex: 2,
+                backgroundColor: "#f5f7fb",
+                padding: "20px",
+                borderRadius: "10px",
+                width:'90%',marginBottom:2
+                
+              }}
+            >
+              <h4>Message box:</h4>
+              <textarea rows="4" style={{ width: "100%" }}></textarea>
+            </div>
+
+            {/* Special Project */}
+            <div
+              style={{
+                flex: 1,
+                backgroundColor: "#f5f7fb",
+                padding: "20px",
+                borderRadius: "10px",
+                width:'90%'
+              }}
+            >
+              <h4>Special project by Student :</h4>
             </div>
           </div>
         </div>
@@ -813,4 +629,4 @@ const previousSessions = [{ name: "xcvdhfghgfug" }];
   );
 };
 
-export default TeacherDashboard
+export default Dashboard;

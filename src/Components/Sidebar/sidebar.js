@@ -5,6 +5,11 @@ import TeacherDashboard from "../Teacher/TeacherDashboard";
 import MaterialAndFurnituresForm from "../material/MaterialInput";
 import MaterialsTable from "../material/MaterialTable";
 import HolidayManager from "../HolidayManager/HolidayInput";
+import HolidayTablePage from "../HolidayManager/HolidayTable";
+import SpecialProjectForm from "../SpecialProject/SpecialProject";
+import SpecialProjectReport from "../SpecialProject/ProjectReport";
+import SpecialProjectTable from "../SpecialProject/ProjectTable";
+import { CreateTest } from "../Test/CreateTest";
 
 const Sidebar = () => {
   const sidebarStyle = {
@@ -49,10 +54,10 @@ const Sidebar = () => {
     justifyContent: "space between",
   };
 
-  const [role, setRole] = useState("holidayInput");
+  const [role, setRole] = useState("teacher");
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+    <div style={{ display: "flex", height: "100vh", overflow: "hidden",width:'100%'}}>
       <div style={sidebarStyle}>
         <div style={titleStyle}>📚 Eduonix™ Dashboard</div>
 
@@ -161,12 +166,17 @@ const Sidebar = () => {
           </h3>
         </div>
       </div>
-      <div style={{ flex: 1, overflowY: "auto", padding: "20px" }}>
+      <div style={{ flex: 1, overflowY: "auto", padding: "20px", width:'100%' }}>
         {role === "admin" && <Dashboard />}
         {role === "teacher" && <TeacherDashboard />}
         {role === "material" && <MaterialAndFurnituresForm />}
         {role === "materialtable" && <MaterialsTable />}
         {role === "holidayInput" && <HolidayManager />}
+        {role === "holidayTable" && <HolidayTablePage />}
+        {role === "specialProject" && <SpecialProjectForm />}
+        {role === "projectReport" && <SpecialProjectReport />}
+        {role === "projectReportTable" && <SpecialProjectTable />}
+        {role === "test" && <CreateTest />}
       </div>
     </div>
   );

@@ -24,15 +24,15 @@ const App = () => {
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', backgroundColor: '#fefeff', minHeight: '100vh' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-        <div style={{ fontSize: '20px', fontWeight: 'bold' }}>Eduonix™ Dashboard</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <input
+        <div style={{ fontSize: '20px', fontWeight: 'bold' }}>   <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search"
             style={{ padding: '8px 12px', borderRadius: '20px', border: '1px solid #ccc', width: '200px' }}
-          />
+          /></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+       
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <img src="https://via.placeholder.com/40" alt="Profile" style={{ borderRadius: '50%' }} />
             <div>

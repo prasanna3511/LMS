@@ -103,7 +103,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "80%" ,marginLeft:10}}>
+    <div style={{ display: "flex", flexDirection: "column", width: "99%" ,marginLeft:10}}>
       <div>
         <div
           style={{
@@ -304,24 +304,24 @@ export default function Dashboard() {
             <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
             </div>
             <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
+              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Teacher Report</p>
             </div>
             <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
                 <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
+                <p style={{fontSize:10,marginTop:-10}}>Test Report </p>
 
               </div>
               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
                 <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
+                <p style={{fontSize:10,marginTop:-10}}>Absent</p>
 
               </div>
               <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
               <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
                 <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
+                <p style={{fontSize:10,marginTop:-10}}>Total</p>
 
               </div>
             </div>
@@ -335,24 +335,12 @@ export default function Dashboard() {
             <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
             </div>
             <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
+              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Create Session</p>
             </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
+            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row'}} >
+              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center',marginLeft:8,}}>
                 <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
+                <p style={{fontSize:10,marginTop:-10}}>Total Sessions Created</p>
 
               </div>
             </div>
@@ -362,24 +350,12 @@ export default function Dashboard() {
             <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
             </div>
             <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
+              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Create Test</p>
             </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
+            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',marginLeft:8,}} >
+              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center',marginLeft:8,}}>
                 <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
+                <p style={{fontSize:10,marginTop:-10}}>Total Tests Created</p>
 
               </div>
             </div>
@@ -393,26 +369,16 @@ export default function Dashboard() {
             <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
             </div>
             <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
+              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Create Question Bank</p>
             </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
+            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row'}} >
+            
+              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',marginLeft:8,alignItems:'center'}}>
                 <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
+                <p style={{fontSize:10,marginTop:-10}}>Total Question Bank  Created</p>
 
               </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
+             
             </div>
           </div>
           <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
@@ -420,26 +386,15 @@ export default function Dashboard() {
             <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
             </div>
             <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
+              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Test Report</p>
             </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
+            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row'}} >
+              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',marginLeft:8,alignItems:'center'}}>
                 <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
+                <p style={{fontSize:10,marginTop:-10}}>Total Tests Created</p>
 
               </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
+          
             </div>
           </div>
 </div>
