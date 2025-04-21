@@ -10,6 +10,12 @@ import SpecialProjectForm from "../SpecialProject/SpecialProject";
 import SpecialProjectReport from "../SpecialProject/ProjectReport";
 import SpecialProjectTable from "../SpecialProject/ProjectTable";
 import { CreateTest } from "../Test/CreateTest";
+import StudentDashboard from "../Student/StudentDashboard";
+import PrincipleDashboard from '../Principle/Principle'
+import QuestionBank from "../QuestionBank/QuestionBank";
+import QuestionBankTable from "../QuestionBank/QuestionBankTable";
+import UserProfilesTable from "../Admin/UserProfiles";
+import StudentAttendance from "../Student/StudentAttendance";
 
 const Sidebar = () => {
   const sidebarStyle = {
@@ -54,7 +60,7 @@ const Sidebar = () => {
     justifyContent: "space between",
   };
 
-  const [role, setRole] = useState("teacher");
+  const [role, setRole] = useState("studentAttendance");
 
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden",width:'100%'}}>
@@ -177,6 +183,11 @@ const Sidebar = () => {
         {role === "projectReport" && <SpecialProjectReport />}
         {role === "projectReportTable" && <SpecialProjectTable />}
         {role === "test" && <CreateTest />}
+        {role === "studentTable" && <StudentDashboard />}
+        {role === "principle" && <PrincipleDashboard />}
+        {role === "questionBank" && <QuestionBank />}
+        {role === "questionBankTable" && <QuestionBankTable />}
+        {role === "studentAttendance" && <StudentAttendance />}
       </div>
     </div>
   );
