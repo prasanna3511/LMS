@@ -16,6 +16,12 @@ import QuestionBank from "../QuestionBank/QuestionBank";
 import QuestionBankTable from "../QuestionBank/QuestionBankTable";
 import UserProfilesTable from "../Admin/UserProfiles";
 import StudentAttendance from "../Student/StudentAttendance";
+import ViewTestPage from "../Test/ViewTest";
+import StudentReportPage from "../Reports/StudentReport";
+import TeacherReportPage from "../Reports/TeacherReport";
+import TestReportPage from "../Reports/TestReportAdmin";
+import SchoolReportPage from "../Reports/SchoolReport";
+import CreateSession from "../CreateSession";
 
 const Sidebar = () => {
   const sidebarStyle = {
@@ -60,7 +66,8 @@ const Sidebar = () => {
     justifyContent: "space between",
   };
 
-  const [role, setRole] = useState("studentAttendance");
+  const [role, setRole] = useState("createSession");
+  // const [userT]
 
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden",width:'100%'}}>
@@ -70,33 +77,28 @@ const Sidebar = () => {
         <div style={sectionTitleStyle}>Create</div>
         <ul style={{ paddingLeft: "20px" }}>
           <li>
-            <a href="#" style={linkStyle}>
+            <a onClick={()=>{setRole('createSession')}} href="#" style={linkStyle}>
               Create Session
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('questionBank')}} href="#" style={linkStyle}>
               Create Question Bank
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('test')}} href="#" style={linkStyle}>
               Create Test
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('holidayInput')}} href="#" style={linkStyle}>
               Create Holiday
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('material')}} href="#" style={linkStyle}>
               Create Expense
-            </a>
-          </li>
-          <li>
-            <a href="#" style={linkStyle}>
-              Create New Subject
             </a>
           </li>
         </ul>
@@ -104,22 +106,23 @@ const Sidebar = () => {
         <div style={sectionTitleStyle}>Reports</div>
         <ul style={{ paddingLeft: "20px" }}>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('teacherReport')}} href="#" style={linkStyle}>
               Teacher Report
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('studentReport')}} href="#" style={linkStyle}>
               Student Report
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('testReport')}} href="#" style={linkStyle}>
+
               Test Report
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('schoolReport')}} href="#" style={linkStyle}>
               School Report
             </a>
           </li>
@@ -133,22 +136,23 @@ const Sidebar = () => {
         <div style={sectionTitleStyle}>View</div>
         <ul style={{ paddingLeft: "20px" }}>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('questionBankTable')}} href="#" style={linkStyle}>
+
               Question Bank
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('viewTest')}} href="#" style={linkStyle}>
               Tests
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('userProfiles')}} href="#" style={linkStyle}>
               Accounts
             </a>
           </li>
           <li>
-            <a href="#" style={linkStyle}>
+          <a onClick={()=>{setRole('holidayTable')}} href="#" style={linkStyle}>
               School Holidays
             </a>
           </li>
@@ -175,7 +179,7 @@ const Sidebar = () => {
       <div style={{ flex: 1, overflowY: "auto", padding: "20px", width:'100%' }}>
         {role === "admin" && <Dashboard />}
         {role === "teacher" && <TeacherDashboard />}
-        {role === "material" && <MaterialAndFurnituresForm />}
+        {role === "material" && <MaterialAndFurnituresForm  setRole={setRole} />}
         {role === "materialtable" && <MaterialsTable />}
         {role === "holidayInput" && <HolidayManager />}
         {role === "holidayTable" && <HolidayTablePage />}
@@ -185,9 +189,16 @@ const Sidebar = () => {
         {role === "test" && <CreateTest />}
         {role === "studentTable" && <StudentDashboard />}
         {role === "principle" && <PrincipleDashboard />}
-        {role === "questionBank" && <QuestionBank />}
+        {role === "questionBank" && <QuestionBank setRole={setRole} />}
         {role === "questionBankTable" && <QuestionBankTable />}
         {role === "studentAttendance" && <StudentAttendance />}
+        {role === "viewTest" && <ViewTestPage />}
+        {role === "studentReport" && <StudentReportPage />}
+        {role === "teacherReport" && <TeacherReportPage />}
+        {role === "schoolReport" && <SchoolReportPage />}
+        {role === "testReport" && <TestReportPage />}
+        {role === "userProfiles" && <UserProfilesTable />}
+        {role === "createSession" && <CreateSession />}
       </div>
     </div>
   );

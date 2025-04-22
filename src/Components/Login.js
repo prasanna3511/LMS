@@ -8,7 +8,7 @@ export default function Login() {
 
   const navigate = useNavigate();
   const handleContact = () => {
-    navigate("/");
+    navigate("/dashboard");
   }
 
   return (
@@ -62,7 +62,7 @@ export default function Login() {
             <p className="forgot">Forgot Password?</p>
           </div>
           <div className="btn-class">
-            <button className="login-btn">Login</button>
+            <button onclick={()=>navigate("/dashboard")} className="login-btn">Login</button>
           </div>
           <p className="below-text">
             <span className="text-black">Not Registered yet?</span>

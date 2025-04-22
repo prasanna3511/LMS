@@ -34,8 +34,8 @@ function App() {
       </Routes>
       
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Sidebar />} />
+              <Route path="/" element={<Login />} />
+              <Route path="/dashboard" element={<Sidebar />} />
               {/* <Route path="/dash" element={<Dashboard />} /> */}
             </Routes>
       </BrowserRouter>

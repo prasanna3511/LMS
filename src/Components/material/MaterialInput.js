@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const MaterialAndFurnituresForm = () => {
+const MaterialAndFurnituresForm = ({setRole}) => {
   const [formData, setFormData] = useState({
     purchaseDate: '',
     particular: '',
@@ -18,6 +18,7 @@ const MaterialAndFurnituresForm = () => {
 
   const handleSave = (e) => {
     e.preventDefault();
+    setRole('materialtable')
     console.log('Form Data:', formData);
   };
 

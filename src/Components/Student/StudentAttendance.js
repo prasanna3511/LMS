@@ -30,10 +30,10 @@ const StudentAttendance = () => {
     <div style={{ padding: '30px', fontFamily: 'Arial, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <input type="text" placeholder="Search..." style={{ padding: '8px 12px', borderRadius: '20px', border: '1px solid #ccc', marginRight: '10px', width: '250px' }} />
-          <button style={{ backgroundColor: '#3A2D7D', color: '#fff', border: 'none', borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer' }}>🔍</button>
+          <input type="text" placeholder="Search..." style={{ padding: '8px 12px', borderRadius: '20px', border: '1px solid #ccc',  width: '250px' }} />
+          <button style={{ backgroundColor: '#3A2D7D', color: '#fff', border: 'none', borderRadius: 20, cursor: 'pointer',padding:8 }}>Search</button>
         </div>
-        <select style={{ padding: '8px 12px', fontSize: '14px' }}>
+        <select style={{ padding: '8px 12px', fontSize: '14px',width:200 }}>
           <option>Select Std</option>
           <option>Class 1</option>
           <option>Class 2</option>

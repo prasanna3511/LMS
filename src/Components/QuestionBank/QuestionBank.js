@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CreateQuestionBank = () => {
+const CreateQuestionBank = ({setRole}) => {
   const [theoryQuestion, setTheoryQuestion] = useState('');
   const [practicalQuestion, setPracticalQuestion] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
@@ -22,17 +22,17 @@ const CreateQuestionBank = () => {
       <h1 style={{ color: 'orange', marginRight: '20px' }}>Create Question Bank</h1>
 
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-          <select style={{ marginRight: '10px', padding: '8px', fontSize: '14px' ,borderRadius:20}}>
+          <select style={{ marginRight: '10px', padding: '8px', fontSize: '14px' ,borderRadius:15,width:150}}>
             <option>Select Type</option>
             <option>MCQ</option>
             <option>Theory</option>
           </select>
-          <select style={{ marginRight: '10px', padding: '8px', fontSize: '14px',borderRadius:20}}>
+          <select style={{ marginRight: '10px', padding: '8px', fontSize: '14px',borderRadius:15,width:150}}>
             <option>Subject</option>
             <option>Math</option>
             <option>Science</option>
           </select>
-          <select style={{ padding: '8px', fontSize: '14px' ,borderRadius:20}}>
+          <select style={{ padding: '8px', fontSize: '14px' ,borderRadius:15,width:150}}>
             <option>Select Std</option>
             <option>Class 1</option>
             <option>Class 2</option>
@@ -44,26 +44,26 @@ const CreateQuestionBank = () => {
           placeholder="Enter Theory Question"
           value={theoryQuestion}
           onChange={(e) => setTheoryQuestion(e.target.value)}
-          style={{ display: 'block', width: '100%', padding: '10px', marginBottom: '20px', fontSize: '16px' ,borderRadius:20}}
+          style={{ display: 'block', width: '100%', padding: '10px', marginBottom: '20px', fontSize: '16px' ,borderRadius:15}}
         />
 
         <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px' }}>
           {options.map((opt, index) => (
             <div key={index} style={{ width: '45%', margin: '10px 2.5%' }}>
               <label>
-                <input
+                {/* <input
                   type="radio"
                   name="correctOption"
                   checked={selectedOption === index}
                   onChange={() => handleRadioChange(index)}
-                  style={{ marginRight: '10px',borderRadius:20 }}
-                />
+                  style={{ marginRight: '10px',borderRadius:15 }}
+                /> */}
                 <input
                   type="text"
                   placeholder={`Option ${index + 1}`}
                   value={opt}
                   onChange={(e) => handleOptionChange(index, e.target.value)}
-                  style={{ padding: '8px', width: '80%' ,borderRadius:20}}
+                  style={{ padding: '8px', width: '80%' ,borderRadius:15}}
                 />
               </label>
             </div>
@@ -75,10 +75,10 @@ const CreateQuestionBank = () => {
           placeholder="Enter Practical Question"
           value={practicalQuestion}
           onChange={(e) => setPracticalQuestion(e.target.value)}
-          style={{ display: 'block', width: '100%', padding: '10px', marginBottom: '20px', fontSize: '16px' ,borderRadius:20}}
+          style={{ display: 'block', width: '100%', padding: '10px', marginBottom: '20px', fontSize: '16px' ,borderRadius:15}}
         />
 
-        <button style={{ padding: '10px 20px', backgroundColor: '#3A2D7D', color: '#fff', border: 'none', borderRadius: '5px' }}>
+        <button style={{ padding: '10px 20px', backgroundColor: '#3A2D7D', color: '#fff', border: 'none', borderRadius: '5px' }} onClick={()=>{setRole('questionBankTable')}}>
           Save
         </button>
       </div>
