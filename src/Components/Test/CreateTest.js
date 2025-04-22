@@ -76,11 +76,11 @@ const buttonStyle = {
 };
 
 export const CreateTest = () => {
-  const [questions] = useState([
+  const [questions, setQuestions] = useState([
     {
       id: 1,
       options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-      selectedOption: 0,
+      selectedOption: null,
     },
     {
       id: 2,
@@ -88,8 +88,25 @@ export const CreateTest = () => {
       selectedOption: null,
     },
   ]);
+
+  // Function to add a new question
+  const addQuestion = () => {
+    const newQuestion = {
+      id: questions.length + 1,
+      options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+      selectedOption: null,
+    };
+    setQuestions([...questions, newQuestion]);
+  };
+
+  // Function to delete a question by its id
+  const deleteQuestion = (id) => {
+    const updatedQuestions = questions.filter((question) => question.id !== id);
+    setQuestions(updatedQuestions);
+  };
+
   return (
-    <div style={{ display: "flex",backgroundColor: "white", minHeight: "100vh" }}>
+    <div style={{ display: "flex", backgroundColor: "white", minHeight: "100vh" }}>
       <div style={{ width: "100%", maxWidth: "540px", display: "flex" }}>
 
         {/* Main Content */}
@@ -110,6 +127,7 @@ export const CreateTest = () => {
                   </span>
                   
                   <div style={{ flex: 1 }}>
+                    <div style={{display:'flex', flexDirection:'row'}}>
                     <input
                       type="text"
                       placeholder="Enter question"
@@ -121,6 +139,24 @@ export const CreateTest = () => {
                         padding: "0 20px",
                       }}
                     />
+                    <button
+                    onClick={() => deleteQuestion(question.id)}
+                    style={{
+                      color: "white",
+                      borderRadius: "50%",
+                      width: "30px",
+                      height: "30px",
+                      border: "none",
+                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    🗑️
+                  </button>
+                    </div>
+                  
                     
                     <div style={{ display: "flex", flexWrap: "wrap", marginTop: "16px" }}>
                       {question.options.map((option, optIndex) => (
@@ -142,13 +178,25 @@ export const CreateTest = () => {
                       ))}
                     </div>
                   </div>
+                  {/* Delete Button */}
+               
                 </div>
               </div>
             ))}
           </div>
 
+          
+
           {/* Action Buttons */}
           <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "32px" }}>
+          <button
+              style={{
+                ...buttonStyle,
+              }}
+              onClick={addQuestion}
+            >
+              +
+            </button>
             <button style={buttonStyle}>Download</button>
             <button style={buttonStyle}>Save</button>
           </div>
@@ -157,97 +205,3 @@ export const CreateTest = () => {
     </div>
   );
 };
-
-/////
-// import React, { useState } from 'react';
-
-// const QuestionBank = () => {
-//   const [questions, setQuestions] = useState([
-//     { text: '', options: ['', '', '', ''] },
-//     { text: '', options: ['', '', '', ''] },
-//   ]);
-
-//   const handleQuestionChange = (index, value) => {
-//     const updated = [...questions];
-//     updated[index].text = value;
-//     setQuestions(updated);
-//   };
-
-//   const handleOptionChange = (qIndex, oIndex, value) => {
-//     const updated = [...questions];
-//     updated[qIndex].options[oIndex] = value;
-//     setQuestions(updated);
-//   };
-
-//   const addQuestion = () => {
-//     setQuestions([...questions, { text: '', options: ['', '', '', ''] }]);
-//   };
-
-//   const removeQuestion = (index) => {
-//     const updated = questions.filter((_, i) => i !== index);
-//     setQuestions(updated);
-//   };
-
-//   return (
-//     <div style={{ padding: '30px', fontFamily: 'Arial, sans-serif' }}>
-//         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-//         <h1 style={{ color: 'orange', marginRight: '20px' }}>Create Test</h1>
-//         <select style={{ marginRight: '10px', padding: '8px', fontSize: '14px' ,borderRadius:20,marginLeft:10 }}>
-//           <option>Select Subject</option>
-//           <option>Math</option>
-//           <option>Science</option>
-//           <option>History</option>
-//         </select>
-//         <select style={{ padding: '8px', fontSize: '14px',borderRadius:20,marginLeft:10 }}>
-//           <option>Select Class</option>
-//           <option>Class 1</option>
-//           <option>Class 2</option>
-//           <option>Class 3</option>
-//         </select>
-//       </div>
-
-//       <input 
-//         type="text" 
-//         placeholder="Enter Test Name"
-//         style={{ display: 'block', margin: '20px 0', padding: '10px', width: '300px', fontSize: '16px',borderRadius:20 }} 
-//       />
-
-//       {questions.map((q, index) => (
-//         <div key={index} style={{ marginBottom: '30px' }}>
-//           <label style={{ fontWeight: 'bold' }}>Question {index + 1}.</label>
-//           <input
-//             type="text"
-//             value={q.text}
-//             onChange={(e) => handleQuestionChange(index, e.target.value)}
-//             style={{ display: 'block', width: '80%', padding: '10px', margin: '10px 0' ,borderRadius:20 }}
-//           />
-//           {q.options.map((opt, oIdx) => (
-//             <input
-//               key={oIdx}
-//               type="text"
-//               placeholder={`Option ${oIdx + 1}`}
-//               value={opt}
-//               onChange={(e) => handleOptionChange(index, oIdx, e.target.value)}
-//               style={{ marginRight: '10px', padding: '8px', width: '150px',borderRadius:20  }}
-//             />
-//           ))}
-//           <div style={{ marginTop: '10px' }}>
-//             <button onClick={addQuestion} style={{ marginRight: '10px',borderRadius:20  }}>➕</button>
-//             {questions.length > 1 && (
-//               <button onClick={() => removeQuestion(index)}>🗑️</button>
-//             )}
-//           </div>
-//         </div>
-//       ))}
-
-//       <button style={{ padding: '10px 20px', marginRight: '10px', backgroundColor: '#3A2D7D', color: '#fff', border: 'none', borderRadius: '5px' }}>
-//         Download
-//       </button>
-//       <button style={{ padding: '10px 20px', backgroundColor: '#3A2D7D', color: '#fff', border: 'none', borderRadius: '5px' }}>
-//         Save
-//       </button>
-//     </div>
-//   );
-// };
-
-// export default QuestionBank;

@@ -139,7 +139,7 @@ const MaterialAndFurnituresForm = ({setRole}) => {
         </form>
 
         {/* Save Button */}
-        <div style={{ marginTop: '40px' }}>
+        <div style={{ marginTop: '40px' ,width:'100%',display:'flex', justifyContent:'center'}}>
           <button
             onClick={handleSave}
             style={{
@@ -147,9 +147,10 @@ const MaterialAndFurnituresForm = ({setRole}) => {
               color: '#fff',
               border: 'none',
               borderRadius: '20px',
-              padding: '10px 30px',
+              padding: '10px 0',
               fontSize: '16px',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              width:150
             }}
           >
             Save

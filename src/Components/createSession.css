@@ -1,0 +1,127 @@
+/* Container with responsive layout */
+
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+/* Wrapper for the left side (form) */
+
+.leftContent {
+    flex: 1;
+    min-width: 300px;
+}
+
+
+/* Wrapper for the right side (previous sessions) */
+
+.rightContent {
+    flex: 1;
+    min-width: 300px;
+}
+
+.header {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.formContainer {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.label {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.selectContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.textarea,
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+
+/* Right content styling */
+
+.previousSessions {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.sessionsTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+
+/* Responsive layout for mobile */
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .leftContent,
+    .rightContent {
+        width: 100%;
+    }
+    .selectContainer {
+        flex-direction: column;
+    }
+}

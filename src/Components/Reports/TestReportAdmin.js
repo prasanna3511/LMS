@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const TestReportPage = () => {
-  const testData = [
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRow, setSelectedRow] = useState(null); // To track selected row
+  const [testData, setTestData] = useState([
     {
       teacherName: 'Ms. Sharma',
       testNo: 'TST101',
@@ -24,7 +26,36 @@ const TestReportPage = () => {
       totalMarks: 40,
       status: 'Passed'
     }
-  ];
+  ]);
+
+  // Filtered test data based on search term
+  const filteredData = testData.filter((test) =>
+    test.studentName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleRowClick = (index) => {
+    setSelectedRow(index === selectedRow ? null : index); // Toggle row selection
+  };
+
+  const handleInputChange = (e, key, index) => {
+    const updatedData = [...testData];
+    updatedData[index][key] = e.target.value;
+    setTestData(updatedData);
+  };
+
+  const handleEdit = () => {
+    if (selectedRow !== null) {
+      setSelectedRow(null); // Deselect after editing (Optional)
+    }
+  };
+
+  const handleDelete = () => {
+    if (selectedRow !== null) {
+      const updatedData = testData.filter((_, index) => index !== selectedRow);
+      setTestData(updatedData);
+      setSelectedRow(null); // Deselect after delete
+    }
+  };
 
   return (
     <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
@@ -32,13 +63,13 @@ const TestReportPage = () => {
         <input
           type="text"
           placeholder="Search by name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           style={{ padding: '10px', width: '300px', borderRadius: '20px', border: '1px solid #ccc' }}
         />
-        <div>
-        </div>
       </div>
 
-      <h2 style={{ color: 'orange', marginTop: '30px' }}>Test Report</h2>
+      <h2 style={{ color: '#F75F00', marginTop: '30px' }}>Test Report</h2>
 
       <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
         <thead>
@@ -55,25 +86,38 @@ const TestReportPage = () => {
           </tr>
         </thead>
         <tbody>
-          {testData.map((test, index) => (
-            <tr key={index}>
-              <td style={tdStyle}>{test.teacherName}</td>
-              <td style={tdStyle}>{test.testNo}</td>
-              <td style={tdStyle}>{test.testDate}</td>
-              <td style={tdStyle}>{test.studentName}</td>
-              <td style={tdStyle}>{test.studentId}</td>
-              <td style={tdStyle}>{test.schoolName}</td>
-              <td style={tdStyle}>{test.marksObtained}</td>
-              <td style={tdStyle}>{test.totalMarks}</td>
-              <td style={tdStyle}>{test.status}</td>
+          {filteredData.map((test, index) => (
+            <tr
+              key={index}
+              onClick={() => handleRowClick(index)} // Click to select row
+              style={{
+                backgroundColor: selectedRow === index ? '#e0e0e0' : 'transparent',
+                cursor: 'pointer',
+              }}
+            >
+              {Object.keys(test).map((key, idx) => (
+                <td key={idx} style={tdStyle}>
+                  {selectedRow === index ? (
+                    // Show editable input fields if row is selected
+                    <input
+                      type="text"
+                      value={test[key]}
+                      onChange={(e) => handleInputChange(e, key, index)}
+                      style={{ padding: '5px', width: '100%', borderRadius: '5px' }}
+                    />
+                  ) : (
+                    test[key] // Display regular data
+                  )}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
       </table>
 
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
-        <button style={buttonStyle}>Edit</button>
-        <button style={buttonStyle}>Delete</button>
+        <button style={buttonStyle} onClick={handleEdit}>Save</button>
+        <button style={buttonStyle} onClick={handleDelete}>Delete</button>
       </div>
     </div>
   );
@@ -81,12 +125,14 @@ const TestReportPage = () => {
 
 const thStyle = {
   padding: '10px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  backgroundColor: '#f5f5f5',
+  borderBottom: '1px solid #ddd',
 };
 
 const tdStyle = {
   padding: '10px',
-  borderBottom: '1px solid #eee'
+  borderBottom: '1px solid #eee',
 };
 
 const buttonStyle = {
@@ -96,7 +142,7 @@ const buttonStyle = {
   margin: '0 10px',
   border: 'none',
   borderRadius: '8px',
-  cursor: 'pointer'
+  cursor: 'pointer',
 };
 
 export default TestReportPage;

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const TeacherReportPage = () => {
-  const teacherData = [
+  const [teacherData, setTeacherData] = useState([
     {
-      id: 'TEA001',
+      id: '1',
       name: 'Rajesh Kumar',
       school: 'Greenwood High',
       password: '****',
@@ -23,7 +23,7 @@ const TeacherReportPage = () => {
       photo: 'https://via.placeholder.com/40'
     },
     {
-      id: 'TEA002',
+      id: '2',
       name: 'Anita Sharma',
       school: 'Sunrise Academy',
       password: '****',
@@ -42,75 +42,107 @@ const TeacherReportPage = () => {
       createdTests: 4,
       photo: 'https://via.placeholder.com/40'
     }
-  ];
+  ]);
+
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState({});
+
+  const handleRowClick = (index) => {
+    setSelectedRow(index);
+    setEditMode(false); // Reset edit mode when selecting a new row
+  };
+
+  const handleEdit = () => {
+    if (selectedRow !== null) {
+      setEditData({ ...teacherData[selectedRow] });
+      setEditMode(true);
+    }
+  };
+
+  const handleDelete = () => {
+    if (selectedRow !== null) {
+      const updatedData = [...teacherData];
+      updatedData.splice(selectedRow, 1);
+      setTeacherData(updatedData);
+      setSelectedRow(null);
+      setEditMode(false);
+    }
+  };
+
+  const handleChange = (e, key) => {
+    setEditData({ ...editData, [key]: e.target.value });
+  };
+
+  const handleSave = () => {
+    const updatedData = [...teacherData];
+    updatedData[selectedRow] = { ...editData };
+    setTeacherData(updatedData);
+    setEditMode(false);
+  };
 
   return (
     <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <input
-          type="text"
-          placeholder="Search by name"
-          style={{ padding: '10px', width: '300px', borderRadius: '20px', border: '1px solid #ccc' }}
-        />
-        <div>
-         
-        </div>
+      <h2 style={{ color: '#F75F00', marginTop: '30px' }}>Teacher Report</h2>
+
+      <div style={{ overflowX: 'auto', marginTop: '20px' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', whiteSpace: 'nowrap' }}>
+          <thead>
+            <tr style={{ textAlign: 'left', backgroundColor: '#f5f5f5' }}>
+              {[
+                'Teacher ID', 'Name', 'School Name', 'Password', 'Mobile No.',
+                'WhatsApp No.', 'Email ID', 'DOB', 'Joining Date', 'Address',
+                'Total Attendance', 'PresentDay', 'Absent Day',
+                'Total Session', 'Completed Sessions', 'Pending Tests',
+                'Created', 'Photo'
+              ].map((title) => (
+                <th key={title} style={thStyle}>{title}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {teacherData.map((teacher, index) => (
+              <tr
+                key={index}
+                onClick={() => handleRowClick(index)}
+                style={{
+                  backgroundColor: selectedRow === index ? '#e0f7fa' : 'transparent',
+                  cursor: 'pointer'
+                }}
+              >
+                {Object.entries(teacher).map(([key, value]) => (
+                  <td key={key} style={tdStyle}>
+                    {editMode && selectedRow === index && key !== 'photo' ? (
+                      <input
+                        type="text"
+                        value={editData[key] || ''}
+                        onChange={(e) => handleChange(e, key)}
+                        style={{ width: '100%' }}
+                      />
+                    ) : key === 'photo' ? (
+                      <img src={value} alt="profile" />
+                    ) : (
+                      value
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      <h2 style={{ color: 'orange', marginTop: '30px' }}>Teacher Report</h2>
-
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
-        <thead>
-          <tr style={{ textAlign: 'left', backgroundColor: '#f5f5f5' }}>
-            <th style={thStyle}>Teacher ID</th>
-            <th style={thStyle}>Name</th>
-            <th style={thStyle}>School Name</th>
-            <th style={thStyle}>Password</th>
-            <th style={thStyle}>Mobile No.</th>
-            <th style={thStyle}>WhatsApp No.</th>
-            <th style={thStyle}>Email ID</th>
-            <th style={thStyle}>DOB</th>
-            <th style={thStyle}>Joining Date</th>
-            <th style={thStyle}>Address</th>
-            <th style={thStyle}>Total Attendance</th>
-            <th style={thStyle}>PresentDay</th>
-            <th style={thStyle}>Absent Day</th>
-            <th style={thStyle}>Total Session</th>
-            <th style={thStyle}>Completed Sessions</th>
-            <th style={thStyle}>Pending Tests</th>
-            <th style={thStyle}>Created</th>
-            <th style={thStyle}>Photo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teacherData.map((teacher, index) => (
-            <tr key={index}>
-              <td style={tdStyle}>{teacher.id}</td>
-              <td style={tdStyle}>{teacher.name}</td>
-              <td style={tdStyle}>{teacher.school}</td>
-              <td style={tdStyle}>{teacher.password}</td>
-              <td style={tdStyle}>{teacher.mobile}</td>
-              <td style={tdStyle}>{teacher.whatsapp}</td>
-              <td style={tdStyle}>{teacher.email}</td>
-              <td style={tdStyle}>{teacher.dob}</td>
-              <td style={tdStyle}>{teacher.joiningDate}</td>
-              <td style={tdStyle}>{teacher.address}</td>
-              <td style={tdStyle}>{teacher.totalAttendance}</td>
-              <td style={tdStyle}>{teacher.presentDays}</td>
-              <td style={tdStyle}>{teacher.absentDays}</td>
-              <td style={tdStyle}>{teacher.totalSession}</td>
-              <td style={tdStyle}>{teacher.completedSessions}</td>
-              <td style={tdStyle}>{teacher.pendingTests}</td>
-              <td style={tdStyle}>{teacher.createdTests}</td>
-              <td style={tdStyle}><img src={teacher.photo} alt="profile" /></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
-        <button style={buttonStyle}>Edit</button>
-        <button style={buttonStyle}>Delete</button>
+        {editMode ? (
+          <button style={buttonStyle} onClick={handleSave}>Save</button>
+        ) : (
+          <button style={buttonStyle} onClick={handleEdit} disabled={selectedRow === null}>
+            Edit
+          </button>
+        )}
+        <button style={buttonStyle} onClick={handleDelete} disabled={selectedRow === null}>
+          Delete
+        </button>
       </div>
     </div>
   );

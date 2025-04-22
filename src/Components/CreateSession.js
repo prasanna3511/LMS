@@ -3,20 +3,22 @@ import React from 'react';
 const CreateSession = () => {
   return (
     <div style={styles.container}>
+      <div style={{width:'100%'}} >
+
       <h1 style={styles.header}>Create Session</h1>
 
-      <div style={styles.formContainer}>
+      <div style={{...styles.formContainer,width:'90%'}}>
         {/* Dropdowns */}
      
 
 
         {/* Session Section */}
-        <div style={styles.section}>
-          <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginBottom:2}}>
+        <div style={{...styles.section,width:'100%'}}>
+          <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginBottom:2,width:'100%'}}>
 
           <h2 style={styles.label}>Session : 1 Name of the session</h2>
           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-  <select style={{ padding: '8px', borderRadius: '20px', border: '1px solid #ccc', flex: 1 }}>
+  <select style={{ padding: '8px', borderRadius: '15px', border: '1px solid #ccc', flex: 1,width:150 }}>
     <option value="">Select Subject</option>
     <option value="math">Mathematics</option>
     <option value="science">Science</option>
@@ -24,7 +26,7 @@ const CreateSession = () => {
     {/* Add more subjects as needed */}
   </select>
 
-  <select style={{ padding: '8px', borderRadius: '20px', border: '1px solid #ccc', flex: 1 }}>
+  <select style={{ padding: '8px', borderRadius: '15px', border: '1px solid #ccc', flex: 1 ,width:150}}>
     <option value="">Select Unit</option>
     <option value="unit1">Unit 1</option>
     <option value="unit2">Unit 2</option>
@@ -50,21 +52,101 @@ const CreateSession = () => {
           <input placeholder="Description of the Demo :" style={styles.textarea} />
         </div>
 
-        {/* Save Button */}
+        {/* Save Button */}<div style={{width:'100%', display:"flex",justifyContent:'centerCreate Question Bank'}}>
+
         <button style={styles.button}>Save</button>
+        </div>
+      </div>
       </div>
 
       {/* Previous Sessions */}
-      <div style={styles.sessionsContainer}>
-        <h2 style={styles.label}>Previous Sessions</h2>
-        <div style={styles.sessionItem}>
-          <span>xcvdfhfgfhgufg</span>
-          <div>
-            <button style={styles.iconBtn}>📝</button>
-            <button style={styles.iconBtn}>🗑️</button>
-          </div>
-        </div>
+      <div
+      style={{
+        width: '400px',
+        margin: '100px auto',
+        padding: '20px',
+        backgroundColor: '#f9f9f9',
+        borderRadius: '10px',
+        fontFamily: 'Arial, sans-serif',
+        height:300
+        // flex: 1,
+      }}
+    >
+      <div
+        style={{
+          fontWeight: 'bold',
+          fontSize: '16px',
+          marginBottom: '15px',
+          color: '#2c2c74',
+        }}
+      >
+        Previous Sessions
       </div>
+
+      <table
+        style={{
+          width: '100%',
+          borderCollapse: 'collapse',
+        }}
+      >
+        <thead>
+          <tr>
+            <th
+              style={{
+                textAlign: 'left',
+                fontSize: '14px',
+                paddingBottom: '10px',
+              }}
+            >
+              Name
+            </th>
+            <th
+              style={{
+                textAlign: 'left',
+                fontSize: '14px',
+                paddingBottom: '10px',
+              }}
+            >
+              Edit
+            </th>
+            <th
+              style={{
+                textAlign: 'left',
+                fontSize: '14px',
+                paddingBottom: '10px',
+              }}
+            >
+              Delete
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              style={{
+                fontSize: '13px',
+                paddingBottom: '10px',
+              }}
+            >
+              xcvdfhgfghfug
+            </td>
+            <td></td>
+            <td>
+              <button
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+                onClick={() => alert('Delete clicked')}
+              >
+                🗑️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     </div>
   );
 };
@@ -73,11 +155,10 @@ const styles = {
   container: {
     fontFamily: 'Arial, sans-serif',
     padding: '30px',
-    background: '#f5f5f5',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'flex-start',
-    maxWidth: '1200px',
+    // maxWidth: '1200px',
     margin: '0 auto',
     borderRadius: '10px',
   },
@@ -116,7 +197,8 @@ const styles = {
     fontSize: '14px',
     marginBottom: '10px',
     borderRadius: '5px',
-    border: '1px solid #ccc',
+    border: '1px solid #F8F8F8',
+    backgroundColor:'#F8F8F8'
   },
   textarea: {
     width: '100%',
@@ -124,7 +206,8 @@ const styles = {
     fontSize: '14px',
     minHeight: '80px',
     borderRadius: '5px',
-    border: '1px solid #ccc',
+    border: '1px solid #F8F8F8',
+    backgroundColor:'#F8F8F8'
   },
   button: {
     backgroundColor: '#1a1352',
@@ -135,9 +218,10 @@ const styles = {
     cursor: 'pointer',
     fontWeight: 'bold',
     marginTop: '10px',
+    width:120,alignSelf:'center'
   },
   sessionsContainer: {
-    position: 'absolute',
+    // position: 'absolute',
     right: '40px',
     top: '80px',
     width: '250px',

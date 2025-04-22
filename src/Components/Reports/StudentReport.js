@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const StudentReportPage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRow, setSelectedRow] = useState(null); // Track selected row
+  const [editData, setEditData] = useState(null); // Track data for editing
+
   const studentData = [
     {
-      id: 'STU001',
+      id: '1',
       name: 'Aarav Mehta',
       grade: '8th',
       school: 'Greenwood High',
@@ -28,7 +32,7 @@ const StudentReportPage = () => {
       photo: 'https://via.placeholder.com/40'
     },
     {
-      id: 'STU002',
+      id: '2',
       name: 'Sneha Patel',
       grade: '9th',
       school: 'Sunrise Academy',
@@ -54,83 +58,124 @@ const StudentReportPage = () => {
     }
   ];
 
+  const filteredData = studentData.filter((student) =>
+    student.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleRowClick = (id) => {
+    setSelectedRow(id === selectedRow ? null : id); // Toggle selection on click
+    if (editData && editData.id === id) {
+      setEditData(null); // Remove edit mode if row is clicked
+    }
+  };
+
+  const handleEdit = (student) => {
+    setEditData(student); // Set edit mode for the selected student
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = () => {
+    const updatedData = studentData.map((student) =>
+      student.id === editData.id ? editData : student
+    );
+    alert('Changes saved'); // For demonstration
+    setEditData(null); // Exit edit mode
+    setSelectedRow(null); // Deselect row
+  };
+
+  const handleDelete = () => {
+    if (selectedRow) {
+      const updatedData = studentData.filter(student => student.id !== selectedRow);
+      alert('Row deleted'); // For demonstration
+      setSelectedRow(null); // Deselect row after deletion
+    }
+  };
+
   return (
-    <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div style={{ padding: '30px', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ marginBottom: '20px' }}>
         <input
           type="text"
           placeholder="Search by name"
-          style={{ padding: '10px', width: '300px', borderRadius: '20px', border: '1px solid #ccc' }}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            padding: '10px',
+            width: '300px',
+            borderRadius: '20px',
+            border: '1px solid #ccc'
+          }}
         />
-        <div>
-      
-        </div>
       </div>
 
-      <h2 style={{ color: 'orange', marginTop: '30px' }}>Student Report</h2>
+      <h2 style={{ color: '#F75F00' }}>Student Report</h2>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
-        <thead>
-          <tr style={{ textAlign: 'left', backgroundColor: '#f5f5f5' }}>
-            <th style={thStyle}>Student ID</th>
-            <th style={thStyle}>Name</th>
-            <th style={thStyle}>Grade</th>
-            <th style={thStyle}>School Name</th>
-            <th style={thStyle}>Teacher Name</th>
-            <th style={thStyle}>Parent Name</th>
-            <th style={thStyle}>Relation</th>
-            <th style={thStyle}>Email ID</th>
-            <th style={thStyle}>DOB</th>
-            <th style={thStyle}>Contact No.</th>
-            <th style={thStyle}>WhatsApp No.</th>
-            <th style={thStyle}>Address</th>
-            <th style={thStyle}>Total Session</th>
-            <th style={thStyle}>Attended Session</th>
-            <th style={thStyle}>Absent</th>
-            <th style={thStyle}>Work Progress</th>
-            <th style={thStyle}>New Projects</th>
-            <th style={thStyle}>Total Tests Given</th>
-            <th style={thStyle}>Appeared</th>
-            <th style={thStyle}>Skipped</th>
-            <th style={thStyle}>Total Marks</th>
-            <th style={thStyle}>Scored(%)</th>
-            <th style={thStyle}>Photo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {studentData.map((student, index) => (
-            <tr key={index}>
-              <td style={tdStyle}>{student.id}</td>
-              <td style={tdStyle}>{student.name}</td>
-              <td style={tdStyle}>{student.grade}</td>
-              <td style={tdStyle}>{student.school}</td>
-              <td style={tdStyle}>{student.teacher}</td>
-              <td style={tdStyle}>{student.parent}</td>
-              <td style={tdStyle}>{student.relation}</td>
-              <td style={tdStyle}>{student.email}</td>
-              <td style={tdStyle}>{student.dob}</td>
-              <td style={tdStyle}>{student.contact}</td>
-              <td style={tdStyle}>{student.whatsapp}</td>
-              <td style={tdStyle}>{student.address}</td>
-              <td style={tdStyle}>{student.totalSession}</td>
-              <td style={tdStyle}>{student.attendedSession}</td>
-              <td style={tdStyle}>{student.absent}</td>
-              <td style={tdStyle}>{student.progress}</td>
-              <td style={tdStyle}>{student.newProjects}</td>
-              <td style={tdStyle}>{student.totalTests}</td>
-              <td style={tdStyle}>{student.appeared}</td>
-              <td style={tdStyle}>{student.skipped}</td>
-              <td style={tdStyle}>{student.marks}</td>
-              <td style={tdStyle}>{student.scored}</td>
-              <td style={tdStyle}><img src={student.photo} alt="profile" /></td>
+      <div style={{ flex: 1, overflowX: 'auto', maxHeight: '400px' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '1200px' }}>
+          <thead>
+            <tr style={{ textAlign: 'left', backgroundColor: '#f5f5f5' }}>
+              {[
+                'Student ID', 'Name', 'Grade', 'School Name', 'Teacher Name', 'Parent Name', 'Relation',
+                'Email ID', 'DOB', 'Contact No.', 'WhatsApp No.', 'Address', 'Total Session',
+                'Attended Session', 'Absent', 'Work Progress', 'New Projects', 'Total Tests Given',
+                'Appeared', 'Skipped', 'Total Marks', 'Scored(%)', 'Photo'
+              ].map((header, i) => (
+                <th key={i} style={thStyle}>{header}</th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredData.map((student, index) => (
+              <tr
+                key={index}
+                onClick={() => handleRowClick(student.id)} // Row click handler
+                style={{
+                  backgroundColor: selectedRow === student.id ? '#e0e0e0' : 'transparent',
+                  cursor: 'pointer'
+                }}
+              >
+                {Object.keys(student).map((key) => key !== 'photo' && (
+                  <td key={key} style={tdStyle}>
+                    {selectedRow === student.id && editData ? (
+                      // Show input fields in edit mode
+                      <input
+                        type="text"
+                        name={key}
+                        value={editData[key] || student[key]}
+                        onChange={handleInputChange}
+                        style={{
+                          padding: '5px',
+                          width: '100%',
+                          borderRadius: '5px',
+                          border: '1px solid #ccc',
+                        }}
+                      />
+                    ) : (
+                      key === 'photo' ? (
+                        <img src={student[key]} alt="profile" style={{ borderRadius: '50%' }} />
+                      ) : (
+                        student[key]
+                      )
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
-        <button style={buttonStyle}>Edit</button>
-        <button style={buttonStyle}>Delete</button>
+        <button style={buttonStyle} onClick={handleSave}>Save Changes</button>
+        <button onClick={handleDelete} style={buttonStyle}>Delete</button>
+        <button style={buttonStyle} onClick={() => handleEdit(studentData.find(student => student.id === selectedRow))}>Edit</button>
       </div>
     </div>
   );
@@ -138,22 +183,29 @@ const StudentReportPage = () => {
 
 const thStyle = {
   padding: '10px',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  borderBottom: '1px solid #ddd',
+  position: 'sticky',
+  top: 0,
+  backgroundColor: '#f5f5f5',
+  zIndex: 1
 };
 
 const tdStyle = {
   padding: '10px',
-  borderBottom: '1px solid #eee'
+  borderBottom: '1px solid #eee',
+  whiteSpace: 'nowrap'
 };
 
 const buttonStyle = {
-  backgroundColor: '#1A1457',
-  color: 'white',
+  margin: '10px',
   padding: '10px 20px',
-  margin: '0 10px',
+  backgroundColor: '#241F63',
+  color: 'white',
   border: 'none',
-  borderRadius: '8px',
-  cursor: 'pointer'
+  borderRadius: '5px',
+  cursor: 'pointer',
+  fontWeight: 'bold'
 };
 
 export default StudentReportPage;
