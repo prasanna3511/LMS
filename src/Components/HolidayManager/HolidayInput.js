@@ -29,7 +29,7 @@ const App = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search"
-            style={{ padding: '8px 12px', borderRadius: '20px', border: '1px solid #ccc', width: '200px' }}
+            style={{ padding: '8px 12px', borderRadius: '17px', border: '1px solid #ccc', width: '200px' }}
           /></div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
        
@@ -112,8 +112,8 @@ const App = () => {
            
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
-              <button style={{ padding: '10px 30px', borderRadius: '15px', border: 'none', backgroundColor: '#2e2eaa', color: 'white', fontWeight: 'bold' }}>Edit</button>
-              <button style={{ padding: '10px 30px', borderRadius: '15px', border: 'none', backgroundColor: '#2e2eaa', color: 'white', fontWeight: 'bold' }}>Delete</button>
+              <button style={{ padding: '10px 30px', borderRadius: '17px', border: 'none', backgroundColor: '#2e2eaa', color: 'white', fontWeight: 'bold' }}>Edit</button>
+              <button style={{ padding: '10px 30px', borderRadius: '17px', border: 'none', backgroundColor: '#2e2eaa', color: 'white', fontWeight: 'bold' }}>Delete</button>
             </div>
         </div>
       </div>

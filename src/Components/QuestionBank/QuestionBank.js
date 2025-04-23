@@ -5,7 +5,7 @@ const CreateQuestionBank = ({ setRole }) => {
   const [practicalQuestion, setPracticalQuestion] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [qType, setQType] = useState('');
+  const [qType, setQType] = useState('MCQ');
 
   const handleOptionChange = (index, value) => {
     const updated = [...options];
@@ -24,7 +24,7 @@ const CreateQuestionBank = ({ setRole }) => {
   return (
     <div style={{ padding: '30px', fontFamily: 'Arial, sans-serif', display: 'flex', justifyContent: 'space-between' }}>
       <div style={{ width: '60%' }}>
-        <h1 style={{ color: 'orange', marginRight: '20px' }}>Create Question Bank</h1>
+        <h1 style={{ color: '#F75F00', marginRight: '20px' }}>Create Question Bank</h1>
 
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
           <div>

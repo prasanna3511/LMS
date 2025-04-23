@@ -109,7 +109,7 @@ const StudentReportPage = () => {
           style={{
             padding: '10px',
             width: '300px',
-            borderRadius: '20px',
+            borderRadius: '17px',
             border: '1px solid #ccc'
           }}
         />

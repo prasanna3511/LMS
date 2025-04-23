@@ -82,7 +82,7 @@ const SchoolReportPage = () => {
           placeholder="Search by school name"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ padding: '10px', width: '300px', borderRadius: '20px', border: '1px solid #ccc' }}
+          style={{ padding: '10px', width: '300px', borderRadius: '17px', border: '1px solid #ccc' }}
         />
       </div>
 

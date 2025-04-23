@@ -37,7 +37,7 @@ const headerStyle = {
 };
 
 const searchInputStyle = {
-  width: "521px",
+  width: "20%",
   height: "29px",
   borderRadius: "13.4px",
   border: "0.75px solid #3e3399",
@@ -75,6 +75,17 @@ const buttonStyle = {
   marginRight: "16px",
 };
 
+const dropdownStyle = {
+  width: "150px",
+  height: "30px",
+  borderRadius: "17px",
+  padding: "0 15px",
+  fontSize: "12px",
+  backgroundColor:'white',
+  margin:'0 4px'
+
+};
+
 export const CreateTest = () => {
   const [questions, setQuestions] = useState([
     {
@@ -88,6 +99,10 @@ export const CreateTest = () => {
       selectedOption: null,
     },
   ]);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [subject, setSubject] = useState("");
+  const [standard, setStandard] = useState("");
 
   // Function to add a new question
   const addQuestion = () => {
@@ -105,21 +120,55 @@ export const CreateTest = () => {
     setQuestions(updatedQuestions);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredQuestions = questions.filter((question) =>
+    question.options.some((option) =>
+      option.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
   return (
     <div style={{ display: "flex", backgroundColor: "white", minHeight: "100vh" }}>
-      <div style={{ width: "100%", maxWidth: "540px", display: "flex" }}>
-
+      <div style={{ width: "100%", maxWidth: "800px", display: "flex", flexDirection: "column" }}>
         {/* Main Content */}
         <main style={mainContentStyle}>
+        
+          <div style={{ display: "flex", justifyContent: "space-between",alignItems:'center' }}>
           <h1 style={{ color: "#f75e00", fontSize: "32px", fontWeight: 600, marginBottom: "24px" }}>
             Create Test
           </h1>
+       <div>
+         <select
+           style={dropdownStyle}
+           value={subject}
+           onChange={(e) => setSubject(e.target.value)}
+         >
+           <option value="">Select Subject</option>
+           <option value="Math">Math</option>
+           <option value="Science">Science</option>
+           <option value="English">English</option>
+         </select>
+         <select
+           style={dropdownStyle}
+           value={standard}
+           onChange={(e) => setStandard(e.target.value)}
+         >
+           <option value="">Select Standard</option>
+           <option value="1">Standard 1</option>
+           <option value="2">Standard 2</option>
+           <option value="3">Standard 3</option>
+         </select>
+       </div>
+     </div>
 
           {/* Questions Section */}
           <div>
             <h3 style={{ fontSize: "18px", fontWeight: 600, marginBottom: "16px" }}>Questions</h3>
             
-            {questions.map((question, index) => (
+            {filteredQuestions.map((question, index) => (
               <div key={question.id} style={questionStyle}>
                 <div style={{ display: "flex", gap: "8px" }}>
                   <span style={{ fontSize: "18px", fontWeight: 600, width: "27px" }}>
@@ -178,18 +227,14 @@ export const CreateTest = () => {
                       ))}
                     </div>
                   </div>
-                  {/* Delete Button */}
-               
                 </div>
               </div>
             ))}
           </div>
 
-          
-
           {/* Action Buttons */}
           <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "32px" }}>
-          <button
+            <button
               style={{
                 ...buttonStyle,
               }}

@@ -177,7 +177,7 @@ const Dashboard = () => {
           <input
             type="text"
             placeholder="Search"
-            style={{ padding: "8px", width: "300px", borderRadius: 10 }}
+            style={{ padding: "8px", width: "300px", borderRadius: 17 }}
           />
           <div>
             <button
