@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const UserProfilesTable = () => {
   const [users, setUsers] = useState([
@@ -56,26 +57,20 @@ const UserProfilesTable = () => {
   );
 
   return (
-    <div style={{ padding: '30px', fontFamily: 'Arial, sans-serif', width: '90%' }}>
-      {/* Top bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', width: '100%' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-          <input
+    <div style={{width:'100%'}} >
+    <div style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
+    <input
             type="text"
             placeholder="Search by name"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{ padding: '8px 12px', fontSize: '14px', border: '1px solid #ccc', borderRadius: '17px', marginRight: '20px', width: '250px' }}
           />
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="https://via.placeholder.com/40" alt="Profile" style={{ borderRadius: '50%', marginRight: '10px' }} />
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontWeight: 'bold' }}>Bhavin</div>
-              <div style={{ fontSize: '12px', color: '#888' }}>Admin</div>
-            </div>
-          </div>
-        </div>
-      </div>
+   
+<Navbar/>
+</div>
+    <div style={{ paddingTop: '30px', fontFamily: 'Arial, sans-serif', width: '90%' }}>
+      {/* Top bar */}
 
       <h2 style={{ color: '#F75F00' }}>User profiles</h2>
 
@@ -155,6 +150,7 @@ const UserProfilesTable = () => {
           Delete
         </button>
       </div>
+    </div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const QuestionBankTable = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -23,9 +24,9 @@ const QuestionBankTable = () => {
   );
 
   return (
-    <div style={{ padding: '30px', fontFamily: 'Arial, sans-serif' }}>
-       {/* Search Bar */}
-       <input
+    <div style={{width:'100%'}} >
+    <div style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
+    <input
         type="text"
         placeholder="Search questions..."
         value={searchQuery}
@@ -39,6 +40,12 @@ const QuestionBankTable = () => {
           fontSize: '14px'
         }}
       />
+   
+<Navbar/>
+</div>
+    <div style={{ paddingTop: '30px', fontFamily: 'Arial, sans-serif' }}>
+       {/* Search Bar */}
+      
       <div style={{ display: 'flex', alignItems: 'center',  justifyContent: 'space-between' }}>
         <h2 style={{ color: '#F75F00' }}>Question Bank</h2>
         <div>
@@ -90,6 +97,7 @@ const QuestionBankTable = () => {
           Create Test
         </button>
       </div>
+    </div>
     </div>
   );
 };

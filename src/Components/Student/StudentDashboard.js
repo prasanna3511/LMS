@@ -102,7 +102,14 @@ export default function StudentDashboard() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "99%" ,marginLeft:10}}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "99%",
+        marginLeft: 10,
+      }}
+    >
       <div>
         <div
           style={{
@@ -145,46 +152,45 @@ export default function StudentDashboard() {
               Search
             </button>
           </div>
-  
 
-<div style={{display:'flex', flexDirection:'row'}}>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
+          <div style={{ display: "flex", flexDirection: "row" }}>
             <div
               style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                backgroundColor: "#f0f0f0",
                 display: "flex",
-                justifyContent: "center",
                 alignItems: "center",
-                fontWeight: "bold",
+                gap: "10px",
               }}
             >
-              👤
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  backgroundColor: "#f0f0f0",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                👤
+              </div>
+              <div>
+                <p style={{ margin: 0, fontWeight: "bold" }}>Bhavin</p>
+                <p style={{ margin: 0, fontSize: "12px", color: "gray" }}>
+                  Admin
+                </p>
+              </div>
             </div>
-            <div>
-              <p style={{ margin: 0, fontWeight: "bold" }}>Bhavin</p>
-              <p style={{ margin: 0, fontSize: "12px", color: "gray" }}>
-                Admin
-              </p>
-            </div>
+            <img
+              style={{ height: 30, width: 30, marginLeft: 20 }}
+              src={require("../../images/bell-ringing.png")}
+            />
           </div>
-          <img style={{height:30, width:30, marginLeft:20}} src={require('../../images/bell-ringing.png')} />
-
-</div>
-
         </div>
       </div>
       {/* panel code */}
-      <div style={{ display: "flex", flexDirection: "row",marginTop:-25 }}>
+      <div style={{ display: "flex", flexDirection: "row", marginTop: -25 }}>
         <div
           style={{
             display: "flex",
@@ -193,159 +199,528 @@ export default function StudentDashboard() {
             justifyContent: "center",
           }}
         >
-         <div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#ABBFFC80",
-    padding: "10px",
-    borderRadius: "10px",
-    position: "relative",
-    overflow: "visible", 
-    height:75 
-  }}
->
-  <div>
-    <h3
-      style={{
-        margin: "5px 0",
-        color: "#F75F00",
-      }}
-    >
-      Welcome back, Student
-    </h3>
-  </div>
-  <div>
-    <img
-      src={Manager1}
-      alt="Manager"
-      style={{
-        position: "absolute",
-        top: "-37px", // Adjust as needed
-        right: "2px", // Adjust position on the right
-        width: "130px", // Adjust size
-        height: "130px",
-      }}
-    />
-  </div>
-</div>
-{/* 1 */}
-<div style={{width:'100%',display:'flex',flexDirection:'row',justifyContent:'space-between',marginTop:10}}>
-
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "#ABBFFC80",
+              padding: "10px",
+              borderRadius: "10px",
+              position: "relative",
+              overflow: "visible",
+              height: 75,
+            }}
+          >
+            <div>
+              <h3
+                style={{
+                  margin: "5px 0",
+                  color: "#F75F00",
+                }}
+              >
+                Welcome back, Student
+              </h3>
             </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>View Myself</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-              <div style={{display:'flex',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>Name of stduent </p>
-
-              </div>
-
+            <div>
+              <img
+                src={Manager1}
+                alt="Manager"
+                style={{
+                  position: "absolute",
+                  top: "-37px", // Adjust as needed
+                  right: "2px", // Adjust position on the right
+                  width: "130px", // Adjust size
+                  height: "130px",
+                }}
+              />
             </div>
           </div>
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
-            </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Attendance Report</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>8</p>
-                <p style={{fontSize:10,marginTop:-10}}>Completed Session</p>
-
+          {/* 1 */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 10,
+            }}
+          >
+            <div
+              style={{
+                width: "49%",
+                height: 142,
+                backgroundColor: "#ABBFFC80",
+                borderRadius: 5,
+                marginTop: 10,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  backgroundColor: "#241F63",
+                  borderRadius: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                  marginLeft: 8,
+                }}
+              >
+                <img
+                  src={require("../../images/profiile.png")}
+                  style={{ height: 30, width: 30 }}
+                />
               </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>8</p>
-                <p style={{fontSize:10,marginTop:-10}}>Pending Session</p>
-
+              <div style={{ marginTop: -10 }}>
+                <p
+                  style={{
+                    fontSize: 18,
+                    color: "#241F63",
+                    fontWeight: "800",
+                    marginLeft: 10,
+                  }}
+                >
+                  View Myself
+                </p>
               </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>8</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total Session</p>
-
+              <div
+                style={{
+                  width: "80%",
+                  height: 35,
+                  marginLeft: 8,
+                  backgroundColor: "white",
+                  marginTop: -9,
+                  borderRadius: 10,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ fontSize: 10 }}>Name of stduent </p>
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                width: "49%",
+                height: 142,
+                backgroundColor: "#ABBFFC80",
+                borderRadius: 5,
+                marginTop: 10,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  backgroundColor: "#241F63",
+                  borderRadius: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                  marginLeft: 8,
+                }}
+              >
+                <img
+                  src={require("../../images/profiile.png")}
+                  style={{ height: 30, width: 30 }}
+                />
+              </div>
+              <div style={{ marginTop: -10 }}>
+                <p
+                  style={{
+                    fontSize: 18,
+                    color: "#241F63",
+                    fontWeight: "800",
+                    marginLeft: 10,
+                  }}
+                >
+                  Attendance Report
+                </p>
+              </div>
+              <div
+                style={{
+                  width: "80%",
+                  height: 35,
+                  marginLeft: 8,
+                  backgroundColor: "white",
+                  marginTop: -9,
+                  borderRadius: 10,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ fontSize: 10 }}>8</p>
+                  <p style={{ fontSize: 10, marginTop: -10 }}>
+                    Completed Session
+                  </p>
+                </div>
+                <div
+                  style={{
+                    height: "80%",
+                    border: "1px solid grey",
+                    width: "0.1px",
+                  }}
+                ></div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ fontSize: 10 }}>8</p>
+                  <p style={{ fontSize: 10, marginTop: -10 }}>
+                    Pending Session
+                  </p>
+                </div>
+                <div
+                  style={{
+                    height: "80%",
+                    border: "1px solid grey",
+                    width: "0.1px",
+                  }}
+                ></div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ fontSize: 10 }}>8</p>
+                  <p style={{ fontSize: 10, marginTop: -10 }}>Total Session</p>
+                </div>
               </div>
             </div>
           </div>
-</div>
-{/* 2 */}
-<div style={{width:'100%',display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
+          {/* 2 */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{
+                width: "49%",
+                height: 142,
+                backgroundColor: "#ABBFFC80",
+                borderRadius: 5,
+                marginTop: 10,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  backgroundColor: "#241F63",
+                  borderRadius: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                  marginLeft: 8,
+                }}
+              >
+                <img
+                  src={require("../../images/profiile.png")}
+                  style={{ height: 30, width: 30 }}
+                />
+              </div>
+              <div style={{ marginTop: -10 }}>
+                <p
+                  style={{
+                    fontSize: 18,
+                    color: "#241F63",
+                    fontWeight: "800",
+                    marginLeft: 10,
+                  }}
+                >
+                  Speacial Project
+                </p>
+              </div>
+              <div
+                style={{
+                  width: "80%",
+                  height: 35,
+                  marginLeft: 8,
+                  backgroundColor: "white",
+                  marginTop: -9,
+                  borderRadius: 10,
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginLeft: 8,
+                  }}
+                >
+                  <p style={{ fontSize: 10 }}>8 </p>
+                  <p style={{ fontSize: 10, marginTop: -10 }}>
+                    Number Project Done
+                  </p>
+                </div>
+              </div>
             </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Speacial Project</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center',marginLeft:8,}}>
-                <p style={{fontSize:10}}>8  </p>
-                <p style={{fontSize:10,marginTop:-10}}>Number Project Done</p>
-
+            <div
+              style={{
+                width: "49%",
+                height: 142,
+                backgroundColor: "#ABBFFC80",
+                borderRadius: 5,
+                marginTop: 10,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  backgroundColor: "#241F63",
+                  borderRadius: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                  marginLeft: 8,
+                }}
+              >
+                <img
+                  src={require("../../images/profiile.png")}
+                  style={{ height: 30, width: 30 }}
+                />
+              </div>
+              <div style={{ marginTop: -10 }}>
+                <p
+                  style={{
+                    fontSize: 18,
+                    color: "#241F63",
+                    fontWeight: "800",
+                    marginLeft: 10,
+                  }}
+                >
+                  View Holiday
+                </p>
+              </div>
+              <div
+                style={{
+                  width: "80%",
+                  height: 35,
+                  marginLeft: 8,
+                  backgroundColor: "white",
+                  marginTop: -9,
+                  borderRadius: 10,
+                  display: "flex",
+                  flexDirection: "row",
+                  marginLeft: 8,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginLeft: 8,
+                  }}
+                >
+                  <p style={{ fontSize: 10 }}>Upcoming Holiday</p>
+                </div>
               </div>
             </div>
           </div>
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
+          {/* 3 */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{
+                width: "49%",
+                height: 142,
+                backgroundColor: "#ABBFFC80",
+                borderRadius: 5,
+                marginTop: 10,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  backgroundColor: "#241F63",
+                  borderRadius: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                  marginLeft: 8,
+                }}
+              >
+                <img
+                  src={require("../../images/profiile.png")}
+                  style={{ height: 30, width: 30 }}
+                />
+              </div>
+              <div style={{ marginTop: -10 }}>
+                <p
+                  style={{
+                    fontSize: 18,
+                    color: "#241F63",
+                    fontWeight: "800",
+                    marginLeft: 10,
+                  }}
+                >
+                  Test Report
+                </p>
+              </div>
+              <div
+                style={{
+                  width: "80%",
+                  height: 35,
+                  marginLeft: 8,
+                  backgroundColor: "white",
+                  marginTop: -9,
+                  borderRadius: 10,
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    justifyContent: "center",
+                    marginLeft: 8,
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ fontSize: 10 }}>86</p>
+                  <p style={{ fontSize: 10, marginTop: -10 }}>
+                    Total Test Created
+                  </p>
+                </div>
+              </div>
             </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>View Holiday</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',marginLeft:8,}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center',marginLeft:8,}}>
-                <p style={{fontSize:10}}>Upcoming Holiday</p>
-
+            <div
+              style={{
+                width: "49%",
+                height: 142,
+                backgroundColor: "#ABBFFC80",
+                borderRadius: 5,
+                marginTop: 10,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  backgroundColor: "#241F63",
+                  borderRadius: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                  marginLeft: 8,
+                }}
+              >
+                <img
+                  src={require("../../images/profiile.png")}
+                  style={{ height: 30, width: 30 }}
+                />
+              </div>
+              <div style={{ marginTop: -10 }}>
+                <p
+                  style={{
+                    fontSize: 18,
+                    color: "#241F63",
+                    fontWeight: "800",
+                    marginLeft: 10,
+                  }}
+                >
+                  View Question Bank
+                </p>
+              </div>
+              <div
+                style={{
+                  width: "80%",
+                  height: 35,
+                  marginLeft: 8,
+                  backgroundColor: "white",
+                  marginTop: -9,
+                  borderRadius: 10,
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    justifyContent: "center",
+                    marginLeft: 8,
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ fontSize: 10 }}>100</p>
+                  <p style={{ fontSize: 10, marginTop: -10 }}>Questions</p>
+                </div>
               </div>
             </div>
           </div>
-</div>
-{/* 3 */}
-<div style={{width:'100%',display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
-            </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Test Report</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row'}} >
-            
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',marginLeft:8,alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total Test Created</p>
-
-              </div>
-             
-            </div>
-          </div>
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../../images/profiile.png')} style={{height:30,width:30}}/>
-            </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>View Question Bank</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',marginLeft:8,alignItems:'center'}}>
-                <p style={{fontSize:10}}>100</p>
-                <p style={{fontSize:10,marginTop:-10}}>Questions</p>
-
-              </div>
-          
-            </div>
-          </div>
-</div>
           {/* <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div>
           <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div>
           <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div>

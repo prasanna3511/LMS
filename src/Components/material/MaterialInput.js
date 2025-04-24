@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const MaterialAndFurnituresForm = ({setRole}) => {
   const [formData, setFormData] = useState({
@@ -23,35 +24,17 @@ const MaterialAndFurnituresForm = ({setRole}) => {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
+    <div style={{ display: 'flex', height: '100vh' ,flexDirection:'column'}}>
       {/* Main Content */}
-      <div style={{ flex: 1, padding: '40px', position: 'relative' }}>
+        <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
+
+       <Navbar/>
+      </div>
+      <div style={{ flex: 1, paddingTop: '40px', position: 'relative' }}>
         {/* Top-right profile */}
-        <div style={{
-          position: 'absolute',
-          top: '20px',
-          right: '40px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <span style={{
-            background: '#e2e4fb',
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            display: 'inline-flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>🔔</span>
-          <div>
-            <strong>Bhavin</strong><br />
-            <span style={{ fontSize: '12px', color: '#888' }}>Admin</span>
-          </div>
-        </div>
 
         {/* Form Title */}
-        <h2 style={{ color: '#ff7e1d' }}>Material and Furnitures</h2>
+        <h2 style={{ color: '#F75F00' }}>Material and Furnitures</h2>
 
         {/* Form */}
         <form

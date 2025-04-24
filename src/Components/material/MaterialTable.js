@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const initialData = [
   {
@@ -60,7 +61,12 @@ const MaterialsTable = () => {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: '40px', fontFamily: 'Arial, sans-serif' ,marginTop:20}}>
+      <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
+
+<Navbar/>
+</div>
+
       <h2 style={{ color: '#F75F00', marginBottom: '20px' }}>Materials and Furnitures</h2>
 
       <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}>

@@ -1,10 +1,17 @@
 import React from 'react';
+import Navbar from './Navbar/Navbar';
 
 const CreateSession = () => {
   return (
-    <div style={styles.container}>
-      <div style={{width:'100%'}} >
+    <div style={{width:'100%'}}>
+          <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
 
+<Navbar/>
+
+    </div>
+    <div style={styles.container}>
+  
+      <div style={{width:'100%'}} >
       <h1 style={styles.header}>Create Session</h1>
 
       <div style={{...styles.formContainer,width:'90%'}}>
@@ -148,6 +155,8 @@ const CreateSession = () => {
       </table>
     </div>
     </div>
+    </div>
+
   );
 };
 

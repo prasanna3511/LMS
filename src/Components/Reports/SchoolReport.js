@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const SchoolReportPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -75,15 +76,21 @@ const SchoolReportPage = () => {
   };
 
   return (
-    <div style={{ paddingTop: '30px', fontFamily: 'sans-serif' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <input
+    <div style={{width:'100%'}} >
+    <div style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
+    <input
           type="text"
           placeholder="Search by school name"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{ padding: '10px', width: '300px', borderRadius: '17px', border: '1px solid #ccc' }}
         />
+   
+<Navbar/>
+</div>
+    <div style={{ paddingTop: '30px', fontFamily: 'sans-serif' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    
       </div>
 
       <h2 style={{ color: '#F75F00', marginTop: '30px' }}>School Report</h2>
@@ -151,6 +158,7 @@ const SchoolReportPage = () => {
         <button style={buttonStyle} onClick={handleEdit}>Save</button>
         <button style={buttonStyle} onClick={handleDelete}>Delete</button>
       </div>
+    </div>
     </div>
   );
 };

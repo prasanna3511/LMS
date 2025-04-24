@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const StudentReportPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -99,8 +100,8 @@ const StudentReportPage = () => {
   };
 
   return (
-    <div style={{ padding: '30px', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ marginBottom: '20px' }}>
+    <div style={{width:'100%'}} >
+         <div style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
         <input
           type="text"
           placeholder="Search by name"
@@ -113,7 +114,12 @@ const StudentReportPage = () => {
             border: '1px solid #ccc'
           }}
         />
-      </div>
+<Navbar/>
+</div>
+
+  
+    <div style={{ paddingTop: '30px', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column' }}>
+        
 
       <h2 style={{ color: '#F75F00' }}>Student Report</h2>
 
@@ -177,6 +183,7 @@ const StudentReportPage = () => {
         <button onClick={handleDelete} style={buttonStyle}>Delete</button>
         <button style={buttonStyle} onClick={() => handleEdit(studentData.find(student => student.id === selectedRow))}>Edit</button>
       </div>
+    </div>
     </div>
   );
 };

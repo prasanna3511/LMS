@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const ViewTestPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTests, setFilteredTests] = useState(testData);
 
-  const handleSearch = () => {
+  const handleSearch = (value) => {
+    setSearchTerm(value)
     const filtered = testData.filter(test =>
-      test.name.toLowerCase().includes(searchTerm.toLowerCase())
+      test.name.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredTests(filtered);
   };
@@ -16,14 +18,13 @@ const ViewTestPage = () => {
   };
 
   return (
-    <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <input
+    <div style={{width:'100%'}} >
+    <div style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
+    <input
             type="text"
             placeholder="Search by name"
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={e => handleSearch(e.target.value)}
             style={{
               padding: '10px',
               width: '300px',
@@ -32,23 +33,11 @@ const ViewTestPage = () => {
               marginRight: '10px'
             }}
           />
-          <button
-            onClick={handleSearch}
-            style={{
-              backgroundColor: '#1A1457',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 20,
-              cursor: 'pointer',
-              padding: 8,
-              width: 100
-            }}
-          >
-            Search
-          </button>
-        </div>
-        <div></div>
-      </div>
+   
+<Navbar/>
+</div>
+    <div style={{ paddingTop: '30px', fontFamily: 'sans-serif' }}>
+    
 
       <div
         style={{
@@ -125,11 +114,12 @@ const ViewTestPage = () => {
         </tbody>
       </table>
     </div>
+    </div>
   );
 };
 
 const buttonStyle = {
-  backgroundColor: '#1A1457',
+  backgroundColor: '#241F63',
   color: 'white',
   padding: '8px 16px',
   marginRight: '10px',

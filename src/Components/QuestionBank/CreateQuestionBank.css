@@ -1,0 +1,53 @@
+.responsiveContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-family: Arial, sans-serif;
+    padding-top: 30px;
+}
+
+.leftSection {
+    width: 60%;
+}
+
+.rightSection {
+    width: 30%;
+    padding: 20px;
+    background-color: #f6f6f6;
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+
+/* Responsive layout for mobile */
+
+@media (max-width: 768px) {
+    .leftSection,
+    .rightSection {
+        width: 100%;
+    }
+    .rightSection {
+        margin-top: 20px;
+    }
+}
+
+.selectDropdown {
+    padding: 8px;
+    font-size: 14px;
+    background-color: white;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    width: 150px;
+    margin-right: 20px;
+    /* default */
+}
+
+
+/* When screen is 768px or less (mobile/tablet) */
+
+@media (max-width: 768px) {
+    .selectDropdown {
+        width: 120px;
+        margin-right: 10px;
+    }
+}

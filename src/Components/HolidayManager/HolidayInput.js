@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const App = () => {
   const [date, setDate] = useState('');
@@ -21,25 +22,36 @@ const App = () => {
   };
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', backgroundColor: '#fefeff', minHeight: '100vh' }}>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-        <div style={{ fontSize: '20px', fontWeight: 'bold' }}>   <input
+    <div style={{ width: "100%" }}>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
+     <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search"
             style={{ padding: '8px 12px', borderRadius: '17px', border: '1px solid #ccc', width: '200px' }}
-          /></div>
+          />
+
+      <Navbar />
+    </div>
+    <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#fefeff', minHeight: '96vh' }}>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-       
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      
+          {/* <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <img src="https://via.placeholder.com/40" alt="Profile" style={{ borderRadius: '50%' }} />
             <div>
               <div>Bhavin</div>
               <div style={{ fontSize: '12px', color: 'gray' }}>Admin</div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -117,6 +129,7 @@ const App = () => {
             </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

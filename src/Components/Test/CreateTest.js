@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "../Navbar/Navbar";
 
 const sidebarStyle = {
   width: "166px",
@@ -26,7 +27,7 @@ const menuItemStyle = {
 
 const mainContentStyle = {
   flex: 1,
-  padding: "24px",
+  paddingTop: "24px",
 };
 
 const headerStyle = {
@@ -76,7 +77,7 @@ const buttonStyle = {
 };
 
 const dropdownStyle = {
-  width: "150px",
+  width: "140px",
   height: "30px",
   borderRadius: "17px",
   padding: "0 15px",
@@ -131,16 +132,20 @@ export const CreateTest = () => {
   );
 
   return (
-    <div style={{ display: "flex", backgroundColor: "white", minHeight: "100vh" }}>
+    <div style={{ display: "flex", backgroundColor: "white", minHeight: "100vh" ,flexDirection:'column'}}>
+        <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
+
+<Navbar/>
+</div>
       <div style={{ width: "100%", maxWidth: "800px", display: "flex", flexDirection: "column" }}>
         {/* Main Content */}
         <main style={mainContentStyle}>
         
-          <div style={{ display: "flex", justifyContent: "space-between",alignItems:'center' }}>
-          <h1 style={{ color: "#f75e00", fontSize: "32px", fontWeight: 600, marginBottom: "24px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between",alignItems:'center' ,minWidth:500}}>
+          <h2 style={{ color: "#f75e00",  fontWeight: 600, marginBottom: "24px" }}>
             Create Test
-          </h1>
-       <div>
+          </h2>
+       <div style={{minWidth:500,display:'flex',flexWrap:'wrap'}}>
          <select
            style={dropdownStyle}
            value={subject}

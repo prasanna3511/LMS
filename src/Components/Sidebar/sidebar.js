@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 import logout from "../../images/logout1.png";
 import Dashboard from "../Dashboard";
 import TeacherDashboard from "../Teacher/TeacherDashboard";
@@ -24,16 +25,39 @@ import SchoolReportPage from "../Reports/SchoolReport";
 import CreateSession from "../CreateSession";
 
 const Sidebar = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [role, setRole] = useState("createSession");
+
+  // Check if mobile view on component mount and resize
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      // Auto-close sidebar on mobile, auto-open on desktop
+      setSidebarOpen(!mobile);
+    };
+
+    handleResize(); // Check on initial render
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const sidebarStyle = {
-    width: "200px",
+    width: isMobile ? "250px" : "200px",
     backgroundColor: "#1a1a56",
     color: "white",
     padding: "20px",
     display: "flex",
     flexDirection: "column",
-    borderRadius: "20px",
-    margin: "1% 1% 0 2%",
-    height: "90vh",
+    borderRadius: isMobile ? "0 20px 20px 0" : "20px",
+    margin: isMobile ? 0 : "1% 1% 0 2%",
+    height: isMobile ? "100vh" : "90vh",
+    transition: "transform 0.3s ease",
+    transform: sidebarOpen ? "translateX(0)" : "translateX(-100%)",
+    position: isMobile ? "fixed" : "relative",
+    zIndex: 1000,
+    boxShadow: isMobile ? "5px 0 15px rgba(0,0,0,0.2)" : "none",
   };
 
   const titleStyle = {
@@ -60,44 +84,157 @@ const Sidebar = () => {
   };
 
   const logoutButtonStyle = {
-    marginTop: "40px",
+    marginTop: "auto",
     padding: "10px",
     display: "flex",
-    justifyContent: "space between",
+    alignItems: "center",
+    gap: "10px",
+    cursor: "pointer",
+    borderRadius: "5px",
+    transition: "background-color 0.2s",
+    ':hover': {
+      backgroundColor: "#2a2a76",
+    }
   };
 
-  const [role, setRole] = useState("createSession");
-  // const [userT]
+  const mobileToggleStyle = {
+    display: isMobile ? "block" : "none",
+    position: "fixed",
+    top: "20px",
+    left: "20px",
+    zIndex: 1100,
+    background: sidebarOpen?'none':"#1a1a56",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    padding: "10px",
+    cursor: "pointer",
+    boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+  };
+
+  const overlayStyle = {
+    display: isMobile && sidebarOpen ? "block" : "none",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    zIndex: 900,
+  };
+
+  const contentStyle = {
+    flex: 1,
+    overflowY: "auto",
+    padding: "20px",
+    width: '100%',
+    // marginLeft: isMobile ? 0 : sidebarOpen ? "220px" : 0,
+    transition: "margin-left 0.3s ease",
+  };
+
+  const closeButtonStyle = {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    background: "none",
+    border: "none",
+    color: "white",
+    fontSize: "20px",
+    cursor: "pointer",
+    display: isMobile ? "block" : "none",
+  };
+
+  const handleLinkClick = (newRole) => {
+    setRole(newRole);
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  };
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden",width:'100%'}}>
+    <div style={{ display: "flex", height: "100vh", overflow: "hidden", width: '100%' }}>
+      {/* Mobile toggle button */}
+      {isMobile && (
+        <button 
+          style={mobileToggleStyle} 
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="Toggle menu"
+        >
+          {sidebarOpen ? null : <FaBars size={20} />}
+        </button>
+      )}
+
+      {/* Overlay for mobile when sidebar is open */}
+      {isMobile && sidebarOpen && (
+        <div 
+          style={overlayStyle} 
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
       <div style={sidebarStyle}>
-        <div style={titleStyle}>📚 Eduonix™ Dashboard</div>
+        {isMobile && (
+          <button 
+            style={closeButtonStyle} 
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close menu"
+          >
+            <FaTimes />
+          </button>
+        )}
+
+        <div style={titleStyle}>Eduonix™ Dashboard</div>
 
         <div style={sectionTitleStyle}>Create</div>
         <ul style={{ paddingLeft: "20px" }}>
           <li>
-            <a onClick={()=>{setRole('createSession')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('createSession')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Create Session
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('questionBank')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('questionBank')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Create Question Bank
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('test')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('test')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Create Test
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('holidayInput')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('holidayInput')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Create Holiday
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('material')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('material')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Create Expense
             </a>
           </li>
@@ -106,29 +243,43 @@ const Sidebar = () => {
         <div style={sectionTitleStyle}>Reports</div>
         <ul style={{ paddingLeft: "20px" }}>
           <li>
-          <a onClick={()=>{setRole('teacherReport')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('teacherReport')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Teacher Report
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('studentReport')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('studentReport')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Student Report
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('testReport')}} href="#" style={linkStyle}>
-
+            <a 
+              onClick={() => handleLinkClick('testReport')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Test Report
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('schoolReport')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('schoolReport')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               School Report
-            </a>
-          </li>
-          <li>
-            <a href="#" style={linkStyle}>
-              Principle/Admin Report
             </a>
           </li>
         </ul>
@@ -136,50 +287,63 @@ const Sidebar = () => {
         <div style={sectionTitleStyle}>View</div>
         <ul style={{ paddingLeft: "20px" }}>
           <li>
-          <a onClick={()=>{setRole('questionBankTable')}} href="#" style={linkStyle}>
-
+            <a 
+              onClick={() => handleLinkClick('questionBankTable')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Question Bank
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('viewTest')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('viewTest')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Tests
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('userProfiles')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('userProfiles')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               Accounts
             </a>
           </li>
           <li>
-          <a onClick={()=>{setRole('holidayTable')}} href="#" style={linkStyle}>
+            <a 
+              onClick={() => handleLinkClick('holidayTable')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
               School Holidays
             </a>
           </li>
         </ul>
 
-        {/* <button style={logoutButtonStyle}>
-            <
-            <img style={{marginTop:'10px'}} src={logout} />Logout
-            </button> */}
-        <div style={logoutButtonStyle}>
-          <img
-            style={{ marginTop: "15px", height: 30 }}
-            onClick={() => console.log("clicked")}
-            src={logout}
-          />
-          <h3
-            style={{ cursor: "pointer" }}
-            onClick={() => console.log("clicked")}
-          >
-            Logout
-          </h3>
+        <div 
+          style={logoutButtonStyle}
+          onClick={() => console.log("Logout clicked")}
+          onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+          onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+        >
+          <img src={logout} alt="Logout" style={{ height: "20px" }} />
+          <span>Logout</span>
         </div>
       </div>
-      <div style={{ flex: 1, overflowY: "auto", padding: "20px", width:'100%' }}>
+
+      {/* Main content */}
+      <div style={contentStyle}>
         {role === "admin" && <Dashboard />}
         {role === "teacher" && <TeacherDashboard />}
-        {role === "material" && <MaterialAndFurnituresForm  setRole={setRole} />}
+        {role === "material" && <MaterialAndFurnituresForm setRole={setRole} />}
         {role === "materialtable" && <MaterialsTable />}
         {role === "holidayInput" && <HolidayManager />}
         {role === "holidayTable" && <HolidayTablePage />}

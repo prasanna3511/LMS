@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const TeacherReportPage = () => {
   const [teacherData, setTeacherData] = useState([
@@ -82,7 +83,14 @@ const TeacherReportPage = () => {
   };
 
   return (
-    <div style={{ padding: '30px', fontFamily: 'sans-serif' }}>
+    <div style={{width:'100%'}}>
+           <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
+
+<Navbar/>
+</div>
+  
+    <div style={{ paddingTop: '30px', fontFamily: 'sans-serif' }}>
+   
       <h2 style={{ color: '#F75F00', marginTop: '30px' }}>Teacher Report</h2>
 
       <div style={{ overflowX: 'auto', marginTop: '20px' }}>
@@ -144,6 +152,7 @@ const TeacherReportPage = () => {
           Delete
         </button>
       </div>
+    </div>
     </div>
   );
 };
