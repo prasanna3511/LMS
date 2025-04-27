@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
+import './StudentReportPage.css';
+
 
 const TeacherReportPage = () => {
   const [teacherData, setTeacherData] = useState([

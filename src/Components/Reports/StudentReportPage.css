@@ -1,0 +1,16 @@
+.header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    /* Added margin for better spacing */
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        margin-top: 50px;
+        /* Adjust the space above for smaller screens */
+    }
+}

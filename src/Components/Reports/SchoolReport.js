@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
+import './StudentReportPage.css';
+
 
 const SchoolReportPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -77,7 +79,7 @@ const SchoolReportPage = () => {
 
   return (
     <div style={{width:'100%'}} >
-    <div style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
+    <div className="header-container">
     <input
           type="text"
           placeholder="Search by school name"

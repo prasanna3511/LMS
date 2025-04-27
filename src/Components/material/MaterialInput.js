@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
+import './MaterialAndFurnituresForm.css';
+
 
 const MaterialAndFurnituresForm = ({setRole}) => {
   const [formData, setFormData] = useState({
@@ -39,13 +41,7 @@ const MaterialAndFurnituresForm = ({setRole}) => {
         {/* Form */}
         <form
           onSubmit={handleSave}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '20px',
-            maxWidth: '900px',
-            marginTop: '30px'
-          }}
+          className="material-form"
         >
           <div>
             <label>Purchase Date</label><br />

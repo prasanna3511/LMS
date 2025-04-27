@@ -15,11 +15,6 @@ const CreateSession = () => {
       <h1 style={styles.header}>Create Session</h1>
 
       <div style={{...styles.formContainer,width:'90%'}}>
-        {/* Dropdowns */}
-     
-
-
-        {/* Session Section */}
         <div style={{...styles.section,width:'100%'}}>
           <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginBottom:2,width:'100%'}}>
 

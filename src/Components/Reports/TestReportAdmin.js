@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
+import './StudentReportPage.css';
+
 
 const TestReportPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -60,8 +62,7 @@ const TestReportPage = () => {
 
   return (
     <div style={{width:'100%'}}>
-            <div style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
-         <div style={{ }}>
+            <div className="header-container">
          <input
           type="text"
           placeholder="Search by name"
@@ -69,7 +70,6 @@ const TestReportPage = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{ padding: '10px', width: '300px', borderRadius: '17px', border: '1px solid #ccc' }}
         />
-      </div>
 <Navbar/>
     </div>
     <div style={{ paddingTop: '30px', fontFamily: 'sans-serif' }}>

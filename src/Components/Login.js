@@ -19,31 +19,32 @@ export default function Login() {
           <h3 className="heading">Welcome to</h3>
           <img className="heading-logo" src={Logo} alt="" />
         </div>
-        <button onClick={handleContact} className="contact-btn">Contact Us</button>
       </div>
 
       <div className="login-dashboard">
         <div className="form">
           <div className="emmail-wrapper">
             <label htmlFor="name" className="nameLabel">
-              Email
+              User Name
             </label>
             <br />
             <input
               required
+              style={{padding: "6px"}}
+
               type="text"
               name="name"
               className="Inputname"
               placeholder="Enter your email id"
             />
           </div>
-          <div className="password-wrapper1">
+          <div className="password-wrapper1" style={{marginTop:20}}>
             <label htmlFor="email" className="nameLabel">
               Passsword
             </label>
             <br />
             <input
-              style={{padding: "5px"}}
+              style={{padding: "6px"}}
               required
               type="text"
               name="email"
@@ -62,7 +63,7 @@ export default function Login() {
             <p className="forgot">Forgot Password?</p>
           </div>
           <div className="btn-class">
-            <button onclick={()=>navigate("/dashboard")} className="login-btn">Login</button>
+            <button onClick={()=>navigate("/dashboard")} className="login-btn">Login</button>
           </div>
           <p className="below-text">
             <span className="text-black">Not Registered yet?</span>

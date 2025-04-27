@@ -1,127 +1,129 @@
-/* Container with responsive layout */
+/* Container with flex layout */
 
 .container {
+    font-family: Arial, sans-serif;
+    padding: 30px;
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
+    margin: 0 auto;
+    border-radius: 10px;
     flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 
-/* Wrapper for the left side (form) */
+/* Navbar wrapper is fixed on top */
 
-.leftContent {
-    flex: 1;
-    min-width: 300px;
+.navbar-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 
-/* Wrapper for the right side (previous sessions) */
-
-.rightContent {
-    flex: 1;
-    min-width: 300px;
-}
-
-.header {
-    font-size: 28px;
-    margin-bottom: 20px;
-}
-
-.formContainer {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-}
+/* Section styling (inputs, labels) */
 
 .section {
-    margin-bottom: 20px;
-}
-
-.label {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.selectContainer {
-    display: flex;
-    gap: 10px;
-}
-
-.select {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-.textarea,
-.input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    resize: vertical;
-}
-
-.button {
-    padding: 10px 20px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    margin-bottom: 25px;
 }
 
 
-/* Right content styling */
+/* Session Table (Previous Sessions) styling */
 
-.previousSessions {
-    background-color: #f1f1f1;
+.previous-sessions {
+    width: 400px;
+    margin: 100px auto;
     padding: 20px;
-    border-radius: 8px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    height: 300px;
 }
 
-.sessionsTitle {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.table {
+.previous-sessions table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.table th,
-.table td {
-    border: 1px solid #ccc;
-    padding: 10px;
+.previous-sessions th,
+.previous-sessions td {
+    padding: 8px;
     text-align: left;
 }
 
-.deleteBtn {
-    background: none;
+
+/* Existing button styling */
+
+.button {
+    background-color: #1a1352;
+    color: #fff;
+    padding: 10px 30px;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 120px;
+    align-self: center;
 }
 
 
-/* Responsive layout for mobile */
+/* Input, textarea, and select styling */
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #F8F8F8;
+    background-color: #F8F8F8;
+}
+
+.dropdown {
+    padding: 8px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    flex: 1;
+    width: 150px;
+}
+
+
+/* Media query for small screens */
 
 @media (max-width: 768px) {
+    /* Change layout to column on small screens */
     .container {
         flex-direction: column;
+        /* Stack elements vertically */
     }
-    .leftContent,
-    .rightContent {
+    /* Adjust the size of the previous sessions container */
+    .previous-sessions {
+        width: 90%;
+        /* Take up most of the screen on mobile */
+        margin: 20px auto;
+    }
+    /* Adjust the width of the form container on small screens */
+    .formContainer {
         width: 100%;
+        /* Take up full width */
     }
-    .selectContainer {
-        flex-direction: column;
+    /* Adjust width of selects for smaller screens */
+    select {
+        width: 100%;
+        /* Make the selects fill the width */
+        margin-bottom: 10px;
+    }
+    /* Adjust button size for mobile */
+    .button {
+        width: 100%;
+        /* Make the save button full width */
+        padding: 12px 0;
+    }
+    /* Optional: Increase textarea size for mobile */
+    .textarea {
+        min-height: 120px;
+        /* Make text areas larger on mobile */
     }
 }

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../Navbar/Navbar';
+import '../Reports/StudentReportPage.css';
+
 
 const QuestionBankTable = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,18 +27,18 @@ const QuestionBankTable = () => {
 
   return (
     <div style={{width:'100%'}} >
-    <div style={{width:'100%',display:'flex',justifyContent:'space-between'}}>
+    <div className="header-container">
     <input
         type="text"
         placeholder="Search questions..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         style={{
-          width: '20%',
+          width: '300px',
           padding: '10px',
           borderRadius: '17px',
           border: '1px solid #ccc',
-          marginBottom: '20px',
+          // marginBottom: '20px',
           fontSize: '14px'
         }}
       />
@@ -49,12 +51,12 @@ const QuestionBankTable = () => {
       <div style={{ display: 'flex', alignItems: 'center',  justifyContent: 'space-between' }}>
         <h2 style={{ color: '#F75F00' }}>Question Bank</h2>
         <div>
-          <select style={{ marginRight: '10px', padding: '8px', fontSize: '14px', borderRadius: 15 ,backgroundColor:'white'}}>
+          <select style={{ margin: '10px 10px 10px 0', padding: '8px', fontSize: '14px', borderRadius: 15 ,backgroundColor:'white'}}>
             <option>Select Subject</option>
             <option>Math</option>
             <option>Science</option>
           </select>
-          <select style={{ padding: '8px', fontSize: '14px', borderRadius: 15,backgroundColor:'white' }}>
+          <select style={{ padding: '8px', fontSize: '14px', borderRadius: 15,backgroundColor:'white',width:132 }}>
             <option>Std</option>
             <option>Class 1</option>
             <option>Class 2</option>
