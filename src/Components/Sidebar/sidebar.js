@@ -23,6 +23,7 @@ import TeacherReportPage from "../Reports/TeacherReport";
 import TestReportPage from "../Reports/TestReportAdmin";
 import SchoolReportPage from "../Reports/SchoolReport";
 import CreateSession from "../CreateSession";
+import AddSubject from "../Subject/AddSubject";
 
 const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -128,7 +129,6 @@ const Sidebar = () => {
     overflowY: "auto",
     padding: "20px",
     width: '100%',
-    // marginLeft: isMobile ? 0 : sidebarOpen ? "220px" : 0,
     transition: "margin-left 0.3s ease",
   };
 
@@ -190,6 +190,16 @@ const Sidebar = () => {
         <ul style={{ paddingLeft: "20px" }}>
           <li>
             <a 
+              onClick={() => handleLinkClick('admin')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a 
               onClick={() => handleLinkClick('createSession')} 
               style={linkStyle}
               onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
@@ -236,6 +246,16 @@ const Sidebar = () => {
               onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
             >
               Create Expense
+            </a>
+          </li>
+          <li>
+            <a 
+              onClick={() => handleLinkClick('addSubject')} 
+              style={linkStyle}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
+              Add Subject
             </a>
           </li>
         </ul>
@@ -326,6 +346,7 @@ const Sidebar = () => {
               School Holidays
             </a>
           </li>
+       
         </ul>
 
         <div 
@@ -363,6 +384,7 @@ const Sidebar = () => {
         {role === "testReport" && <TestReportPage />}
         {role === "userProfiles" && <UserProfilesTable />}
         {role === "createSession" && <CreateSession />}
+        {role === "addSubject" && <AddSubject />}
       </div>
     </div>
   );

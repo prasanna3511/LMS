@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Manager1 from "../images/Teacher.png";
 import Login from "../Components/Login";
+import Navbar from "./Navbar/Navbar";
 
 export default function Dashboard() {
   const [present, setPresent] = useState(30);
@@ -20,7 +21,8 @@ export default function Dashboard() {
     display: "flex",
     flexDirection: "column",
     gap: "20px",
-    width: "320px",
+    width: "100%",
+    maxWidth: "320px",
     marginBottom: "2%",
   };
 
@@ -62,6 +64,7 @@ export default function Dashboard() {
     justifyContent: "space-between",
     fontSize: "12px",
     marginTop: "10px",
+    flexWrap: "wrap",
   };
 
   const inputStyle = {
@@ -74,11 +77,11 @@ export default function Dashboard() {
   };
 
   const cardStyle = {
-    // backgroundColor: "#ABBFFC",
     backgroundColor: "#F8F8F8",
     padding: "15px",
     borderRadius: "10px",
-    width: "250px",
+    width: "100%",
+    maxWidth: "250px",
   };
 
   const titleStyle = {
@@ -103,22 +106,32 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "99%" ,marginLeft:10}}>
+    <div style={{ display: "flex", flexDirection: "column", width: "99%", marginLeft: 10 }}>
       <div>
+        <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
+        <Navbar />
+
+        </div>
+
         <div
           style={{
             padding: "15px",
             borderRadius: "10px",
             marginBottom: "20px",
             display: "flex",
-            justifyContent: "space-evenly",
+            flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "center",
+            flexWrap: "wrap",
+            gap: "10px",
           }}
         >
           <div
             style={{
               display: "flex",
               alignItems: "center",
+              flex: "1 1 300px",
+              marginBottom: "10px",
             }}
           >
             <input
@@ -130,6 +143,8 @@ export default function Dashboard() {
                 border: "1px solid #ccc",
                 outline: "none",
                 fontSize: "15px",
+                flex: "1",
+                minWidth: "150px",
               }}
             />
             <button
@@ -141,274 +156,468 @@ export default function Dashboard() {
                 border: "none",
                 cursor: "pointer",
                 fontSize: "15px",
+                marginLeft: "5px",
               }}
             >
               Search
             </button>
           </div>
   
+          <div style={{ 
+            display: "flex", 
+            flexWrap: "wrap", 
+            gap: "10px",
+            flex: "1 1 360px", 
+            justifyContent: "center",
+            marginBottom: "10px",
 
-             
-          <button
-            onClick={handleContact}
-            style={{
-              backgroundColor: "#1a1a56",
-              color: "white",
-              padding: "10px 15px",
-              borderRadius: "17px",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "15px",
-              width:'180px'
-            }}
-          >
-            <a style={{ color: "white", textDecoration: "none" }}>
-              Add New School
-            </a>
-          </button>
-          <button
-            onClick={handleContact}
-            style={{
-              backgroundColor: "#1a1a56",
-              color: "white",
-              padding: "10px 15px",
-              borderRadius: "17px",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "15px",
-              width:'180px'
-
-            }}
-          >
-            <a style={{ color: "white", textDecoration: "none" }}>
-             Create Login
-            </a>
-          </button>
-
-
-<div style={{display:'flex', flexDirection:'row'}}>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
-            <div
+          }}>
+            <button
+              onClick={handleContact}
               style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                backgroundColor: "#f0f0f0",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontWeight: "bold",
+                backgroundColor: "#1a1a56",
+                color: "white",
+                padding: "10px 15px",
+                borderRadius: "17px",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "15px",
+                width: "180px",
               }}
             >
-              👤
-            </div>
-            <div>
-              <p style={{ margin: 0, fontWeight: "bold" }}>Bhavin</p>
-              <p style={{ margin: 0, fontSize: "12px", color: "gray" }}>
-                Admin
-              </p>
-            </div>
+              <a style={{ color: "white", textDecoration: "none" }}>
+                Add New School
+              </a>
+            </button>
+            <button
+              onClick={handleContact}
+              style={{
+                backgroundColor: "#1a1a56",
+                color: "white",
+                padding: "10px 15px",
+                borderRadius: "17px",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "15px",
+                width: "180px",
+              }}
+            >
+              <a style={{ color: "white", textDecoration: "none" }}>
+                Create Login
+              </a>
+            </button>
           </div>
-          <img style={{height:30, width:30, marginLeft:20}} src={require('../images/bell-ringing.png')} />
 
-</div>
-
+        
         </div>
       </div>
+      
       {/* panel code */}
-      <div style={{ display: "flex", flexDirection: "row",marginTop:-25 }}>
+      <div style={{ display: "flex", flexDirection: "row", marginTop: -25, flexWrap: "wrap" }}>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            width: "70%",
+            width: "100%",
+            flex: "1 1 600px",
             justifyContent: "center",
+            marginBottom: "20px",
           }}
         >
-         <div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#ABBFFC80",
-    padding: "10px",
-    borderRadius: "10px",
-    position: "relative",
-    overflow: "visible", 
-    height:75 
-  }}
->
-  <div>
-    <h3
-      style={{
-        margin: "5px 0",
-        color: "#F75F00",
-      }}
-    >
-      Welcome back, Admin
-    </h3>
-  </div>
-  <div>
-    <img
-      src={Manager1}
-      alt="Manager"
-      style={{
-        position: "absolute",
-        top: "-37px", // Adjust as needed
-        right: "2px", // Adjust position on the right
-        width: "130px", // Adjust size
-        height: "130px",
-      }}
-    />
-  </div>
-</div>
-{/* 1 */}
-<div style={{width:'100%',display:'flex',flexDirection:'row',justifyContent:'space-between',marginTop:10}}>
-
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "#ABBFFC80",
+              padding: "10px",
+              borderRadius: "10px",
+              position: "relative",
+              overflow: "visible", 
+              height: 75,
+              marginBottom: "20px",
+            }}
+          >
+            <div>
+              <h3
+                style={{
+                  margin: "5px 0",
+                  color: "#F75F00",
+                }}
+              >
+                Welcome back, Admin
+              </h3>
             </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Student Report</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total  Present </p>
-
-              </div>
+            <div>
+              <img
+                src={Manager1}
+                alt="Manager"
+                style={{
+                  position: "absolute",
+                  top: "-37px",
+                  right: "2px",
+                  width: "130px",
+                  height: "130px",
+                }}
+              />
             </div>
           </div>
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
-            </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Teacher Report</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Test Report </p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Absent</p>
-
-              </div>
-              <div style={{height:'80%',border:'1px solid grey',width:'0.1px'}}></div>
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total</p>
-
-              </div>
-            </div>
-          </div>
-</div>
-{/* 2 */}
-<div style={{width:'100%',display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
-            </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Create Session</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center',marginLeft:8,}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total Sessions Created</p>
-
-              </div>
-            </div>
-          </div>
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
-            </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Create Test</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row',marginLeft:8,}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',alignItems:'center',marginLeft:8,}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total Tests Created</p>
-
-              </div>
-            </div>
-          </div>
-</div>
-{/* 3 */}
-<div style={{width:'100%',display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
-            </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Create Question Bank</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row'}} >
-            
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',marginLeft:8,alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total Question Bank  Created</p>
-
-              </div>
-             
-            </div>
-          </div>
-          <div style={{width:'49%',height:142,backgroundColor:'#ABBFFC80',borderRadius:5,marginTop:10,display:'flex',flexDirection:'column'}}>
-            <div style={{width:'45px',height:'45px',backgroundColor:'#241F63',borderRadius:30,display:'flex', justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:8}}>
-            <img src={require('../images/profiile.png')} style={{height:30,width:30}}/>
-            </div>
-            <div style={{marginTop:-10}}>
-              <p style={{fontSize:18, color:'#241F63',fontWeight:'800',marginLeft:10}}>Test Report</p>
-            </div>
-            <div style={{width:'80%',height:35,marginLeft:8,backgroundColor:'white',marginTop:-9,borderRadius:10,display:'flex',flexDirection:'row'}} >
-              <div style={{display:'flex',flexDirection:'column',height:'100%',justifyContent:'center',marginLeft:8,alignItems:'center'}}>
-                <p style={{fontSize:10}}>86</p>
-                <p style={{fontSize:10,marginTop:-10}}>Total Tests Created</p>
-
-              </div>
           
+          {/* 1 */}
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 10,
+            flexWrap: "wrap",
+            gap: "2%",
+          }}>
+            <div style={{
+              width: "49%",
+              flex: "1 1 280px",
+              minHeight: 142,
+              backgroundColor: "#ABBFFC80",
+              borderRadius: 5,
+              marginTop: 10,
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "10px",
+            }}>
+              <div style={{
+                width: "45px",
+                height: "45px",
+                backgroundColor: "#241F63",
+                borderRadius: 30,
+                display: "flex", 
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+                marginLeft: 8
+              }}>
+                <img src={require('../images/profiile.png')} style={{height: 30, width: 30}}/>
+              </div>
+              <div style={{marginTop: -10}}>
+                <p style={{fontSize: 18, color: "#241F63", fontWeight: "800", marginLeft: 10}}>Student Report</p>
+              </div>
+              <div style={{
+                width: "80%",
+                height: 35,
+                marginLeft: 8,
+                backgroundColor: "white",
+                marginTop: -9,
+                borderRadius: 10,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                alignItems: "center"
+              }}>
+                <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total Present</p>
+                </div>
+                <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
+                <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total Present</p>
+                </div>
+                <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
+                <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total Present</p>
+                </div>
+              </div>
+            </div>
+            
+            <div style={{
+              width: "49%",
+              flex: "1 1 280px",
+              minHeight: 142,
+              backgroundColor: "#ABBFFC80",
+              borderRadius: 5,
+              marginTop: 10,
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "10px",
+            }}>
+              <div style={{
+                width: "45px",
+                height: "45px",
+                backgroundColor: "#241F63",
+                borderRadius: 30,
+                display: "flex", 
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+                marginLeft: 8
+              }}>
+                <img src={require('../images/profiile.png')} style={{height: 30, width: 30}}/>
+              </div>
+              <div style={{marginTop: -10}}>
+                <p style={{fontSize: 18, color: "#241F63", fontWeight: "800", marginLeft: 10}}>Teacher Report</p>
+              </div>
+              <div style={{
+                width: "80%",
+                height: 35,
+                marginLeft: 8,
+                backgroundColor: "white",
+                marginTop: -9,
+                borderRadius: 10,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                alignItems: "center"
+              }}>
+                <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Test Report</p>
+                </div>
+                <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
+                <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Absent</p>
+                </div>
+                <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
+                <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total</p>
+                </div>
+              </div>
             </div>
           </div>
-</div>
-          {/* <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div>
-          <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div>
-          <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div>
-          <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div> */}
+          
+          {/* 2 */}
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "2%",
+          }}>
+            <div style={{
+              width: "49%",
+              flex: "1 1 280px",
+              minHeight: 142,
+              backgroundColor: "#ABBFFC80",
+              borderRadius: 5,
+              marginTop: 10,
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "10px",
+            }}>
+              <div style={{
+                width: "45px",
+                height: "45px",
+                backgroundColor: "#241F63",
+                borderRadius: 30,
+                display: "flex", 
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+                marginLeft: 8
+              }}>
+                <img src={require('../images/profiile.png')} style={{height: 30, width: 30}}/>
+              </div>
+              <div style={{marginTop: -10}}>
+                <p style={{fontSize: 18, color: "#241F63", fontWeight: "800", marginLeft: 10}}>Create Session</p>
+              </div>
+              <div style={{
+                width: "80%",
+                height: 35,
+                marginLeft: 8,
+                backgroundColor: "white",
+                marginTop: -9,
+                borderRadius: 10,
+                display: "flex",
+                flexDirection: "row"
+              }}>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: 8,
+                }}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total Sessions Created</p>
+                </div>
+              </div>
+            </div>
+            
+            <div style={{
+              width: "49%",
+              flex: "1 1 280px",
+              minHeight: 142,
+              backgroundColor: "#ABBFFC80",
+              borderRadius: 5,
+              marginTop: 10,
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "10px",
+            }}>
+              <div style={{
+                width: "45px",
+                height: "45px",
+                backgroundColor: "#241F63",
+                borderRadius: 30,
+                display: "flex", 
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+                marginLeft: 8
+              }}>
+                <img src={require('../images/profiile.png')} style={{height: 30, width: 30}}/>
+              </div>
+              <div style={{marginTop: -10}}>
+                <p style={{fontSize: 18, color: "#241F63", fontWeight: "800", marginLeft: 10}}>Create Test</p>
+              </div>
+              <div style={{
+                width: "80%",
+                height: 35,
+                marginLeft: 8,
+                backgroundColor: "white",
+                marginTop: -9,
+                borderRadius: 10,
+                display: "flex",
+                flexDirection: "row"
+              }}>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: 8,
+                }}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total Tests Created</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* 3 */}
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "2%",
+          }}>
+            <div style={{
+              width: "49%",
+              flex: "1 1 280px",
+              minHeight: 142,
+              backgroundColor: "#ABBFFC80",
+              borderRadius: 5,
+              marginTop: 10,
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "10px",
+            }}>
+              <div style={{
+                width: "45px",
+                height: "45px",
+                backgroundColor: "#241F63",
+                borderRadius: 30,
+                display: "flex", 
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+                marginLeft: 8
+              }}>
+                <img src={require('../images/profiile.png')} style={{height: 30, width: 30}}/>
+              </div>
+              <div style={{marginTop: -10}}>
+                <p style={{fontSize: 18, color: "#241F63", fontWeight: "800", marginLeft: 10}}>Create Question Bank</p>
+              </div>
+              <div style={{
+                width: "80%",
+                height: 35,
+                marginLeft: 8,
+                backgroundColor: "white",
+                marginTop: -9,
+                borderRadius: 10,
+                display: "flex",
+                flexDirection: "row"
+              }}>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  justifyContent: "center",
+                  marginLeft: 8,
+                  alignItems: "center"
+                }}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total Question Bank Created</p>
+                </div>
+              </div>
+            </div>
+            
+            <div style={{
+              width: "49%",
+              flex: "1 1 280px",
+              minHeight: 142,
+              backgroundColor: "#ABBFFC80",
+              borderRadius: 5,
+              marginTop: 10,
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "10px",
+            }}>
+              <div style={{
+                width: "45px",
+                height: "45px",
+                backgroundColor: "#241F63",
+                borderRadius: 30,
+                display: "flex", 
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+                marginLeft: 8
+              }}>
+                <img src={require('../images/profiile.png')} style={{height: 30, width: 30}}/>
+              </div>
+              <div style={{marginTop: -10}}>
+                <p style={{fontSize: 18, color: "#241F63", fontWeight: "800", marginLeft: 10}}>Test Report</p>
+              </div>
+              <div style={{
+                width: "80%",
+                height: 35,
+                marginLeft: 8,
+                backgroundColor: "white",
+                marginTop: -9,
+                borderRadius: 10,
+                display: "flex",
+                flexDirection: "row"
+              }}>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  justifyContent: "center",
+                  marginLeft: 8,
+                  alignItems: "center"
+                }}>
+                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total Tests Created</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div
           style={{
             display: "flex",
-            justifyContent: "space-evenly",
-            marginLeft: "20px",
+            justifyContent: "center",
+            marginLeft: "0",
+            flex: "1 1 320px",
+            marginTop: "20px",
           }}
         >
           <div style={containerStyle}>
@@ -469,7 +678,7 @@ export default function Dashboard() {
                 &nbsp;{" "}
                 <input
                   type="text"
-                  style={{ borderRadius: "10px", height: "100%" }}
+                  style={{ borderRadius: "10px", height: "100%", width: "100%" }}
                 />{" "}
               </div>
             </div>
