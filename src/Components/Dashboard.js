@@ -4,6 +4,7 @@ import { useState } from "react";
 import Manager1 from "../images/Teacher.png";
 import Login from "../Components/Login";
 import Navbar from "./Navbar/Navbar";
+import './Dashboard.css'
 
 export default function Dashboard() {
   const [present, setPresent] = useState(30);
@@ -107,110 +108,110 @@ export default function Dashboard() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "99%", marginLeft: 10 }}>
-      <div>
-        <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
-        <Navbar />
+   <div
+  style={{
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "20px",
+    padding: "15px",
+    borderRadius: "10px",
+    marginBottom: "20px",
+  }}
+>
+  {/* Search + Buttons Section */}
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      flex: "1 1 300px",
+      gap: "10px",
+      order: 1, // comes first on mobile
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "5px",
+        flexWrap: "wrap",
+      }}
+    >
+      <input
+        type="text"
+        placeholder="Select School"
+        style={{
+          padding: "10px",
+          borderRadius: "17px",
+          border: "1px solid #ccc",
+          outline: "none",
+          fontSize: "15px",
+          // flex: 1,
+          width: "200px",
+        }}
+      />
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "10px",
+        justifyContent: "center",
+      }}
+    >
+      <button
+        onClick={handleContact}
+        style={{
+          backgroundColor: "#1a1a56",
+          color: "white",
+          padding: "10px 15px",
+          borderRadius: "17px",
+          border: "none",
+          cursor: "pointer",
+          fontSize: "15px",
+          width: "180px",
+        }}
+      >
+        <a style={{ color: "white", textDecoration: "none" }}>
+          Add New School
+        </a>
+      </button>
+      <button
+        onClick={handleContact}
+        style={{
+          backgroundColor: "#1a1a56",
+          color: "white",
+          padding: "10px 15px",
+          borderRadius: "17px",
+          border: "none",
+          cursor: "pointer",
+          fontSize: "15px",
+          width: "180px",
+        }}
+      >
+        <a style={{ color: "white", textDecoration: "none" }}>
+          Create Login
+        </a>
+      </button>
+    </div>
+    </div>
 
-        </div>
+  </div>
 
-        <div
-          style={{
-            padding: "15px",
-            borderRadius: "10px",
-            marginBottom: "20px",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "10px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flex: "1 1 300px",
-              marginBottom: "10px",
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Select School"
-              style={{
-                padding: "10px",
-                borderRadius: "17px",
-                border: "1px solid #ccc",
-                outline: "none",
-                fontSize: "15px",
-                flex: "1",
-                minWidth: "150px",
-              }}
-            />
-            <button
-              style={{
-                backgroundColor: "#1a1a56",
-                color: "white",
-                padding: "10px 15px",
-                borderRadius: "17px",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "15px",
-                marginLeft: "5px",
-              }}
-            >
-              Search
-            </button>
-          </div>
-  
-          <div style={{ 
-            display: "flex", 
-            flexWrap: "wrap", 
-            gap: "10px",
-            flex: "1 1 360px", 
-            justifyContent: "center",
-            marginBottom: "10px",
+  {/* Navbar (Shown right in desktop, bottom in mobile) */}
+  <div
+    style={{
+      flex: "1 1 200px",
+      display: "flex",
+      justifyContent: "flex-end",
+      order: 2, // comes after search/buttons on mobile
+    }}
+  >
+    <Navbar />
+  </div>
+</div>
 
-          }}>
-            <button
-              onClick={handleContact}
-              style={{
-                backgroundColor: "#1a1a56",
-                color: "white",
-                padding: "10px 15px",
-                borderRadius: "17px",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "15px",
-                width: "180px",
-              }}
-            >
-              <a style={{ color: "white", textDecoration: "none" }}>
-                Add New School
-              </a>
-            </button>
-            <button
-              onClick={handleContact}
-              style={{
-                backgroundColor: "#1a1a56",
-                color: "white",
-                padding: "10px 15px",
-                borderRadius: "17px",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "15px",
-                width: "180px",
-              }}
-            >
-              <a style={{ color: "white", textDecoration: "none" }}>
-                Create Login
-              </a>
-            </button>
-          </div>
-
-        
-        </div>
-      </div>
       
       {/* panel code */}
       <div style={{ display: "flex", flexDirection: "row", marginTop: -25, flexWrap: "wrap" }}>

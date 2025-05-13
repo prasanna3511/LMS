@@ -1,0 +1,50 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 10px;
+}
+
+.search-section,
+.panel-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.card {
+    flex: 1 1 280px;
+    min-height: 142px;
+    background-color: #abbffc80;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .search-section,
+    .panel-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .card {
+        width: 100%;
+    }
+    .dashboard-container {
+        margin-left: 0;
+        padding: 0 10px;
+    }
+    .welcome-text h3 {
+        font-size: 16px;
+    }
+    .btn {
+        width: 100% !important;
+    }
+    input[type="text"] {
+        width: 100% !important;
+    }
+}
