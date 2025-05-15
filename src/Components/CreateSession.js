@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar/Navbar';
+import apiRequest from '../utils/apiRequest';
 
 const CreateSession = () => {
   const [sessionName, setSessionName] = useState('');
   const [subject, setSubject] = useState('');
   const [division, setDivision] = useState('');
+  const [school, setschool] = useState('');
   const [standard, setStandard] = useState('');
   const [description, setDescription] = useState('');
   const [practicalName, setPracticalName] = useState('');
@@ -12,6 +14,31 @@ const CreateSession = () => {
   const [demoLink, setDemoLink] = useState('');
   const [demoDesc, setDemoDesc] = useState('');
   const [errors, setErrors] = useState({});
+  const [selectedSchool , setSelectedSchool]= useState('')
+  const [getAllSchool , setGetAllSchool]=useState([])
+  useEffect(()=>{
+const fetchSchoolData = async()=>{
+  try {
+    const result = await apiRequest({
+      endpoint: "school/getallschool.php",
+      method: "GET",
+      data: {},
+    });
+
+    if (result.status === "success") {
+      // alert("Session creation completed");
+      setGetAllSchool(result.data)
+      console.log("result",result)
+      // navigate("/dashboard");
+    } else {
+      alert(result.message || "Session creation failed");
+    }
+  } catch (err) {
+    alert(err.message || "Something went wrong");
+  }
+}
+fetchSchoolData()
+  },[])
 
   const validateForm = () => {
     const newErrors = {};
@@ -21,7 +48,7 @@ const CreateSession = () => {
     if (!standard) newErrors.standard = "Standard is required.";
     if (!description.trim()) newErrors.description = "Topic description is required.";
     if (!practicalName.trim()) newErrors.practicalName = "Practical name is required.";
-    if (!practicalDesc.trim()) newErrors.practicalDesc = "Practical description is required.";
+    // if (!practicalDesc.trim()) newErrors.practic alDesc = "Practical description is required.";
     // if (demoLink && !/^https?:\/\/.+/.test(demoLink)) {
     //   newErrors.demoLink = "Demo link must be a valid URL.";
     // }
@@ -31,10 +58,40 @@ const CreateSession = () => {
     return Object.keys(newErrors).length === 0;
   };
   
-  const handleLogin =()=>{
+  const handleSave =async()=>{
+    console.log("clicking")
     if (validateForm()) {
+    console.log("inside")
+
       alert("Session Saved Successfully!");
-     
+      let apidata = {
+        subject:subject,
+        standard:standard,
+        topic_description:description,
+        name_of_session:sessionName,
+        practical_name:practicalName,
+        // practical_description:'  ',
+        demo_link:demoLink,
+        demo_description:demoDesc,
+        status:'active',
+        school_id:selectedSchool
+      }
+          try {
+            const result = await apiRequest({
+              endpoint: "sessions/createsessions.php",
+              method: "POST",
+              data: apidata,
+            });
+        
+            if (result.status === "success") {
+              alert("Session creation completed");
+              // navigate("/dashboard");
+            } else {
+              alert(result.message || "Session creation failed");
+            }
+          } catch (err) {
+            alert(err.message || "Something went wrong");
+          }
     }
   }
   return (
@@ -45,7 +102,18 @@ const CreateSession = () => {
       
       <div style={styles.container}>
         <div style={styles.formContainer}>
+          <div style={{width:'90%' , display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+
           <h1 style={styles.header}>Create Session</h1>
+          <select style={{ padding: '8px', borderRadius: '15px', border: '1px solid #ccc', width: 216 ,height:35}}
+                  value={selectedSchool}
+                  onChange={(e) => setSelectedSchool(e.target.value)}>
+                    <option value="">School</option>
+                    {getAllSchool.map((school)=>(
+                      <option value={school.id}>{school.school_name}</option>
+                    ))}
+                  </select>
+          </div>
 
           <div style={{ ...styles.formInnerContainer, width: '90%' }}>
             <div style={{ ...styles.section, width: '100%' }}>
@@ -65,14 +133,16 @@ const CreateSession = () => {
                   value={division}
                   onChange={(e) => setDivision(e.target.value)}>
                     <option value="">div</option>
-                    <option value="math">A</option>
-                    <option value="science">B</option>
-                    <option value="history">C</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
                     {/* Add more subjects as needed */}
                   </select>
                   
 
-                  <select style={{ padding: '8px', borderRadius: '15px', border: '1px solid #ccc', flex: 1, width: 100 }}>
+                  <select style={{ padding: '8px', borderRadius: '15px', border: '1px solid #ccc', flex: 1, width: 100 }}
+                  onChange={(e)=>{setStandard(e.target.value)}} value={standard}
+                  >
                     <option value="">std</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -130,7 +200,7 @@ const CreateSession = () => {
             {/* Save Button */}
             <div style={{ width: '100%', display: "flex", justifyContent: 'center' }}>
               <button style={styles.button} onClick={() => {
- handleLogin()
+ handleSave()
 }}>Save</button>
             </div>
           </div>

@@ -15,7 +15,7 @@ export default function Dashboard() {
 
   const navigate = useNavigate();
   const handleContact = () => {
-    navigate("/Login");
+    navigate("/school");
   };
 
   const containerStyle = {
