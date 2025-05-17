@@ -8,6 +8,7 @@ import Admin from "./Components/Admin"
 import CreateSession from './Components/CreateSession'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Sidebar from "./Components/Sidebar/sidebar";
+import TeacherPrinciple from "./Components/Teacher/CreateTeacherPrinciple";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/School" element={<SchoolInfo/>}></Route>
         <Route path="/Admin" element={<Admin/>}></Route>
         <Route path="/CreateSession" element={<CreateSession />}></Route>
+        <Route path="/CreateTeacher" element={<TeacherPrinciple />}></Route>
       </Routes>
       
             <Routes>

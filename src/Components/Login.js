@@ -63,6 +63,8 @@ export default function Login() {
   
       if (result.status === "success") {
         // store user data or token if needed
+        console.log("result: ",result.data)
+        await localStorage.setItem('userData',JSON.stringify(result.data))
         navigate("/dashboard");
       } else {
         alert(result.message || "Login failed");

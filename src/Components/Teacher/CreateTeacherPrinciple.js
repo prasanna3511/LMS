@@ -1,19 +1,23 @@
 import React, { useState } from "react";
-import apiRequest from "../utils/apiRequest";
+import apiRequest from "../../utils/apiRequest";
+import { useLocation } from "react-router-dom";
 
-export default function StudentLogin() {
+export default function TeacherPrinciple() {
   const [formData, setFormData] = useState({
-    studentName: "",
-    grade: "",
+    fullname: "",
+    role: "",
     password: "",
-    parentName: "",
+    username: "",
     whatsapp: "",
     email: "",
     address: "",
     mobile: "",
     dob: "",
+    doj:null,
   });
-
+  const location = useLocation();
+  const { data } = location.state || {};
+  console.log("data : ",data)
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -27,15 +31,16 @@ export default function StudentLogin() {
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.studentName.trim()) newErrors.studentName = "Required";
-    if (!formData.grade) newErrors.grade = "Select a grade";
+    if (!formData.fullname.trim()) newErrors.fullname = "Required";
+    if (!formData.role) newErrors.role = "Select a role";
     if (!formData.password) newErrors.password = "Required";
-    if (!formData.parentName.trim()) newErrors.parentName = "Required";
+    if (!formData.username.trim()) newErrors.username = "Required";
     if (!/^\d{10}$/.test(formData.whatsapp)) newErrors.whatsapp = "Enter 10-digit number";
     if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Invalid email";
     if (!formData.address.trim()) newErrors.address = "Required";
     if (!/^\d{10}$/.test(formData.mobile)) newErrors.mobile = "Enter 10-digit number";
     if (!formData.dob) newErrors.dob = "Select date of birth";
+    if (!formData.doj) newErrors.doj = "Select date of birth";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -45,20 +50,21 @@ export default function StudentLogin() {
     if (validate()) {
       // alert("Form is valid, ready to submit!");
       const payload = {
-        full_name: formData.studentName,
+        full_name: formData.fullname,
         email: formData.email,
-        role: "student",
+        role: formData.role,
         address: formData.address,
         password: formData.password,
         mobile_number: formData.mobile,
         school_name: "Your School Name",     // Adjust this as needed
         whatsapp_number: formData.whatsapp,
         date_of_birth: formData.dob,
-        username: formData.studentName,      // You can use email or another unique ID if preferred
-        grade: formData.grade,
-        parent_name: formData.parentName,
+        username: formData.username,      // You can use email or another unique ID if preferred
+        grade: 'formData.grade',
+        parent_name: "formData.username",
         relation: "Father",                  // Adjust as needed
-        school_id: "1",                      // Adjust as needed
+        school_id: data.id,  
+        date_of_joining:formData.doj                    // Adjust as needed
       };
       try {
         const result = await apiRequest({
@@ -134,33 +140,34 @@ export default function StudentLogin() {
   return (
     <div style={{ margin: "0", marginLeft: "20px" }}>
       <h2 style={{ color: "orangered", textAlign: "left", fontSize: "30px", paddingLeft: "3%" }}>
-        Student Login
+        Teacher/Principle Login
       </h2>
       <div style={containerStyle}>
         <div style={formStyle}>
-          <label style={labelStyle}>Student Name</label>
+          <label style={labelStyle}>Full Name</label>
           <input
-            name="studentName"
-            value={formData.studentName}
+            name="fullname"
+            value={formData.fullname}
             onChange={handleChange}
             type="text"
             placeholder="Your Name"
             style={inputStyle}
           />
-          {errors.studentName && <div style={errorStyle}>{errors.studentName}</div>}
+          {errors.fullname && <div style={errorStyle}>{errors.fullname}</div>}
 
-          <label style={labelStyle}>Grade</label>
+          <label style={labelStyle}>Role</label>
           <select
-            name="grade"
-            value={formData.grade}
+            name="role"
+            value={formData.role}
             onChange={handleChange}
             style={{ ...inputStyle, backgroundColor:'white'}}
           >
-            <option value="">Select Grade</option>
-            <option>11th</option>
-            <option>12th</option>
+            <option value="">Select role</option>
+            <option>teacher</option>
+            <option>principle</option>
+            <option>admin</option>
           </select>
-          {errors.grade && <div style={errorStyle}>{errors.grade}</div>}
+          {errors.role && <div style={errorStyle}>{errors.role}</div>}
 
           <label style={labelStyle}>Password</label>
           <input
@@ -173,16 +180,16 @@ export default function StudentLogin() {
           />
           {errors.password && <div style={errorStyle}>{errors.password}</div>}
 
-          <label style={labelStyle}>Parent Name</label>
+          <label style={labelStyle}>User Name</label>
           <input
-            name="parentName"
-            value={formData.parentName}
+            name="username"
+            value={formData.username}
             onChange={handleChange}
             type="text"
-            placeholder="Parent Name"
+            placeholder="User Name"
             style={inputStyle}
           />
-          {errors.parentName && <div style={errorStyle}>{errors.parentName}</div>}
+          {errors.username && <div style={errorStyle}>{errors.username}</div>}
 
           <label style={labelStyle}>WhatsApp Number</label>
           <input
@@ -238,7 +245,18 @@ export default function StudentLogin() {
             style={inputStyle}
           />
           {errors.dob && <div style={errorStyle}>{errors.dob}</div>}
+          <label style={labelStyle}>Date of Joining</label>
+
+          <input
+            name="doj"
+            value={formData.doj}
+            onChange={handleChange}
+            type="date"
+            style={inputStyle}
+          />
+          {errors.doj && <div style={errorStyle}>{errors.doj}</div>}
         </div>
+        
       </div>
 
       <div style={buttonContainerStyle}>

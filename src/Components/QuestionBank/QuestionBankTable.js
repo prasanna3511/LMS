@@ -1,105 +1,109 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import '../Reports/StudentReportPage.css';
-
+import apiRequest from '../../utils/apiRequest'; // Assuming this is your API utility
 
 const QuestionBankTable = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const questions = [
-    {
-      question: 'What is 2 + 2?',
-      answer: '4',
-      createdBy: 'Admin',
-      date: '2024-04-20'
-    },
-    {
-      question: 'What is the capital of France?',
-      answer: 'Paris',
-      createdBy: 'Admin',
-      date: '2024-04-20'
-    }
-  ];
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        const result = await apiRequest({
+          endpoint: 'questionbank/getallquestion.php', // change to your actual endpoint name
+          method: 'POST',
+          data: { school_id: userData.school_id },
+        });
+
+        if (result.status === 'success') {
+          setQuestions(result.data);
+        } else {
+          alert(result.message || 'Failed to fetch questions');
+        }
+      } catch (err) {
+        alert(err.message || 'Something went wrong while fetching questions');
+      }
+    };
+
+    fetchQuestions();
+  }, []);
 
   const filteredQuestions = questions.filter(q =>
     q.question.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div style={{width:'100%'}} >
-    <div className="header-container">
-    <input
-        type="text"
-        placeholder="Search questions..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        style={{
-          width: '300px',
-          padding: '10px',
-          borderRadius: '17px',
-          border: '1px solid #ccc',
-          // marginBottom: '20px',
-          fontSize: '14px'
-        }}
-      />
-   
-<Navbar/>
-</div>
-    <div style={{ paddingTop: '30px', fontFamily: 'Arial, sans-serif' }}>
-       {/* Search Bar */}
-      
-      <div style={{ display: 'flex', alignItems: 'center',  justifyContent: 'space-between' }}>
-        <h2 style={{ color: '#F75F00' }}>Question Bank</h2>
-        <div>
-          <select style={{ margin: '10px 10px 10px 0', padding: '8px', fontSize: '14px', borderRadius: 15 ,backgroundColor:'white'}}>
-            <option>Select Subject</option>
-            <option>Math</option>
-            <option>Science</option>
-          </select>
-          <select style={{ padding: '8px', fontSize: '14px', borderRadius: 15,backgroundColor:'white',width:132 }}>
-            <option>Std</option>
-            <option>Class 1</option>
-            <option>Class 2</option>
-          </select>
+    <div style={{ width: '100%' }}>
+      <div className="header-container">
+        <input
+          type="text"
+          placeholder="Search questions..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{
+            width: '300px',
+            padding: '10px',
+            borderRadius: '17px',
+            border: '1px solid #ccc',
+            fontSize: '14px',
+          }}
+        />
+        <Navbar />
+      </div>
+
+      <div style={{ paddingTop: '30px', fontFamily: 'Arial, sans-serif' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <h2 style={{ color: '#F75F00' }}>Question Bank</h2>
+          <div>
+            <select style={{ margin: '10px 10px 10px 0', padding: '8px', fontSize: '14px', borderRadius: 15, backgroundColor: 'white' }}>
+              <option>Select Subject</option>
+              <option>Math</option>
+              <option>Science</option>
+            </select>
+            <select style={{ padding: '8px', fontSize: '14px', borderRadius: 15, backgroundColor: 'white', width: 132 }}>
+              <option>Std</option>
+              <option>Class 1</option>
+              <option>Class 2</option>
+            </select>
+          </div>
+        </div>
+
+        <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: '#f8f8f8', borderRadius: '8px', overflow: 'hidden' }}>
+          <thead style={{ backgroundColor: '#e6e6e6', textAlign: 'left' }}>
+            <tr>
+              <th style={{ padding: '12px' }}>Select</th>
+              <th style={{ padding: '12px' }}>Question</th>
+              <th style={{ padding: '12px' }}>Correct Answer</th>
+              <th style={{ padding: '12px' }}>Created by</th>
+              <th style={{ padding: '12px' }}>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredQuestions.map((q, index) => (
+              <tr key={index}>
+                <td style={{ padding: '12px' }}><input type="checkbox" /></td>
+                <td style={{ padding: '12px' }}>{q.question}</td>
+                <td style={{ padding: '12px' }}>{q.correct_answer}</td>
+                <td style={{ padding: '12px' }}>{q.created_by}</td>
+                <td style={{ padding: '12px' }}>{q.created_date}</td>
+              </tr>
+            ))}
+            {filteredQuestions.length === 0 && (
+              <tr>
+                <td colSpan="5" style={{ padding: '12px', textAlign: 'center', color: 'gray' }}>No questions found.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+
+        <div style={{ marginTop: '30px', textAlign: 'center' }}>
+          <button style={{ padding: '12px 24px', backgroundColor: '#3A2D7D', color: '#fff', fontSize: '16px', border: 'none', borderRadius: '6px' }}>
+            Create Test
+          </button>
         </div>
       </div>
-
-     
-
-      <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: '#f8f8f8', borderRadius: '8px', overflow: 'hidden' }}>
-        <thead style={{ backgroundColor: '#e6e6e6', textAlign: 'left' }}>
-          <tr>
-            <th style={{ padding: '12px' }}>Select</th>
-            <th style={{ padding: '12px' }}>Question</th>
-            <th style={{ padding: '12px' }}>Correct Answer</th>
-            <th style={{ padding: '12px' }}>Created by</th>
-            <th style={{ padding: '12px' }}>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredQuestions.map((q, index) => (
-            <tr key={index}>
-              <td style={{ padding: '12px' }}><input type="checkbox" /></td>
-              <td style={{ padding: '12px' }}>{q.question}</td>
-              <td style={{ padding: '12px' }}>{q.answer}</td>
-              <td style={{ padding: '12px' }}>{q.createdBy}</td>
-              <td style={{ padding: '12px' }}>{q.date}</td>
-            </tr>
-          ))}
-          {filteredQuestions.length === 0 && (
-            <tr>
-              <td colSpan="5" style={{ padding: '12px', textAlign: 'center', color: 'gray' }}>No questions found.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-      <div style={{ marginTop: '30px', textAlign: 'center' }}>
-        <button style={{ padding: '12px 24px', backgroundColor: '#3A2D7D', color: '#fff', fontSize: '16px', border: 'none', borderRadius: '6px' }}>
-          Create Test
-        </button>
-      </div>
-    </div>
     </div>
   );
 };

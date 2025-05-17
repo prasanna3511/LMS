@@ -28,9 +28,7 @@ import AddSubject from "../Subject/AddSubject";
 const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [role, setRole] = useState("createSession");
-
-  // Check if mobile view on component mount and resize
+  const [role, setRole] = useState("home");
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 768;
@@ -150,6 +148,7 @@ const Sidebar = () => {
       setSidebarOpen(false);
     }
   };
+  const getUserRole = JSON.parse(localStorage.getItem('userData'));
 
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden", width: '100%' }}>
@@ -190,7 +189,7 @@ const Sidebar = () => {
         <ul style={{ paddingLeft: "20px" }}>
           <li>
             <a 
-              onClick={() => handleLinkClick('admin')} 
+              onClick={() => handleLinkClick('home')} 
               style={linkStyle}
               onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
               onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
@@ -198,6 +197,8 @@ const Sidebar = () => {
               Home
             </a>
           </li>
+          {
+            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
           <li>
             <a 
               onClick={() => handleLinkClick('createSession')} 
@@ -208,6 +209,9 @@ const Sidebar = () => {
               Create Session
             </a>
           </li>
+          }
+          {
+            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
           <li>
             <a 
               onClick={() => handleLinkClick('questionBank')} 
@@ -218,6 +222,9 @@ const Sidebar = () => {
               Create Question Bank
             </a>
           </li>
+}
+{
+            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
           <li>
             <a 
               onClick={() => handleLinkClick('test')} 
@@ -228,6 +235,9 @@ const Sidebar = () => {
               Create Test
             </a>
           </li>
+}
+{
+            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
           <li>
             <a 
               onClick={() => handleLinkClick('holidayInput')} 
@@ -238,6 +248,9 @@ const Sidebar = () => {
               Create Holiday
             </a>
           </li>
+}
+{
+            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
           <li>
             <a 
               onClick={() => handleLinkClick('material')} 
@@ -248,6 +261,9 @@ const Sidebar = () => {
               Create Expense
             </a>
           </li>
+}
+{
+            (getUserRole.role ==='admin') &&
           <li>
             <a 
               onClick={() => handleLinkClick('addSubject')} 
@@ -258,6 +274,7 @@ const Sidebar = () => {
               Add Subject
             </a>
           </li>
+}
         </ul>
 
         <div style={sectionTitleStyle}>Reports</div>
@@ -362,8 +379,9 @@ const Sidebar = () => {
 
       {/* Main content */}
       <div style={contentStyle}>
-        {role === "admin" && <Dashboard />}
-        {role === "teacher" && <TeacherDashboard />}
+        {role === "home" && getUserRole.role ==='admin' &&  <Dashboard />}
+        {role === "home"&& getUserRole.role ==='teacher' &&  <TeacherDashboard />}
+        {role === "home"&& getUserRole.role ==='student' &&  <TeacherDashboard />}
         {role === "material" && <MaterialAndFurnituresForm setRole={setRole} />}
         {role === "materialtable" && <MaterialsTable />}
         {role === "holidayInput" && <HolidayManager />}

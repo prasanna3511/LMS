@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
+import apiRequest from '../../utils/apiRequest';
 
 const initialData = [
   {
@@ -35,13 +36,32 @@ const MaterialsTable = () => {
     setSelectedId(id);
   };
 
-  const handleDelete = () => {
-    if (selectedId !== null) {
-      setData(data.filter(item => item.id !== selectedId));
-      setSelectedId(null);
-      setEditData(null);
+  const handleDelete = async () => {
+    if (selectedId === null) return;
+  
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+    if (!confirmDelete) return;
+  
+    try {
+      const result = await apiRequest({
+        endpoint: "materials/deletemateial.php", // Adjust path if needed
+        method: "POST",
+        data: { id: selectedId },
+      });
+  
+      if (result.status === "success") {
+        setData(data.filter(item => item.id !== selectedId));
+        setSelectedId(null);
+        setEditData(null);
+        alert("Deleted successfully!");
+      } else {
+        alert(result.message || "Delete failed.");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong during deletion.");
     }
   };
+  
 
   const handleEdit = () => {
     const selectedItem = data.find(item => item.id === selectedId);
@@ -54,18 +74,90 @@ const MaterialsTable = () => {
     setEditData({ ...editData, [field]: e.target.value });
   };
 
-  const handleSave = () => {
-    setData(data.map(item => (item.id === editData.id ? editData : item)));
-    setSelectedId(null);
-    setEditData(null);
+  // const handleSave = () => {
+  //   setData(data.map(item => (item.id === editData.id ? editData : item)));
+  //   setSelectedId(null);
+  //   setEditData(null);
+  // };
+  const handleSave = async () => {
+    try {
+      const payload = {
+        id: editData.id,
+        purchase_date: editData.purDate,
+        particular: editData.particular,
+        type: editData.type,
+        quantities: editData.quantity,
+        rate: editData.rate,
+        bill_amount: editData.billAmount,
+        order_by: editData.orderBy,
+        school_name: editData.schoolName,
+      };
+  
+      const result = await apiRequest({
+        endpoint: "materials/updatematerial.php", // Adjust path if needed
+        method: "POST",
+        data: payload,
+      });
+  
+      if (result.status === "success") {
+        const updatedData = data.map(item =>
+          item.id === editData.id ? editData : item
+        );
+        setData(updatedData);
+        setSelectedId(null);
+        setEditData(null);
+        alert("Updated successfully!");
+      } else {
+        alert(result.message || "Update failed.");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong during update.");
+    }
   };
+  
+
+  useEffect(() => {
+    const fetchSchoolData = async () => {
+      try {
+        const result = await apiRequest({
+          endpoint: "materials/getallschoolmaterial.php",
+          method: "GET",
+          data: {},
+        });
+
+        if (result.status === "success") {
+          // alert("Session creation completed");
+          const transformedData = result.data.map((item) => ({
+            id: parseInt(item.id),
+            purDate: item.purchase_date === "0000-00-00" ? "" : item.purchase_date,
+            particular: item.particular,
+            type: item.type,
+            quantity: parseInt(item.quantities),
+            rate: parseFloat(item.rate),
+            billAmount: parseFloat(item.bill_amount),
+            orderBy: item.order_by,
+            schoolName: item.school_name,
+          }));
+          setData(transformedData);
+          console.log("result", result);
+          // navigate("/dashboard");
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    };
+    fetchSchoolData();
+  }, []);
 
   return (
-    <div style={{ padding: '40px', fontFamily: 'Arial, sans-serif' ,marginTop:20}}>
+    <>
       <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
 
 <Navbar/>
 </div>
+    <div style={{ padding: '40px', fontFamily: 'Arial, sans-serif' ,marginTop:20}}>
 
       <h2 style={{ color: '#F75F00', marginBottom: '20px' }}>Materials and Furnitures</h2>
 
@@ -139,6 +231,8 @@ const MaterialsTable = () => {
         <button onClick={handleDelete} disabled={selectedId === null} style={btnStyle(selectedId ? '#2e2260' : '#ccc')}>Delete</button>
       </div>
     </div>
+    </>
+
   );
 };
 
