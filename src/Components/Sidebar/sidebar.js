@@ -12,7 +12,7 @@ import SpecialProjectReport from "../SpecialProject/ProjectReport";
 import SpecialProjectTable from "../SpecialProject/ProjectTable";
 import { CreateTest } from "../Test/CreateTest";
 import StudentDashboard from "../Student/StudentDashboard";
-import PrincipleDashboard from '../Principle/Principle'
+import PrincipleDashboard from "../Principle/Principle";
 import QuestionBank from "../QuestionBank/QuestionBank";
 import QuestionBankTable from "../QuestionBank/QuestionBankTable";
 import UserProfilesTable from "../Admin/UserProfiles";
@@ -28,7 +28,9 @@ import AddSubject from "../Subject/AddSubject";
 const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  // const [role, setRole] = useState("home");
   const [role, setRole] = useState("home");
+
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 768;
@@ -38,8 +40,8 @@ const Sidebar = () => {
     };
 
     handleResize(); // Check on initial render
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const sidebarStyle = {
@@ -91,9 +93,9 @@ const Sidebar = () => {
     cursor: "pointer",
     borderRadius: "5px",
     transition: "background-color 0.2s",
-    ':hover': {
+    ":hover": {
       backgroundColor: "#2a2a76",
-    }
+    },
   };
 
   const mobileToggleStyle = {
@@ -102,7 +104,7 @@ const Sidebar = () => {
     top: "20px",
     left: "20px",
     zIndex: 1100,
-    background: sidebarOpen?'none':"#1a1a56",
+    background: sidebarOpen ? "none" : "#1a1a56",
     color: "white",
     border: "none",
     borderRadius: "5px",
@@ -126,7 +128,7 @@ const Sidebar = () => {
     flex: 1,
     overflowY: "auto",
     padding: "20px",
-    width: '100%',
+    width: "100%",
     transition: "margin-left 0.3s ease",
   };
 
@@ -148,14 +150,21 @@ const Sidebar = () => {
       setSidebarOpen(false);
     }
   };
-  const getUserRole = JSON.parse(localStorage.getItem('userData'));
+  const getUserRole = JSON.parse(localStorage.getItem("userData"));
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden", width: '100%' }}>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        overflow: "hidden",
+        width: "100%",
+      }}
+    >
       {/* Mobile toggle button */}
       {isMobile && (
-        <button 
-          style={mobileToggleStyle} 
+        <button
+          style={mobileToggleStyle}
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-label="Toggle menu"
         >
@@ -165,17 +174,14 @@ const Sidebar = () => {
 
       {/* Overlay for mobile when sidebar is open */}
       {isMobile && sidebarOpen && (
-        <div 
-          style={overlayStyle} 
-          onClick={() => setSidebarOpen(false)}
-        />
+        <div style={overlayStyle} onClick={() => setSidebarOpen(false)} />
       )}
 
       {/* Sidebar */}
       <div style={sidebarStyle}>
         {isMobile && (
-          <button 
-            style={closeButtonStyle} 
+          <button
+            style={closeButtonStyle}
             onClick={() => setSidebarOpen(false)}
             aria-label="Close menu"
           >
@@ -188,189 +194,346 @@ const Sidebar = () => {
         <div style={sectionTitleStyle}>Create</div>
         <ul style={{ paddingLeft: "20px" }}>
           <li>
-            <a 
-              onClick={() => handleLinkClick('home')} 
+            <a
+              onClick={() => handleLinkClick("home")}
               style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Home
             </a>
           </li>
-          {
-            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
-          <li>
-            <a 
-              onClick={() => handleLinkClick('createSession')} 
-              style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-            >
-              Create Session
-            </a>
-          </li>
-          }
-          {
-            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
-          <li>
-            <a 
-              onClick={() => handleLinkClick('questionBank')} 
-              style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-            >
-              Create Question Bank
-            </a>
-          </li>
-}
-{
-            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
-          <li>
-            <a 
-              onClick={() => handleLinkClick('test')} 
-              style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-            >
-              Create Test
-            </a>
-          </li>
-}
-{
-            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
-          <li>
-            <a 
-              onClick={() => handleLinkClick('holidayInput')} 
-              style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-            >
-              Create Holiday
-            </a>
-          </li>
-}
-{
-            (getUserRole.role ==='admin' || getUserRole.role ==='teacher') &&
-          <li>
-            <a 
-              onClick={() => handleLinkClick('material')} 
-              style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-            >
-              Create Expense
-            </a>
-          </li>
-}
-{
-            (getUserRole.role ==='admin') &&
-          <li>
-            <a 
-              onClick={() => handleLinkClick('addSubject')} 
-              style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-            >
-              Add Subject
-            </a>
-          </li>
-}
+          {(getUserRole.role === "admin" ) && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("createSession")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Create Session
+              </a>
+            </li>
+          )}
+          {(getUserRole.role === "admin" || getUserRole.role === "teacher") && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("questionBank")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Create Question Bank
+              </a>
+            </li>
+          )}
+          {(getUserRole.role === "admin" || getUserRole.role === "teacher") && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("test")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Create Test
+              </a>
+            </li>
+          )}
+          {(getUserRole.role === "admin" || getUserRole.role === "teacher"|| getUserRole.role === "principle") && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("holidayInput")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Create Holiday
+              </a>
+            </li>
+          )}
+          {(getUserRole.role === "admin" || getUserRole.role === "principle") && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("material")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Create Expense
+              </a>
+            </li>
+          )}
+           {( getUserRole.role === "principle") && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("material")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Student Login
+              </a>
+            </li>
+          )}
+          {getUserRole.role === "admin" && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("addSubject")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Add Subject
+              </a>
+            </li>
+          )}
+          {getUserRole.role === "student" && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("specialProject")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Special Project
+              </a>
+            </li>
+          )}
+          {getUserRole.role === "student" && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("specialProject")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Create Profile
+              </a>
+            </li>
+          )}
         </ul>
 
         <div style={sectionTitleStyle}>Reports</div>
         <ul style={{ paddingLeft: "20px" }}>
+        {(
+            getUserRole.role === "admin" ||
+            getUserRole.role === "teacher" ||  getUserRole.role === "principle") && (
           <li>
-            <a 
-              onClick={() => handleLinkClick('teacherReport')} 
+            <a
+              onClick={() => handleLinkClick("teacherReport")}
               style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Teacher Report
             </a>
-          </li>
+          </li>)}
+          {(
+            getUserRole.role === "admin" ||
+            getUserRole.role === "teacher" ||  getUserRole.role === "principle") && (
           <li>
-            <a 
-              onClick={() => handleLinkClick('studentReport')} 
+            <a
+              onClick={() => handleLinkClick("studentReport")}
               style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Student Report
             </a>
-          </li>
+          </li>)}
+          {(getUserRole.role === "student" ||
+            getUserRole.role === "admin" ||
+            getUserRole.role === "teacher" ||  getUserRole.role === "principle") && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("testReport")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Test Report
+              </a>
+            </li>
+          )}
+          {getUserRole.role === "student" && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("testReport")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Attendance Report
+              </a>
+            </li>
+          )}
+          {(
+            getUserRole.role === "admin" ||  getUserRole.role === "principle") && (
           <li>
-            <a 
-              onClick={() => handleLinkClick('testReport')} 
+            <a
+              onClick={() => handleLinkClick("schoolReport")}
               style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-            >
-              Test Report
-            </a>
-          </li>
-          <li>
-            <a 
-              onClick={() => handleLinkClick('schoolReport')} 
-              style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               School Report
             </a>
-          </li>
+          </li>)}
+          {(
+            getUserRole.role === "admin" ||  getUserRole.role === "principle") && (
+          <li>
+            <a
+              onClick={() => handleLinkClick("schoolReport")}
+              style={linkStyle}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
+            >
+              Session Report
+            </a>
+          </li>)}
         </ul>
 
         <div style={sectionTitleStyle}>View</div>
         <ul style={{ paddingLeft: "20px" }}>
+        {(getUserRole.role === "student" ||
+            getUserRole.role === "admin" ||
+            getUserRole.role === "teacher") && (
           <li>
-            <a 
-              onClick={() => handleLinkClick('questionBankTable')} 
+            <a
+              onClick={() => handleLinkClick("questionBankTable")}
               style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Question Bank
             </a>
           </li>
+            )
+        }
+        {(getUserRole.role === "student" ||
+            getUserRole.role === "admin" ||
+            getUserRole.role === "teacher" ||  getUserRole.role === "principle") && (
           <li>
-            <a 
-              onClick={() => handleLinkClick('viewTest')} 
+            <a
+              onClick={() => handleLinkClick("viewTest")}
               style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Tests
             </a>
           </li>
+            )}
+            {(
+            getUserRole.role === "admin" ) && (
           <li>
-            <a 
-              onClick={() => handleLinkClick('userProfiles')} 
+            <a
+              onClick={() => handleLinkClick("userProfiles")}
               style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Accounts
             </a>
           </li>
+            )}
+             {(
+            getUserRole.role === "teacher" ) && (
           <li>
-            <a 
-              onClick={() => handleLinkClick('holidayTable')} 
+            <a
+              onClick={() => handleLinkClick("userProfiles")}
               style={linkStyle}
-              onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
+            >
+              View Session
+            </a>
+          </li>
+            )}
+            {(getUserRole.role === "student" ||
+            getUserRole.role === "admin" ||
+            getUserRole.role === "teacher"||  getUserRole.role === "principle") && (
+          <li>
+            <a
+              onClick={() => handleLinkClick("holidayTable")}
+              style={linkStyle}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               School Holidays
             </a>
-          </li>
-       
+          </li>)}
         </ul>
 
-        <div 
+        <div
           style={logoutButtonStyle}
           onClick={() => console.log("Logout clicked")}
-          onMouseEnter={(e) => e.target.style.backgroundColor = "#2a2a76"}
-          onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
         >
           <img src={logout} alt="Logout" style={{ height: "20px" }} />
           <span>Logout</span>
@@ -379,9 +542,15 @@ const Sidebar = () => {
 
       {/* Main content */}
       <div style={contentStyle}>
-        {role === "home" && getUserRole.role ==='admin' &&  <Dashboard />}
-        {role === "home"&& getUserRole.role ==='teacher' &&  <TeacherDashboard />}
-        {role === "home"&& getUserRole.role ==='student' &&  <TeacherDashboard />}
+        {role === "home" && getUserRole.role === "admin" && <Dashboard />}
+        {role === "home" && getUserRole.role === "teacher" && (
+          <TeacherDashboard />
+        )}
+        {role === "home" && getUserRole.role === "student" && (
+          <StudentDashboard />
+        )}
+        {/* {role === "test" && <TeacherDashboard />} */}
+        {role === "home"&& getUserRole.role === "principle"  && <PrincipleDashboard />}
         {role === "material" && <MaterialAndFurnituresForm setRole={setRole} />}
         {role === "materialtable" && <MaterialsTable />}
         {role === "holidayInput" && <HolidayManager />}
@@ -391,7 +560,7 @@ const Sidebar = () => {
         {role === "projectReportTable" && <SpecialProjectTable />}
         {role === "test" && <CreateTest />}
         {role === "studentTable" && <StudentDashboard />}
-        {role === "principle" && <PrincipleDashboard />}
+        
         {role === "questionBank" && <QuestionBank setRole={setRole} />}
         {role === "questionBankTable" && <QuestionBankTable />}
         {role === "studentAttendance" && <StudentAttendance />}
