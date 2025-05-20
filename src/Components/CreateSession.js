@@ -16,6 +16,20 @@ const CreateSession = () => {
   const [errors, setErrors] = useState({});
   const [selectedSchool , setSelectedSchool]= useState('')
   const [getAllSchool , setGetAllSchool]=useState([])
+  const [allSessions , setAllSessions]=useState([]);
+  const [editingSession, setEditingSession] = useState(null);
+  const resetForm = () => {
+    setSessionName('');
+    setSubject('');
+    setDivision('');
+    setStandard('');
+    setDescription('');
+    setPracticalName('');
+    setDemoLink('');
+    setDemoDesc('');
+    setErrors({});
+    setEditingSession(null);
+  };
   useEffect(()=>{
 const fetchSchoolData = async()=>{
   try {
@@ -38,13 +52,33 @@ const fetchSchoolData = async()=>{
   }
 }
 fetchSchoolData()
+fetchAllSessions()
   },[])
-
+  const fetchAllSessions = async()=>{
+    try {
+      const result = await apiRequest({
+        endpoint: "sessions/getsessionbyschoolid.php",
+        method: "GET",
+        data: {},
+      });
+  
+      if (result.status === "success") {
+        // alert("Session creation completed");
+        // setGetAllSchool(result.data)
+        setAllSessions(result.data)
+        // navigate("/dashboard");
+      } else {
+        alert(result.message || "Session creation failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  }
   const validateForm = () => {
     const newErrors = {};
     if (!sessionName.trim()) newErrors.sessionName = "Session name is required.";
     if (!subject) newErrors.subject = "Subject is required.";
-    if (!division) newErrors.division = "Division is required.";
+    if (!division && !editingSession) newErrors.division = "Division is required.";
     if (!standard) newErrors.standard = "Standard is required.";
     if (!description.trim()) newErrors.description = "Topic description is required.";
     if (!practicalName.trim()) newErrors.practicalName = "Practical name is required.";
@@ -53,7 +87,7 @@ fetchSchoolData()
     //   newErrors.demoLink = "Demo link must be a valid URL.";
     // }
     if (!demoDesc.trim()) newErrors.demoDesc = "Demo description is required.";
-
+    console.log("newErrors : ",newErrors)
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -61,9 +95,7 @@ fetchSchoolData()
   const handleSave =async()=>{
     console.log("clicking")
     if (validateForm()) {
-    console.log("inside")
 
-      alert("Session Saved Successfully!");
       let apidata = {
         subject:subject,
         standard:standard,
@@ -77,14 +109,26 @@ fetchSchoolData()
         school_id:selectedSchool
       }
           try {
-            const result = await apiRequest({
+            let result;
+
+            if (editingSession) {
+              // UPDATE logic
+              result = await apiRequest({
+                endpoint: "sessions/updatesession.php",
+                method: "POST",
+                data: { ...apidata, id: editingSession.id }, // include ID for update
+              });
+            } else {
+              result = await apiRequest({
               endpoint: "sessions/createsessions.php",
               method: "POST",
               data: apidata,
-            });
+            });}
         
             if (result.status === "success") {
-              alert("Session creation completed");
+              editingSession ? alert("Session updated!") :alert("Session creation completed");
+              fetchAllSessions()
+              resetForm()
               // navigate("/dashboard");
             } else {
               alert(result.message || "Session creation failed");
@@ -92,6 +136,26 @@ fetchSchoolData()
           } catch (err) {
             alert(err.message || "Something went wrong");
           }
+    }
+  }
+  const handleDeleteSession =async(session)=>{
+    alert(`Delete ${session.id}`)
+    try {
+      const result = await apiRequest({
+        endpoint: "sessions/deletesession.php",
+        method: "POST",
+        data: {id:session.id},
+      });
+  
+      if (result.status === "success") {
+        fetchAllSessions()
+        alert("Session Deleted");
+        // navigate("/dashboard");
+      } else {
+        alert(result.message || "Session Deletion failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
     }
   }
   return (
@@ -201,7 +265,7 @@ fetchSchoolData()
             <div style={{ width: '100%', display: "flex", justifyContent: 'center' }}>
               <button style={styles.button} onClick={() => {
  handleSave()
-}}>Save</button>
+}}>{editingSession ? "Update" : "Save"}</button>
             </div>
           </div>
         </div>
@@ -220,7 +284,7 @@ fetchSchoolData()
                 <th style={styles.tableHeader}>Delete</th>
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               <tr>
                 <td style={styles.tableCell}>xcvdfhgfghfug</td>
                 <td></td>
@@ -233,7 +297,45 @@ fetchSchoolData()
                   </button>
                 </td>
               </tr>
-            </tbody>
+            </tbody> */}
+            <tbody>
+  {allSessions.length === 0 ? (
+    <tr>
+      <td colSpan="3" style={{ textAlign: 'center' }}>No sessions found</td>
+    </tr>
+  ) : (
+    allSessions.map((session, index) => (
+      <tr key={index}>
+        <td style={styles.tableCell}>{session.name_of_session}</td>
+        <td style={styles.tableCell}>
+          {/* <button onClick={() => alert(`Edit ${session.id}`)}>✏️</button> */}
+          <button onClick={() => {
+  setEditingSession(session); // store session in state
+  setSessionName(session.name_of_session);
+  setSubject(session.subject);
+  setDivision(session.division);
+  setStandard(session.standard);
+  setDescription(session.topic_description);
+  setPracticalName(session.practical_name);
+  setDemoLink(session.demo_link);
+  setDemoDesc(session.demo_description);
+  setSelectedSchool(session.school_id); // optional, based on your logic
+}}>✏️</button>
+
+        </td>
+        <td style={styles.tableCell}>
+          <button
+            style={styles.deleteButton}
+            onClick={() => handleDeleteSession(session)}
+          >
+            🗑️
+          </button>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
           </table>
         </div>
       </div>
