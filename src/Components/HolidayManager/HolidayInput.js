@@ -24,18 +24,16 @@ const App = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
-
-  // Fetch holidays from backend on load
   const fetchHolidays = async () => {
     const res = await apiRequest({
       endpoint: 'holidays/getholidaybyschoolid.php', // your actual PHP file
       method: 'POST',
-      data: {
+      data:school_id.role === 'admin'?{}: {
         school_id: school_id.school_id,
       },
     });
     if (res.status === 'success') {
+      console.log("res : ",res.data)
       setHolidays(res.data);
     } else {
       console.error(res.message);
@@ -50,7 +48,6 @@ const App = () => {
     if (!validateForm()) return;
 
     if (date && type && description) {
-      const newHoliday = { date, type, description, status, school_id };
       const res = await apiRequest({
         endpoint: 'holidays/addholiday.php', // your actual PHP file
         method: 'POST',
@@ -150,6 +147,7 @@ const App = () => {
                     <th style={{ padding: '10px 5px', fontSize: 13 }}>Date</th>
                     <th style={{ padding: '10px 5px', fontSize: 13 }}>Type</th>
                     <th style={{ padding: '10px 5px', fontSize: 13 }}>Description</th>
+                  { school_id.role === 'admin' && <th style={{ padding: '10px 5px', fontSize: 13 }}>School Name</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -158,6 +156,7 @@ const App = () => {
                       <td style={{ padding: '10px 5px', borderBottom: '1px solid #eee', fontSize: 13 }}>{holiday.date}</td>
                       <td style={{ padding: '10px 5px', borderBottom: '1px solid #eee', fontSize: 13 }}>{holiday.type}</td>
                       <td style={{ padding: '10px 5px', borderBottom: '1px solid #eee', fontSize: 13 }}>{holiday.description}</td>
+                      { school_id.role === 'admin' && <td style={{ padding: '10px 5px', borderBottom: '1px solid #eee', fontSize: 13 }}>{holiday.school_name}</td> }
                     </tr>
                   ))}
                   {filteredHolidays.length === 0 && (

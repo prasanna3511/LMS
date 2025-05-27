@@ -1,6 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import apiRequest from '../../utils/apiRequest';
 
 export default function Navbar() {
+  const [getUser , setGetUser] = useState([])
+  const userData = JSON.parse(localStorage.getItem('userData'))
+  useEffect(()=>{
+    const fetchSchoolData = async()=>{
+      try {
+        const result = await apiRequest({
+          endpoint: "users/getallusers.php",
+          method: "POST",
+          data: {id:userData.id},
+        });
+    
+        if (result.status === "success") {
+          setGetUser(result.data);
+          console.log("result in navbar : ",result.data)
+
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    }
+    fetchSchoolData()
+      },[])
   return (
     <div style={{
         // position: 'absolute',
@@ -21,8 +46,8 @@ export default function Navbar() {
         }}><img src={require('../../images/sampleimage.jpg')} style={{height: 40, width:40, borderRadius:20}} /></span>
         
         <div>
-          <strong>Bhavin</strong><br />
-          <span style={{ fontSize: '12px', color: '#888' }}>Admin</span>
+          <strong>{getUser[0]?.username}</strong><br />
+          <span style={{ fontSize: '12px', color: '#888' }}>{getUser[0]?.role}</span>
         </div>
         <span style={{
           background: '#e2e4fb',

@@ -1,28 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import '../Reports/StudentReportPage.css';
+import apiRequest from '../../utils/apiRequest';
 
 const UserProfilesTable = () => {
-  const [users, setUsers] = useState([
-    {
-      name: 'John Doe',
-      password: '********',
-      role: 'Teacher',
-      createdBy: 'Admin',
-      std: '10',
-      schoolName: 'Sunrise School',
-      registrationDate: '2024-04-15'
-    },
-    {
-      name: 'Jane Smith',
-      password: '********',
-      role: 'Student',
-      createdBy: 'Admin',
-      std: '9',
-      schoolName: 'Green Valley High',
-      registrationDate: '2024-04-18'
-    }
-  ]);
+  const [users, setUsers] = useState([]);
 
   const [search, setSearch] = useState('');
   const [selectedRows, setSelectedRows] = useState([]);
@@ -42,17 +24,84 @@ const UserProfilesTable = () => {
     setUsers(updatedUsers);
   };
 
-  const handleEditClick = () => {
-    setEditMode(true);
+  const fetchAllUsers = async () => {
+    const res = await apiRequest({
+      endpoint: 'users/getallusers.php', // your actual PHP file
+      method: 'POST',
+      data:{}
+    });
+    if (res.status === 'success') {
+      console.log("res : ",res.data)
+      const transformedUsers = res.data.map(user => ({
+        id: user.id,
+        name: user.full_name,
+        password: '********', // placeholder since password is not in the API
+        role: user.role,
+        createdBy: 'Admin', // hardcoded or derive if available
+        std: user.grade,
+        schoolName: user.school_name,
+        registrationDate: user.date_of_joining || 'N/A'
+      }));
+      setUsers(transformedUsers);
+      // setHolidays(res.data);
+    } else {
+      console.error(res.message);
+    }
   };
 
-  const handleDeleteClick = () => {
-    const newUsers = users.filter((_, index) => !selectedRows.includes(index));
-    setUsers(newUsers);
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
+  const handleEditClick = async () => {
+    for (const index of selectedRows) {
+      const user = users[index];
+      const res = await apiRequest({
+        endpoint: 'users/updateuser.php',
+        method: 'POST',
+        data: {
+          id: user.id,
+          full_name: user.name,
+          role: user.role,
+          grade: user.std,
+          date_of_joining: user.registrationDate === 'N/A' ? null : user.registrationDate
+        }
+      });
+      if (res.status !== 'success') {
+        console.error(`Failed to update user ${user.name}: ${res.message}`);
+      }
+    }
+    setEditMode(false);
+    await fetchAllUsers();
+  };
+  const handleEdit = ()=>{
+    setEditMode(true);
+
+  }
+  
+
+  // const handleDeleteClick = () => {
+  //   const newUsers = users.filter((_, index) => !selectedRows.includes(index));
+  //   setUsers(newUsers);
+  //   setSelectedRows([]);
+  //   setEditMode(false);
+  // };
+  const handleDeleteClick = async () => {
+    for (const index of selectedRows) {
+      const user = users[index];
+      const res = await apiRequest({
+        endpoint: 'users/deleteuser.php',
+        method: 'POST',
+        data: { id: user.id }
+      });
+      if (res.status !== 'success') {
+        console.error(`Failed to delete user ${user.name}: ${res.message}`);
+      }
+    }
     setSelectedRows([]);
     setEditMode(false);
+    await fetchAllUsers();
   };
-
+  
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -122,6 +171,21 @@ const UserProfilesTable = () => {
       <div style={{ marginTop: '30px', textAlign: 'center' }}>
         <button
           onClick={handleEditClick}
+          style={{
+            padding: '10px 24px',
+            backgroundColor: '#3A2D7D',
+            color: '#fff',
+            fontSize: '16px',
+            border: 'none',
+            borderRadius: 17,
+            marginRight: '20px',
+            width:100
+          }}
+        >
+          Save
+        </button>
+        <button
+          onClick={handleEdit}
           style={{
             padding: '10px 24px',
             backgroundColor: '#3A2D7D',

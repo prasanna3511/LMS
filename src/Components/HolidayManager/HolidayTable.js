@@ -1,22 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import '../Reports/StudentReportPage.css';
+import apiRequest from "../../utils/apiRequest";
 
 const HolidayTablePage = () => {
-  const [holidays, setHolidays] = useState([
-    {
-      date: "15 August 2025",
-      type: "Event",
-      description: "Independence day",
-      school: "Eduonix School",
-    },
-    {
-      date: "27 August 2025",
-      type: "Holiday",
-      description: "Ganesh Chaturthi",
-      school: "Eduonix School",
-    },
-  ]);
+  const [holidays, setHolidays] = useState([]);
 
   const [selectedRow, setSelectedRow] = useState(null);
   const [editData, setEditData] = useState({});
@@ -34,14 +22,43 @@ const HolidayTablePage = () => {
     }
   };
 
-  const handleSaveClick = () => {
-    const updatedHolidays = [...holidays];
-    updatedHolidays[selectedRow] = editData;
-    setHolidays(updatedHolidays);
-    setIsEditing(false);
-    setSelectedRow(null);
-  };
+  // const handleSaveClick = () => {
+  //   const updatedHolidays = [...holidays];
+  //   updatedHolidays[selectedRow] = editData;
+  //   setHolidays(updatedHolidays);
+  //   setIsEditing(false);
+  //   setSelectedRow(null);
+  // };
 
+  const handleSaveClick = async () => {
+    try {
+      const res = await apiRequest({
+        endpoint: 'holidays/updateholiday.php',
+        method: 'POST',
+        data: {
+          id: editData.id,
+          date: editData.date,
+          type: editData.type,
+          description: editData.description,
+          school_name: editData.school,
+        },
+      });
+  
+      if (res.status === 'success') {
+        const updatedHolidays = [...holidays];
+        updatedHolidays[selectedRow] = editData;
+        setHolidays(updatedHolidays);
+        setIsEditing(false);
+        setSelectedRow(null);
+      } else {
+        console.error(res.message);
+        alert("Update failed: " + res.message);
+      }
+    } catch (err) {
+      console.error("Error during update:", err);
+    }
+  };
+  
   const handleChange = (field, value) => {
     setEditData({ ...editData, [field]: value });
   };
@@ -50,16 +67,62 @@ const HolidayTablePage = () => {
     setSearchQuery(e.target.value);
   };
 
-  const handleDeleteClick = () => {
+  // const handleDeleteClick = () => {
+  //   if (selectedRow !== null) {
+  //     const updatedHolidays = holidays.filter(
+  //       (_, index) => index !== selectedRow
+  //     );
+  //     setHolidays(updatedHolidays);
+  //     setSelectedRow(null);
+  //   }
+  // };
+  const handleDeleteClick = async () => {
     if (selectedRow !== null) {
-      const updatedHolidays = holidays.filter(
-        (_, index) => index !== selectedRow
-      );
-      setHolidays(updatedHolidays);
-      setSelectedRow(null);
+      try {
+        const holidayToDelete = holidays[selectedRow];
+  
+        const res = await apiRequest({
+          endpoint: 'holidays/deleteholiday.php',
+          method: 'POST',
+          data: {
+            id: holidayToDelete.id,
+          },
+        });
+  
+        if (res.status === 'success') {
+          const updatedHolidays = holidays.filter((_, i) => i !== selectedRow);
+          setHolidays(updatedHolidays);
+          setSelectedRow(null);
+        } else {
+          console.error(res.message);
+          alert("Delete failed: " + res.message);
+        }
+      } catch (err) {
+        console.error("Error during delete:", err);
+      }
+    }
+  };
+  
+const userData = JSON.parse(localStorage.getItem('userData'))
+  const fetchHolidays = async () => {
+    const res = await apiRequest({
+      endpoint: 'holidays/getholidaybyschoolid.php', // your actual PHP file
+      method: 'POST',
+      data:userData.role === 'admin'?{}: {
+        school_id: userData.school_id,
+      },
+    });
+    if (res.status === 'success') {
+      console.log("res : ",res.data)
+      setHolidays(res.data);
+    } else {
+      console.error(res.message);
     }
   };
 
+  useEffect(() => {
+    fetchHolidays();
+  }, []);
   const filteredHolidays = holidays.filter(
     (holiday) =>
       holiday.date.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -195,7 +258,7 @@ const HolidayTablePage = () => {
                         style={{ width: "90%" }}
                       />
                     ) : (
-                      holiday.school
+                      holiday.school_name
                     )}
                   </td>
                 </tr>
