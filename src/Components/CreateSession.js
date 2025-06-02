@@ -15,6 +15,8 @@ const CreateSession = () => {
   const [demoDesc, setDemoDesc] = useState('');
   const [errors, setErrors] = useState({});
   const [selectedSchool , setSelectedSchool]= useState('')
+  const [selectedSchools, setSelectedSchools] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [getAllSchool , setGetAllSchool]=useState([])
   const [allSessions , setAllSessions]=useState([]);
   const [editingSession, setEditingSession] = useState(null);
@@ -92,52 +94,100 @@ fetchAllSessions()
     return Object.keys(newErrors).length === 0;
   };
   
-  const handleSave =async()=>{
-    console.log("clicking")
+  // const handleSave =async()=>{
+  //   console.log("clicking")
+  //   if (validateForm()) {
+
+  //     let apidata = {
+        // subject:subject,
+        // standard:standard,
+  //       topic_description:description,
+  //       name_of_session:sessionName,
+  //       practical_name:practicalName,
+  //       // practical_description:'  ',
+  //       demo_link:demoLink,
+  //       demo_description:demoDesc,
+  //       status:'active',
+  //       school_id:selectedSchool
+  //     }
+  //         try {
+  //           let result;
+
+  //           if (editingSession) {
+  //             // UPDATE logic
+  //             result = await apiRequest({
+  //               endpoint: "sessions/updatesession.php",
+  //               method: "POST",
+  //               data: { ...apidata, id: editingSession.id }, // include ID for update
+  //             });
+  //           } else {
+  //             result = await apiRequest({
+  //             endpoint: "sessions/createsessions.php",
+  //             method: "POST",
+  //             data: apidata,
+  //           });}
+        
+  //           if (result.status === "success") {
+  //             editingSession ? alert("Session updated!") :alert("Session creation completed");
+  //             fetchAllSessions()
+  //             resetForm()
+  //             // navigate("/dashboard");
+  //           } else {
+  //             alert(result.message || "Session creation failed");
+  //           }
+  //         } catch (err) {
+  //           alert(err.message || "Something went wrong");
+  //         }
+  //   }
+  // }
+  const handleSave = async () => {
     if (validateForm()) {
-
-      let apidata = {
-        subject:subject,
-        standard:standard,
-        topic_description:description,
-        name_of_session:sessionName,
-        practical_name:practicalName,
-        // practical_description:'  ',
-        demo_link:demoLink,
-        demo_description:demoDesc,
-        status:'active',
-        school_id:selectedSchool
-      }
-          try {
-            let result;
-
-            if (editingSession) {
-              // UPDATE logic
-              result = await apiRequest({
-                endpoint: "sessions/updatesession.php",
-                method: "POST",
-                data: { ...apidata, id: editingSession.id }, // include ID for update
-              });
-            } else {
-              result = await apiRequest({
+      try {
+        for (let school_id of selectedSchools) {
+          console.log(school_id)
+          const apidata = {
+            subject:subject,
+            standard:standard,
+            topic_description: description,
+            name_of_session: sessionName,
+            practical_name: practicalName,
+            demo_link: demoLink,
+            demo_description: demoDesc,
+            status: 'active',
+            school_id,
+            practical_description:'  '
+          };
+  
+          let result;
+  
+          if (editingSession) {
+            result = await apiRequest({
+              endpoint: "sessions/updatesession.php",
+              method: "POST",
+              data: { ...apidata, id: editingSession.id },
+            });
+          } else {
+            result = await apiRequest({
               endpoint: "sessions/createsessions.php",
               method: "POST",
               data: apidata,
-            });}
-        
-            if (result.status === "success") {
-              editingSession ? alert("Session updated!") :alert("Session creation completed");
-              fetchAllSessions()
-              resetForm()
-              // navigate("/dashboard");
-            } else {
-              alert(result.message || "Session creation failed");
-            }
-          } catch (err) {
-            alert(err.message || "Something went wrong");
+            });
           }
+  
+          if (result.status !== "success") {
+            alert(result.message || "Session creation failed for one of the schools");
+          }
+        }
+  
+        alert(editingSession ? "Session updated!" : "Sessions created!");
+        fetchAllSessions();
+        resetForm();
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
     }
-  }
+  };
+  
   const handleDeleteSession =async(session)=>{
     alert(`Delete ${session.id}`)
     try {
@@ -169,14 +219,64 @@ fetchAllSessions()
           <div style={{width:'90%' , display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
 
           <h1 style={styles.header}>Create Session</h1>
-          <select style={{ padding: '8px', borderRadius: '15px', border: '1px solid #ccc', width: 216 ,height:35}}
+          {/* <select style={{ padding: '8px', borderRadius: '15px', border: '1px solid #ccc', width: 216 ,height:35}}
                   value={selectedSchool}
                   onChange={(e) => setSelectedSchool(e.target.value)}>
                     <option value="">School</option>
                     {getAllSchool.map((school)=>(
                       <option value={school.id}>{school.school_name}</option>
                     ))}
-                  </select>
+                  </select> */}
+                  <div style={{ position: 'relative', display: 'inline-block', width: 216 }}>
+  <div
+    onClick={() => setDropdownOpen(!dropdownOpen)}
+    style={{
+      border: '1px solid #ccc',
+      padding: '8px',
+      borderRadius: '15px',
+      cursor: 'pointer',
+      backgroundColor: '#fff'
+    }}
+  >
+    {selectedSchools.length === 0 ? "Select School(s)" : `${selectedSchools.length} selected`}
+  </div>
+
+  {dropdownOpen && (
+    <div style={{
+      position: 'absolute',
+      backgroundColor: '#fff',
+      border: '1px solid #ccc',
+      borderRadius: '10px',
+      marginTop: 5,
+      maxHeight: 200,
+      overflowY: 'auto',
+      zIndex: 1000,
+      width: '100%',
+      padding: '10px'
+    }}>
+      {getAllSchool.map((school) => (
+        <div key={school.id}>
+          <label>
+            <input
+              type="checkbox"
+              value={school.id}
+              checked={selectedSchools.includes(school.id)}
+              onChange={(e) => {
+                const checked = e.target.checked;
+                setSelectedSchools((prev) =>
+                  checked ? [...prev, school.id] : prev.filter((id) => id !== school.id)
+                );
+              }}
+            />
+            {' '}
+            {school.school_name}
+          </label>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
           </div>
 
           <div style={{ ...styles.formInnerContainer, width: '90%' }}>

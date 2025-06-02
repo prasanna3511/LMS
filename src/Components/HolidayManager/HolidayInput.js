@@ -46,7 +46,7 @@ const App = () => {
 
   const handleSave = async () => {
     if (!validateForm()) return;
-
+    console.log( date, type, description );
     if (date && type && description) {
       const res = await apiRequest({
         endpoint: 'holidays/addholiday.php', // your actual PHP file

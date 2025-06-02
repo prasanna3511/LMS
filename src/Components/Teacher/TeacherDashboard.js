@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Navbar from "../Navbar/Navbar";
+import apiRequest from "../../utils/apiRequest";
 
 const Dashboard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-
+  const [todaysSession , setTodaysSession] = useState([])
   const startOfWeek = (date) => {
     const d = new Date(date);
     const day = d.getDay();
@@ -62,6 +64,26 @@ const Dashboard = () => {
       completed: false,
     },
   ];
+  const userData = JSON.parse(localStorage.getItem('userData'))
+  const fetchHolidays = async () => {
+    const res = await apiRequest({
+      endpoint: 'teacherSession/getTodaysSession.php', // your actual PHP file
+      method: 'POST',
+      data: {
+        school_id: userData.school_id,
+      },
+    });
+    if (res.status === 'success') {
+      console.log("res getTodaysSession: ",res)
+      setTodaysSession(res.data);
+    } else {
+      console.error(res.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchHolidays();
+  }, []);
   return (
     <div
       style={{
@@ -122,17 +144,7 @@ const Dashboard = () => {
               Create Student Login
             </button>
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src="https://via.placeholder.com/40"
-              alt="avatar"
-              style={{ borderRadius: "50%" }}
-            />
-            <div style={{ marginLeft: "10px" }}>
-              <div>Sangeeta</div>
-              <small>Teacher</small>
-            </div>
-          </div>
+          <Navbar />
         </div>
 
         <div
@@ -205,11 +217,11 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {sessionData.map((session, index) => (
+                  {todaysSession.map((session, index) => (
                     <tr key={index}>
-                      <td>{session.grade}</td>
-                      <td>{session.topic}</td>
-                      <td>{session.description}</td>
+                      <td>{session.standard}</td>
+                      <td>{session.name_of_session}</td>
+                      <td>{session.topic_description}</td>
                       <td>
                         <input
                           type="checkbox"
@@ -395,24 +407,6 @@ const Dashboard = () => {
             }}
           >
             {/* Calendar */}
-            {/* <div
-              style={{
-                flex: 1,
-                backgroundColor: "#f5f7fb",
-                padding: "20px",
-                borderRadius: "10px",
-                // marginRight: "20px",
-                width:'90%',marginBottom:2
-              }}
-            >
-              <h4>December 2021</h4>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                {["M", "T", "W", "T", "F", "S", "S"].map((day) => (
-                  <div key={day}>{day}</div>
-                ))}
-              </div>
-              <div style={{ marginTop: "10px" }}>26</div>
-            </div> */}
             
             <div
       style={{

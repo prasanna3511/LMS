@@ -28,7 +28,7 @@ function App() {
 
       <BrowserRouter> 
       <Routes>
-        <Route path="Student" element={<StudentLogin/>}></Route>
+        <Route path="/student" element={<StudentLogin/>}></Route>
         <Route path="/School" element={<SchoolInfo/>}></Route>
         <Route path="/Admin" element={<Admin/>}></Route>
         <Route path="/CreateSession" element={<CreateSession />}></Route>

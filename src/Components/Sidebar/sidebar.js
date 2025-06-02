@@ -431,7 +431,7 @@ const Sidebar = () => {
               School Report
             </a>
           </li>)}
-          {(
+          {/* {(
             getUserRole.role === "admin" ||  getUserRole.role === "principle") && (
           <li>
             <a
@@ -444,7 +444,7 @@ const Sidebar = () => {
             >
               Session Report
             </a>
-          </li>)}
+          </li>)} */}
         </ul>
 
         <div style={sectionTitleStyle}>View</div>

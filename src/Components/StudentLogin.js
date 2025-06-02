@@ -58,7 +58,8 @@ export default function StudentLogin() {
         grade: formData.grade,
         parent_name: formData.parentName,
         relation: "Father",                  // Adjust as needed
-        school_id: "1",                      // Adjust as needed
+        school_id: "1",                      // Adjust as needed,
+        date_of_joining:"23-10-2001"
       };
       try {
         const result = await apiRequest({

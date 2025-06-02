@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
+import apiRequest from "../../utils/apiRequest";
 
 const sidebarStyle = {
   width: "166px",
@@ -82,12 +83,37 @@ const dropdownStyle = {
   borderRadius: "17px",
   padding: "0 15px",
   fontSize: "12px",
-  backgroundColor:'white',
-  margin:'0 4px'
-
+  backgroundColor: "white",
+  margin: "0 4px",
 };
 
 export const CreateTest = () => {
+  const [allSubjects, setAllSubjects] = useState([]);
+  useEffect(() => {
+    const fetchAllSubjects = async () => {
+      try {
+        const result = await apiRequest({
+          endpoint: "subject/getallsubject.php",
+          method: "GET",
+          data: {},
+        });
+
+
+        if (result.status === "success") {
+          // Extract only the subject_name values
+          const subjectNames = result.data.map((sub) => sub.subject_name);
+          setAllSubjects(subjectNames); // Set all at once
+          console.log("Subjects fetched:", subjectNames);
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    };
+    fetchAllSubjects();
+  }, []);
+
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -132,94 +158,151 @@ export const CreateTest = () => {
   );
 
   return (
-    <div style={{ display: "flex", backgroundColor: "white", minHeight: "100vh" ,flexDirection:'column'}}>
-        <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
-
-<Navbar/>
-</div>
-      <div style={{ width: "100%", maxWidth: "800px", display: "flex", flexDirection: "column" }}>
+    <div
+      style={{
+        display: "flex",
+        backgroundColor: "white",
+        minHeight: "100vh",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
+      >
+        <Navbar />
+      </div>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "800px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         {/* Main Content */}
         <main style={mainContentStyle}>
-        
-          <div style={{ display: "flex", justifyContent: "space-between",alignItems:'center' ,minWidth:500}}>
-          <h2 style={{ color: "#f75e00",  fontWeight: 600, marginBottom: "24px" }}>
-            Create Test
-          </h2>
-       <div style={{minWidth:500,display:'flex',flexWrap:'wrap'}}>
-         <select
-           style={dropdownStyle}
-           value={subject}
-           onChange={(e) => setSubject(e.target.value)}
-         >
-           <option value="">Select Subject</option>
-           <option value="Math">Math</option>
-           <option value="Science">Science</option>
-           <option value="English">English</option>
-         </select>
-         <select
-           style={dropdownStyle}
-           value={standard}
-           onChange={(e) => setStandard(e.target.value)}
-         >
-           <option value="">Select Standard</option>
-           <option value="1">Standard 1</option>
-           <option value="2">Standard 2</option>
-           <option value="3">Standard 3</option>
-         </select>
-       </div>
-     </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              minWidth: 500,
+            }}
+          >
+            <h2
+              style={{
+                color: "#f75e00",
+                fontWeight: 600,
+                marginBottom: "24px",
+              }}
+            >
+              Create Test
+            </h2>
+            <div style={{ minWidth: 500, display: "flex", flexWrap: "wrap" }}>
+              {/* <select
+                style={dropdownStyle}
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              >
+                <option value="">Select Subject</option>
+                <option value="Math">Math</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+              </select> */}
+
+<select
+                style={dropdownStyle}
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              >
+                <option value="">Select Subject</option>
+                {allSubjects.map((subj) => (
+                  <option key={subj} value={subj}>
+                    {subj}
+                  </option>
+                ))}
+              </select>
+              <select
+                style={dropdownStyle}
+                value={standard}
+                onChange={(e) => setStandard(e.target.value)}
+              >
+                <option value="">Select Standard</option>
+                <option value="1">Standard 1</option>
+                <option value="2">Standard 2</option>
+                <option value="3">Standard 3</option>
+              </select>
+            </div>
+          </div>
 
           {/* Questions Section */}
           <div>
-            <h3 style={{ fontSize: "18px", fontWeight: 600, marginBottom: "16px" }}>Questions</h3>
-            
+            <h3
+              style={{
+                fontSize: "18px",
+                fontWeight: 600,
+                marginBottom: "16px",
+              }}
+            >
+              Questions
+            </h3>
+
             {filteredQuestions.map((question, index) => (
               <div key={question.id} style={questionStyle}>
                 <div style={{ display: "flex", gap: "8px" }}>
-                  <span style={{ fontSize: "18px", fontWeight: 600, width: "27px" }}>
+                  <span
+                    style={{ fontSize: "18px", fontWeight: 600, width: "27px" }}
+                  >
                     {question.id}.
                   </span>
-                  
+
                   <div style={{ flex: 1 }}>
-                    <div style={{display:'flex', flexDirection:'row'}}>
-                    <input
-                      type="text"
-                      placeholder="Enter question"
-                      style={{
-                        width: "100%",
-                        height: "40px",
-                        borderRadius: "30px",
-                        border: "1px solid black",
-                        padding: "0 20px",
-                      }}
-                    />
-                    <button
-                    onClick={() => deleteQuestion(question.id)}
-                    style={{
-                      color: "white",
-                      borderRadius: "50%",
-                      width: "30px",
-                      height: "30px",
-                      border: "none",
-                      cursor: "pointer",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    🗑️
-                  </button>
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      <input
+                        type="text"
+                        placeholder="Enter question"
+                        style={{
+                          width: "100%",
+                          height: "40px",
+                          borderRadius: "30px",
+                          border: "1px solid black",
+                          padding: "0 20px",
+                        }}
+                      />
+                      <button
+                        onClick={() => deleteQuestion(question.id)}
+                        style={{
+                          color: "white",
+                          borderRadius: "50%",
+                          width: "30px",
+                          height: "30px",
+                          border: "none",
+                          cursor: "pointer",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        🗑️
+                      </button>
                     </div>
-                  
-                    
-                    <div style={{ display: "flex", flexWrap: "wrap", marginTop: "16px" }}>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        marginTop: "16px",
+                      }}
+                    >
                       {question.options.map((option, optIndex) => (
                         <div key={optIndex} style={optionStyle}>
                           <input
                             type="radio"
                             name={`question-${question.id}`}
                             id={`q${question.id}-opt${optIndex}`}
-                            defaultChecked={question.selectedOption === optIndex}
+                            defaultChecked={
+                              question.selectedOption === optIndex
+                            }
                             style={{ marginRight: "8px" }}
                           />
                           <label
@@ -238,7 +321,14 @@ export const CreateTest = () => {
           </div>
 
           {/* Action Buttons */}
-          <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "32px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "16px",
+              marginTop: "32px",
+            }}
+          >
             <button
               style={{
                 ...buttonStyle,

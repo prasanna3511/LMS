@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
+import apiRequest from "../../utils/apiRequest";
 
 const AddSubject = () => {
   const [subjects, setSubjects] = useState(["AI", "IOT"]);
@@ -7,6 +8,61 @@ const AddSubject = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
+    const fetchAllSubjects = async () => {
+      try {
+        const result = await apiRequest({
+          endpoint: "subject/getallsubject.php",
+          method: "GET",
+          data: {},
+        });
+
+
+        if (result.status === "success") {
+          // Extract only the subject_name values
+          const subjectNames = result.data.map((sub) => sub.subject_name);
+          setSubjects(subjectNames); // Set all at once
+          console.log("Subjects fetched:", subjectNames);
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    };
+    fetchAllSubjects();
+  }, []);
+
+
+  const handleSave = async () => {
+    const trimmedSubject = newSubject.trim();
+
+
+    if (!trimmedSubject) return;
+
+
+    try {
+      const result = await apiRequest({
+        endpoint: "subject/addSubject.php",
+        method: "POST",
+        data: {
+          subject_name: trimmedSubject,
+          // You can optionally pass other fields like subject_code, standard, etc.
+        },
+      });
+
+
+      if (result.status === "success") {
+        setSubjects([...subjects, trimmedSubject]);
+        setNewSubject("");
+        alert("Subject added successfully!");
+      } else {
+        alert(result.message || "Failed to add subject");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -14,12 +70,12 @@ const AddSubject = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleSave = () => {
-    if (newSubject.trim()) {
-      setSubjects([...subjects, newSubject.trim()]);
-      setNewSubject("");
-    }
-  };
+  // const handleSave = () => {
+  //   if (newSubject.trim()) {
+  //     setSubjects([...subjects, newSubject.trim()]);
+  //     setNewSubject("");
+  //   }
+  // };
 
   const handleEdit = (index) => {
     setEditIndex(index);

@@ -14,6 +14,30 @@ const CreateQuestionBank = ({ setRole }) => {
   const [standard, setStandard] = useState("Class 1");
   const role = JSON.parse(localStorage.getItem("userData"));
   const [editingQuestionId, setEditingQuestionId] = useState(null);
+  const [allSubjects, setAllSubjects] = useState([]);
+  useEffect(() => {
+    const fetchAllSubjects = async () => {
+      try {
+        const result = await apiRequest({
+          endpoint: "subject/getallsubject.php",
+          method: "GET",
+          data: {},
+        });
+
+        if (result.status === "success") {
+          // Extract only the subject_name values
+          const subjectNames = result.data.map((sub) => sub.subject_name);
+          setAllSubjects(subjectNames); // Set all at once
+          console.log("Subjects fetched:", subjectNames);
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    };
+    fetchAllSubjects();
+  }, []);
 
   const handleEdit = (question) => {
     setEditingQuestionId(question.id);
@@ -36,12 +60,17 @@ const CreateQuestionBank = ({ setRole }) => {
     ].indexOf(question.correct_answer);
     setSelectedOption(correctIndex !== -1 ? correctIndex : 0);
   };
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
   const fetchAllQuestions = async () => {
     try {
       const result = await apiRequest({
         endpoint: "questionbank/getallquestion.php",
         method: "POST",
-        data: role.role === "admin" ? { role: role.role } : {},
+        data:
+          role.role === "admin"
+            ? { role: role.role }
+            : { school_id: userData.school_id, role: userData.role },
       });
 
       if (result.status === "success") {
@@ -82,7 +111,6 @@ const CreateQuestionBank = ({ setRole }) => {
     setQType(e.target.value);
   };
   const handleSave = async () => {
-    const userData = JSON.parse(localStorage.getItem("userData"));
     const createdDate = new Date().toISOString().split("T")[0];
 
     const apidata = {
@@ -190,7 +218,7 @@ const CreateQuestionBank = ({ setRole }) => {
               >
                 Subject
               </label>
-              <select
+              {/* <select
                 className="selectDropdown"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
@@ -198,6 +226,18 @@ const CreateQuestionBank = ({ setRole }) => {
                 <option>Subject</option>
                 <option>Math</option>
                 <option>Science</option>
+              </select> */}
+                <select
+                className="selectDropdown"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              >
+                <option value="">Select Subject</option>
+                {allSubjects.map((subj) => (
+                  <option key={subj} value={subj}>
+                    {subj}
+                  </option>
+                ))}
               </select>
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
