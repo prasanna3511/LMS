@@ -133,7 +133,7 @@ const AddSubject = () => {
       </div>
 
       <div style={listStyle}>
-        <h3>Existing Lectures</h3>
+        <h3>Existing Subjects</h3>
         <ol>
           {subjects.map((subject, index) => (
             <li key={index} style={{ marginBottom: "10px" ,display:'flex',flexDirection:'row',justifyContent:'space-between'}}>

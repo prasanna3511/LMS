@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "../Navbar/Navbar";
 
 const Dashboard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -122,7 +123,7 @@ const Dashboard = () => {
               Create Student Login
             </button>
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          {/* <div style={{ display: "flex", alignItems: "center" }}>
             <img
               src="https://via.placeholder.com/40"
               alt="avatar"
@@ -132,7 +133,8 @@ const Dashboard = () => {
               <div>Sangeeta</div>
               <small>Teacher</small>
             </div>
-          </div>
+          </div> */}
+          <Navbar />
         </div>
 
         <div

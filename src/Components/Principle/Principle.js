@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Manager1 from "../../images/Teacher.png";
+import Navbar from "../Navbar/Navbar";
 
 export default function PrincipleDashboard() {
   const [present, setPresent] = useState(30);
@@ -212,7 +213,7 @@ export default function PrincipleDashboard() {
               Search
             </button>
           </div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          {/* <div style={{ display: "flex", flexDirection: "row" }}>
             <div
               style={{
                 display: "flex",
@@ -245,7 +246,8 @@ export default function PrincipleDashboard() {
               style={{ height: 30, width: 30, marginLeft: 20 }}
               src={require("../../images/bell-ringing.png")}
             />
-          </div>
+          </div> */}
+          <Navbar />
         </div>
       </div>
       {/* panel code */}

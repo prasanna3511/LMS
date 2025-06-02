@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function Navbar() {
+  const getUserData = JSON.parse(localStorage.getItem('userData'))
   return (
     <div style={{
         // position: 'absolute',
@@ -21,8 +22,8 @@ export default function Navbar() {
         }}><img src={require('../../images/sampleimage.jpg')} style={{height: 40, width:40, borderRadius:20}} /></span>
         
         <div>
-          <strong>Bhavin</strong><br />
-          <span style={{ fontSize: '12px', color: '#888' }}>Admin</span>
+          <strong>Test User</strong><br />
+          <span style={{ fontSize: '12px', color: '#888' }}>{getUserData.role}</span>
         </div>
         <span style={{
           background: '#e2e4fb',

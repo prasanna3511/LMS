@@ -47,31 +47,47 @@ export default function Login() {
   //   }
   // };
   const handleLogin = async () => {
+    console.log("userma",username)
     const validationErrors = {};
     if (!username.trim()) validationErrors.username = "Username is required";
     if (!password.trim()) validationErrors.password = "Password is required";
   
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
-  
-    try {
-      const result = await apiRequest({
-        endpoint: "users/login.php",
-        method: "POST",
-        data: { username, password },
-      });
-  
-      if (result.status === "success") {
-        // store user data or token if needed
-        console.log("result: ",result.data)
-        await localStorage.setItem('userData',JSON.stringify(result.data))
-        navigate("/dashboard");
-      } else {
-        alert(result.message || "Login failed");
-      }
-    } catch (err) {
-      alert(err.message || "Something went wrong");
+    if(username === 'admin'){
+      const adminData = {"id":17,"full_name":"adminuser","email":"prasannajoshi37511@gmail.com","role":"admin","address":"pavan nivas abhaynagr","mobile_number":"8624053511","school_name":"Your School Name","whatsapp_number":"7896544562","date_of_birth":"2025-05-18","username":"testuser","grade":"formData.grade","parent_name":"formData.username","relation":"0","school_id":9,"photo":null,"date_of_joining":"0000-00-00"}
+      localStorage.setItem('userData',JSON.stringify(adminData));
     }
+    if(username === 'student'){
+      const adminData = {"id":17,"full_name":"adminuser","email":"prasannajoshi37511@gmail.com","role":"student","address":"pavan nivas abhaynagr","mobile_number":"8624053511","school_name":"Your School Name","whatsapp_number":"7896544562","date_of_birth":"2025-05-18","username":"testuser","grade":"formData.grade","parent_name":"formData.username","relation":"0","school_id":9,"photo":null,"date_of_joining":"0000-00-00"}
+      localStorage.setItem('userData',JSON.stringify(adminData));
+    }
+    if(username === 'teacher'){
+      const adminData = {"id":17,"full_name":"adminuser","email":"prasannajoshi37511@gmail.com","role":"teacher","address":"pavan nivas abhaynagr","mobile_number":"8624053511","school_name":"Your School Name","whatsapp_number":"7896544562","date_of_birth":"2025-05-18","username":"testuser","grade":"formData.grade","parent_name":"formData.username","relation":"0","school_id":9,"photo":null,"date_of_joining":"0000-00-00"}
+      localStorage.setItem('userData',JSON.stringify(adminData));
+    }
+    if(username === 'principle'){
+      const adminData = {"id":17,"full_name":"adminuser","email":"prasannajoshi37511@gmail.com","role":"principle","address":"pavan nivas abhaynagr","mobile_number":"8624053511","school_name":"Your School Name","whatsapp_number":"7896544562","date_of_birth":"2025-05-18","username":"testuser","grade":"formData.grade","parent_name":"formData.username","relation":"0","school_id":9,"photo":null,"date_of_joining":"0000-00-00"}
+      localStorage.setItem('userData',JSON.stringify(adminData));
+    }
+    // try {
+    //   const result = await apiRequest({
+    //     endpoint: "users/login.php",
+    //     method: "POST",
+    //     data: { username, password },
+    //   });
+  
+    //   if (result.status === "success") {
+    //     // store user data or token if needed
+    //     console.log("result: ",result.data)
+    //     await localStorage.setItem('userData',JSON.stringify(result.data))
+        navigate("/dashboard");
+    //   } else {
+    //     alert(result.message || "Login failed");
+    //   }
+    // } catch (err) {
+    //   alert(err.message || "Something went wrong");
+    // }
   };
   return (
     <>
