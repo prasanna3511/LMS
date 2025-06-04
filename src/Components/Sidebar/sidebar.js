@@ -24,12 +24,14 @@ import TestReportPage from "../Reports/TestReportAdmin";
 import SchoolReportPage from "../Reports/SchoolReport";
 import CreateSession from "../CreateSession";
 import AddSubject from "../Subject/AddSubject";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   // const [role, setRole] = useState("home");
   const [role, setRole] = useState("home");
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleResize = () => {
@@ -151,6 +153,7 @@ const Sidebar = () => {
     }
   };
   const getUserRole = JSON.parse(localStorage.getItem("userData"));
+  console.log("getUserRole : ",getUserRole)
 
   return (
     <div
@@ -288,7 +291,8 @@ const Sidebar = () => {
            {( getUserRole.role === "principle") && (
             <li>
               <a
-                onClick={() => handleLinkClick("material")}
+                // onClick={() => handleLinkClick("Student")}
+                onClick={()=>navigate('/Student')}
                 style={linkStyle}
                 onMouseEnter={(e) =>
                   (e.target.style.backgroundColor = "#2a2a76")
@@ -333,7 +337,7 @@ const Sidebar = () => {
               </a>
             </li>
           )}
-          {getUserRole.role === "student" && (
+          {/* {getUserRole.role === "student" && (
             <li>
               <a
                 onClick={() => handleLinkClick("specialProject")}
@@ -348,7 +352,7 @@ const Sidebar = () => {
                 Create Profile
               </a>
             </li>
-          )}
+          )} */}
         </ul>
 
         <div style={sectionTitleStyle}>Reports</div>
@@ -368,7 +372,7 @@ const Sidebar = () => {
               Teacher Report
             </a>
           </li>)}
-          {(
+          {/* {(
             getUserRole.role === "admin" ||
             getUserRole.role === "teacher" ||  getUserRole.role === "principle") && (
           <li>
@@ -382,7 +386,7 @@ const Sidebar = () => {
             >
               Student Report
             </a>
-          </li>)}
+          </li>)} */}
           {(getUserRole.role === "student" ||
             getUserRole.role === "admin" ||
             getUserRole.role === "teacher" ||  getUserRole.role === "principle") && (
@@ -401,7 +405,7 @@ const Sidebar = () => {
               </a>
             </li>
           )}
-          {getUserRole.role === "student" && (
+          {/* {getUserRole.role === "student" && (
             <li>
               <a
                 onClick={() => handleLinkClick("testReport")}
@@ -416,7 +420,7 @@ const Sidebar = () => {
                 Attendance Report
               </a>
             </li>
-          )}
+          )} */}
           {(
             getUserRole.role === "admin" ||  getUserRole.role === "principle") && (
           <li>
@@ -482,7 +486,7 @@ const Sidebar = () => {
             </a>
           </li>
             )}
-            {(
+            {/* {(
             getUserRole.role === "admin" ) && (
           <li>
             <a
@@ -496,7 +500,7 @@ const Sidebar = () => {
               Accounts
             </a>
           </li>
-            )}
+            )} */}
              {(
             getUserRole.role === "teacher" ) && (
           <li>
@@ -531,7 +535,7 @@ const Sidebar = () => {
 
         <div
           style={logoutButtonStyle}
-          onClick={() => console.log("Logout clicked")}
+          onClick={() => {localStorage.clear();navigate('/')}}
           onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
           onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
         >

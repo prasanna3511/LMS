@@ -237,7 +237,42 @@ export default function StudentDashboard() {
               Search
             </button>
           </div>
-          <Navbar/>
+
+          {/* <div style={{ display: "flex", flexDirection: "row" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  backgroundColor: "#f0f0f0",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                👤
+              </div>
+              <div>
+                <p style={{ margin: 0, fontWeight: "bold" }}>Bhavin</p>
+                <p style={{ margin: 0, fontSize: "12px", color: "gray" }}>
+                  Admin
+                </p>
+              </div>
+            </div>
+            <img
+              style={{ height: 30, width: 30, marginLeft: 20 }}
+              src={require("../../images/bell-ringing.png")}
+            />
+          </div> */}
+          <Navbar />
         </div>
       </div>
       {/* panel code */}

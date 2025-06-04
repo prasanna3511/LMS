@@ -144,6 +144,17 @@ const Dashboard = () => {
               Create Student Login
             </button>
           </div>
+          {/* <div style={{ display: "flex", alignItems: "center" }}>
+            <img
+              src="https://via.placeholder.com/40"
+              alt="avatar"
+              style={{ borderRadius: "50%" }}
+            />
+            <div style={{ marginLeft: "10px" }}>
+              <div>Sangeeta</div>
+              <small>Teacher</small>
+            </div>
+          </div> */}
           <Navbar />
         </div>
 

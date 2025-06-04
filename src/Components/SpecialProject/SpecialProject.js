@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 const SpecialProjectForm = () => {
   const [formData, setFormData] = useState({
@@ -97,6 +98,11 @@ const SpecialProjectForm = () => {
   };
 
   return (
+    <>
+    <div style={{width:'100%',display:'flex',justifyContent:'flex-end',alignItems:'flex-end'}}>
+
+    <Navbar />
+    </div>
     <form onSubmit={handleSubmit} style={styles.container}>
       <div style={{display:'flex',flexDirection:'row' , alignItems:'center'}} >
 
@@ -194,6 +200,8 @@ const SpecialProjectForm = () => {
         <button type="submit" style={styles.button}>Save</button>
       </div>
     </form>
+    </>
+
   );
 };
 
