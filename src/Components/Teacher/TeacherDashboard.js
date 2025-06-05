@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import apiRequest from "../../utils/apiRequest";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate()
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [todaysSession , setTodaysSession] = useState([])
+  const [todaysSession, setTodaysSession] = useState([]);
+  const [sessionCompletion, setSessionCompletion] = useState({});
+
   const startOfWeek = (date) => {
     const d = new Date(date);
     const day = d.getDay();
@@ -44,37 +48,17 @@ const Dashboard = () => {
   })} ${currentDate.getFullYear()}`;
   const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
   const weekDates = getWeekDates(currentDate);
-  const sessionData = [
-    {
-      grade: 6,
-      topic: "Math Basics",
-      description: "Introduction to fractions",
-      completed: false,
-    },
-    {
-      grade: 7,
-      topic: "Algebra",
-      description: "Linear equations",
-      completed: true,
-    },
-    {
-      grade: 8,
-      topic: "Geometry",
-      description: "Angles and lines",
-      completed: false,
-    },
-  ];
-  const userData = JSON.parse(localStorage.getItem('userData'))
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const fetchHolidays = async () => {
     const res = await apiRequest({
-      endpoint: 'teacherSession/getTodaysSession.php', // your actual PHP file
-      method: 'POST',
+      endpoint: "teacherSession/getTodaysSession.php", // your actual PHP file
+      method: "POST",
       data: {
         school_id: userData.school_id,
       },
     });
-    if (res.status === 'success') {
-      console.log("res getTodaysSession: ",res)
+    if (res.status === "success") {
+      console.log("res getTodaysSession: ", res);
       setTodaysSession(res.data);
     } else {
       console.error(res.message);
@@ -84,6 +68,96 @@ const Dashboard = () => {
   useEffect(() => {
     fetchHolidays();
   }, []);
+  const handleStartDay = async () => {
+    const now = new Date();
+    const formattedTime = now.toTimeString().split(" ")[0];
+    let apiBody = {
+      session_id: 3,
+      start_day: formattedTime,
+      end_day: "00:00:00",
+      status: "present",
+      date: now.toISOString().split("T")[0],
+      teacher_id: Number(userData.id),
+    };
+
+    try {
+      const result = await apiRequest({
+        endpoint: "teacherAttendance/startDay.php",
+        method: "POST",
+        data: apiBody,
+      });
+
+      if (result.status === "success") {
+        // navigate("/dashboard");
+        alert("Your Day is started");
+        console.log("successss ");
+      } else {
+        alert(result.message || "Session Deletion failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  };
+  const handleEndDay = async () => {
+    const now = new Date();
+    const formattedTime = now.toTimeString().split(" ")[0];
+
+    let apiBody = {
+      session_id: 3,
+      end_day: formattedTime,
+      date: now.toISOString().split("T")[0],
+      teacher_id: Number(userData.id),
+    };
+
+    try {
+      const result = await apiRequest({
+        endpoint: "teacherAttendance/endDay.php",
+        method: "POST",
+        data: apiBody,
+      });
+
+      if (result.status === "success") {
+        alert("Your day has been ended");
+        console.log("End day success");
+      } else {
+        alert(result.message || "Failed to end day");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  };
+  const handleSubmit = async () => {
+    console.log("sessionCompletion : ", sessionCompletion.id);
+    const now = new Date();
+    const formattedTime = now.toTimeString().split(" ")[0];
+
+    let apiBody = {
+      session_id: sessionCompletion.id,
+      school_id: userData.school_id,
+      start_day: formattedTime,
+      end_day: formattedTime,
+      is_last_session: true,
+      date: now.toISOString().split("T")[0],
+      teacher_id: Number(userData.id),
+    };
+
+    try {
+      const result = await apiRequest({
+        endpoint: "teacherSession/createTeacherSession.php",
+        method: "POST",
+        data: apiBody,
+      });
+
+      if (result.status === "success") {
+        alert("Your day has been ended");
+        console.log("End day success");
+      } else {
+        alert(result.message || "Failed to end day");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  };
   return (
     <div
       style={{
@@ -116,6 +190,7 @@ const Dashboard = () => {
                 border: "none",
                 borderRadius: 20,
               }}
+              onClick={() => handleStartDay()}
             >
               Start Day
             </button>
@@ -128,6 +203,7 @@ const Dashboard = () => {
                 border: "none",
                 borderRadius: 20,
               }}
+              onClick={() => handleEndDay()}
             >
               End Day
             </button>
@@ -140,6 +216,7 @@ const Dashboard = () => {
                 border: "none",
                 borderRadius: 20,
               }}
+              onClick={()=>navigate('/student')}
             >
               Create Student Login
             </button>
@@ -225,7 +302,13 @@ const Dashboard = () => {
                       <td>
                         <input
                           type="checkbox"
+                          disabled={
+                            index === todaysSession.length - 1 ? false : true
+                          }
                           defaultChecked={session.completed}
+                          onChange={(e) => {
+                            setSessionCompletion(session);
+                          }}
                         />
                       </td>
                     </tr>
@@ -249,6 +332,7 @@ const Dashboard = () => {
                     alignSelf: "flex-end",
                     borderRadius: 10,
                   }}
+                  onClick={() => handleSubmit()}
                 >
                   Submit
                 </button>
@@ -256,7 +340,7 @@ const Dashboard = () => {
             </div>
 
             {/* Right Side Widgets */}
-            <div style={{width:'35%'}}>
+            <div style={{ width: "35%" }}>
               <div
                 style={{
                   backgroundColor: "#dbe6ff",
@@ -264,7 +348,7 @@ const Dashboard = () => {
                   marginBottom: "10px",
                   borderRadius: "10px",
                   height: 130,
-                  width:'100%'
+                  width: "100%",
                 }}
               >
                 <div
@@ -309,7 +393,7 @@ const Dashboard = () => {
                   marginBottom: "10px",
                   borderRadius: "10px",
                   height: 130,
-                  width:'100%'
+                  width: "100%",
                 }}
               >
                 <div
@@ -354,7 +438,7 @@ const Dashboard = () => {
                   marginBottom: "10px",
                   borderRadius: "10px",
                   height: 130,
-                  width: '100%',
+                  width: "100%",
                 }}
               >
                 <div
@@ -400,100 +484,102 @@ const Dashboard = () => {
               display: "flex",
               flexDirection: "column",
               marginLeft: 15,
-              width:'30%',
-              
-              justifyContent:'center',
-              alignItems:'center'
+              width: "30%",
+
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             {/* Calendar */}
-            
-            <div
-      style={{
-        width: "98%",
-        padding: "10px",
-        fontFamily: "Arial, sans-serif",
-        backgroundColor: "white",
-        borderRadius: "10px",
-        marginBottom:10,
-        backgroundColor:'#F8F8F8'
-      }}
-    >
-      {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontSize: "14px",
-          marginBottom: "15px",
-        }}
-      >
-        <div style={{ cursor: "pointer" }} onClick={goToPreviousWeek}>
-          ❮
-        </div>
-        <div style={{ fontWeight: "bold" }}>{monthYear}</div>
-        <div style={{ cursor: "pointer" }} onClick={goToNextWeek}>
-          ❯
-        </div>
-      </div>
 
-      {/* Week Row */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        {weekDates.map((date, index) => {
-          const selected = isSameDay(date, selectedDate);
-          return (
             <div
-              key={index}
-              onClick={() => setSelectedDate(date)}
               style={{
-                width: "32px",
-                textAlign: "center",
-                cursor: "pointer",
+                width: "98%",
+                padding: "10px",
+                fontFamily: "Arial, sans-serif",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                marginBottom: 10,
+                backgroundColor: "#F8F8F8",
               }}
             >
+              {/* Header */}
               <div
                 style={{
-                  backgroundColor: selected ? "#43369d" : "transparent",
-                  color: selected ? "white" : "#333",
-                  borderRadius: "25px",
-                  padding: "6px 0",
-                  height: "60px",
                   display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  border: selected ? "2px solid #261d82" : "none",
+                  fontSize: "14px",
+                  marginBottom: "15px",
                 }}
               >
-                <div style={{ fontSize: "12px" }}>{weekDays[index]}</div>
-                <div
-                  style={{
-                    marginTop: "4px",
-                    width: "24px",
-                    height: "24px",
-                    lineHeight: "24px",
-                    fontSize: "13px",
-                    borderRadius: "50%",
-                    backgroundColor: selected ? "#b0a7f9" : "#eee",
-                    color: selected ? "#000" : "#555",
-                    border: selected ? "1px solid #43369d" : "none",
-                  }}
-                >
-                  {date.getDate()}
+                <div style={{ cursor: "pointer" }} onClick={goToPreviousWeek}>
+                  ❮
+                </div>
+                <div style={{ fontWeight: "bold" }}>{monthYear}</div>
+                <div style={{ cursor: "pointer" }} onClick={goToNextWeek}>
+                  ❯
                 </div>
               </div>
+
+              {/* Week Row */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                {weekDates.map((date, index) => {
+                  const selected = isSameDay(date, selectedDate);
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => setSelectedDate(date)}
+                      style={{
+                        width: "32px",
+                        textAlign: "center",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <div
+                        style={{
+                          backgroundColor: selected ? "#43369d" : "transparent",
+                          color: selected ? "white" : "#333",
+                          borderRadius: "25px",
+                          padding: "6px 0",
+                          height: "60px",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          border: selected ? "2px solid #261d82" : "none",
+                        }}
+                      >
+                        <div style={{ fontSize: "12px" }}>
+                          {weekDays[index]}
+                        </div>
+                        <div
+                          style={{
+                            marginTop: "4px",
+                            width: "24px",
+                            height: "24px",
+                            lineHeight: "24px",
+                            fontSize: "13px",
+                            borderRadius: "50%",
+                            backgroundColor: selected ? "#b0a7f9" : "#eee",
+                            color: selected ? "#000" : "#555",
+                            border: selected ? "1px solid #43369d" : "none",
+                          }}
+                        >
+                          {date.getDate()}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          );
-        })}
-      </div>
-    </div>
             {/* Message Box */}
             <div
               style={{
@@ -501,8 +587,8 @@ const Dashboard = () => {
                 backgroundColor: "#f5f7fb",
                 padding: "20px",
                 borderRadius: "10px",
-                width:'90%',marginBottom:2
-                
+                width: "90%",
+                marginBottom: 2,
               }}
             >
               <h4>Message box:</h4>
@@ -516,7 +602,7 @@ const Dashboard = () => {
                 backgroundColor: "#f5f7fb",
                 padding: "20px",
                 borderRadius: "10px",
-                width:'90%'
+                width: "90%",
               }}
             >
               <h4>Special project by Student :</h4>
