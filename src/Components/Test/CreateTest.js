@@ -1,418 +1,16 @@
-// import React, { useEffect, useState } from "react";
-// import Navbar from "../Navbar/Navbar";
-// import apiRequest from "../../utils/apiRequest";
 
-// const sidebarStyle = {
-//   width: "166px",
-//   height: "722px",
-//   backgroundColor: "#241f63",
-//   borderRadius: "18.05px",
-//   padding: "16px",
-//   display: "flex",
-//   flexDirection: "column",
-// };
-
-// const menuHeaderStyle = {
-//   color: "white",
-//   fontSize: "11.3px",
-//   fontWeight: 500,
-//   marginBottom: "8px",
-// };
-
-// const menuItemStyle = {
-//   color: "white",
-//   fontSize: "9px",
-//   marginBottom: "4px",
-//   cursor: "pointer",
-// };
-
-// const mainContentStyle = {
-//   flex: 1,
-//   paddingTop: "24px",
-// };
-
-// const headerStyle = {
-//   display: "flex",
-//   justifyContent: "space-between",
-//   alignItems: "center",
-//   marginBottom: "48px",
-// };
-
-// const searchInputStyle = {
-//   width: "20%",
-//   height: "29px",
-//   borderRadius: "13.4px",
-//   border: "0.75px solid #3e3399",
-//   padding: "0 20px",
-//   fontSize: "7.5px",
-//   color: "#95969c",
-// };
-
-// const questionStyle = {
-//   marginBottom: "32px",
-// };
-
-// const optionStyle = {
-//   width: "132px",
-//   height: "23px",
-//   borderRadius: "9.85px",
-//   border: "0.4px solid black",
-//   display: "flex",
-//   alignItems: "center",
-//   padding: "0 8px",
-//   marginRight: "12px",
-//   marginBottom: "12px",
-// };
-
-// const buttonStyle = {
-//   width: "167px",
-//   height: "42px",
-//   backgroundColor: "#241f63",
-//   borderRadius: "17.65px",
-//   color: "white",
-//   fontSize: "17.6px",
-//   fontWeight: 600,
-//   border: "none",
-//   cursor: "pointer",
-//   marginRight: "16px",
-// };
-
-// const dropdownStyle = {
-//   width: "140px",
-//   height: "30px",
-//   borderRadius: "17px",
-//   padding: "0 15px",
-//   fontSize: "12px",
-//   backgroundColor: "white",
-//   margin: "0 4px",
-// };
-
-// export const CreateTest = () => {
-//   const [allSubjects, setAllSubjects] = useState([]);
-//   useEffect(() => {
-//     const fetchAllSubjects = async () => {
-//       try {
-//         const result = await apiRequest({
-//           endpoint: "subject/getallsubject.php",
-//           method: "GET",
-//           data: {},
-//         });
-
-
-//         if (result.status === "success") {
-//           // Extract only the subject_name values
-//           const subjectNames = result.data.map((sub) => sub.subject_name);
-//           setAllSubjects(subjectNames); // Set all at once
-//           console.log("Subjects fetched:", subjectNames);
-//         } else {
-//           alert(result.message || "Session creation failed");
-//         }
-//       } catch (err) {
-//         alert(err.message || "Something went wrong");
-//       }
-//     };
-//     fetchAllSubjects();
-//   }, []);
-
-//   const [questions, setQuestions] = useState([
-//     {
-//       id: 1,
-//       options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-//       selectedOption: null,
-//     },
-//     {
-//       id: 2,
-//       options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-//       selectedOption: null,
-//     },
-//   ]);
-
-//   const [searchQuery, setSearchQuery] = useState("");
-//   const [subject, setSubject] = useState("");
-//   const [standard, setStandard] = useState("");
-//   const addQuestion = () => {
-//     const newQuestion = {
-//       id: questions.length + 1,
-//       options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-//       selectedOption: null,
-//     };
-//     setQuestions([...questions, newQuestion]);
-//   };
-
-//   // Function to delete a question by its id
-//   const deleteQuestion = (id) => {
-//     const updatedQuestions = questions.filter((question) => question.id !== id);
-//     setQuestions(updatedQuestions);
-//   };
-
-//   const handleSearchChange = (e) => {
-//     setSearchQuery(e.target.value);
-//   };
-
-//   const filteredQuestions = questions.filter((question) =>
-//     question.options.some((option) =>
-//       option.toLowerCase().includes(searchQuery.toLowerCase())
-//     )
-//   );
-//   const userData = JSON.parse(localStorage.getItem('userData'))
-//   const handleGetQuestions =async()=>{
-//     if (!subject) {
-//       alert("Please select a subject.");
-//       return;
-//     }
-  
-//     if (!standard) {
-//       alert("Please select a standard.");
-//       return;
-//     }
-//       try {
-//         const payload = {subject:subject , standard:standard ,school_id:Number(userData.school_id) };
-        
-//         const result = await apiRequest({
-//           endpoint: "questionbank/getSchoolsubjectteacherSpecificQuestions.php", // Adjust to your actual endpoint
-//           method: "POST",
-//           data: payload,
-//         });
-  
-//         if (result.status === "success") {
-//           console.log("result.data : ",result.data)
-//         } else {
-//           console.error("Failed to fetch holidays:", result.message);
-//         }
-//       } catch (error) {
-//         console.error("Error fetching holidays:", error);
-//       } 
-      
-//   }
-
-//   return (
-//     <div
-//       style={{
-//         display: "flex",
-//         backgroundColor: "white",
-//         minHeight: "100vh",
-//         flexDirection: "column",
-//       }}
-//     >
-//       <div
-//         style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
-//       >
-//         <Navbar />
-//       </div>
-//       <div
-//         style={{
-//           width: "100%",
-//           maxWidth: "800px",
-//           display: "flex",
-//           flexDirection: "column",
-//         }}
-//       >
-//         {/* Main Content */}
-//         <main style={mainContentStyle}>
-//           <div
-//             style={{
-//               display: "flex",
-//               justifyContent: "space-between",
-//               alignItems: "center",
-//               minWidth: 500,
-//             }}
-//           >
-//             <h2
-//               style={{
-//                 color: "#f75e00",
-//                 fontWeight: 600,
-//                 marginBottom: "24px",
-//               }}
-//             >
-//               Create Test
-//             </h2>
-//             <div style={{ minWidth: 500, display: "flex", flexWrap: "wrap" }}>
-
-// <select
-//                 style={dropdownStyle}
-//                 value={subject}
-//                 onChange={(e) => setSubject(e.target.value)}
-//               >
-//                 <option value="">Select Subject</option>
-//                 {allSubjects.map((subj) => (
-//                   <option key={subj} value={subj}>
-//                     {subj}
-//                   </option>
-//                 ))}
-//               </select>
-//               <select
-//                 style={dropdownStyle}
-//                 value={standard}
-//                 onChange={(e) => setStandard(e.target.value)}
-//               >
-//                 <option value="">Select Standard</option>
-//                 {[1,2,3,4,5,6,7,8,9,10].map((number)=>{ return<option value={`${number}`}>{number}</option>})}
-//               </select>
-//               <button style={{backgroundColor:'#3F349A',height:"30px",display:'flex',borderRadius:20 , justifyContent:'center' , alignItems:'center'}} onClick={()=>handleGetQuestions()}>
-//                 <p style={{color:'white'}}>get QuestionBank</p>
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* Questions Section */}
-//           <div>
-//             <h3
-//               style={{
-//                 fontSize: "18px",
-//                 fontWeight: 600,
-//                 marginBottom: "16px",
-//               }}
-//             >
-//               Questions
-//             </h3>
-
-//             {filteredQuestions.map((question, index) => (
-//               <div key={question.id} style={questionStyle}>
-//                 <div style={{ display: "flex", gap: "8px" }}>
-//                   <span
-//                     style={{ fontSize: "18px", fontWeight: 600, width: "27px" }}
-//                   >
-//                     {question.id}.
-//                   </span>
-
-//                   <div style={{ flex: 1 }}>
-//                     <div style={{ display: "flex", flexDirection: "row" }}>
-//                       <input
-//                         type="text"
-//                         placeholder="Enter question"
-//                         style={{
-//                           width: "100%",
-//                           height: "40px",
-//                           borderRadius: "30px",
-//                           border: "1px solid black",
-//                           padding: "0 20px",
-//                         }}
-//                       />
-//                       <button
-//                         onClick={() => deleteQuestion(question.id)}
-//                         style={{
-//                           color: "white",
-//                           borderRadius: "50%",
-//                           width: "30px",
-//                           height: "30px",
-//                           border: "none",
-//                           cursor: "pointer",
-//                           display: "flex",
-//                           justifyContent: "center",
-//                           alignItems: "center",
-//                         }}
-//                       >
-//                         🗑️
-//                       </button>
-//                     </div>
-
-//                     <div
-//                       style={{
-//                         display: "flex",
-//                         flexWrap: "wrap",
-//                         marginTop: "16px",
-//                       }}
-//                     >
-//                       {question.options.map((option, optIndex) => (
-//                         <div key={optIndex} style={optionStyle}>
-//                           <input
-//                             type="radio"
-//                             name={`question-${question.id}`}
-//                             id={`q${question.id}-opt${optIndex}`}
-//                             defaultChecked={
-//                               question.selectedOption === optIndex
-//                             }
-//                             style={{ marginRight: "8px" }}
-//                           />
-//                           <label
-//                             htmlFor={`q${question.id}-opt${optIndex}`}
-//                             style={{ fontSize: "8.1px", fontWeight: 600 }}
-//                           >
-//                             {option}
-//                           </label>
-//                         </div>
-//                       ))}
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-
-//           {/* Action Buttons */}
-//           <div
-//             style={{
-//               display: "flex",
-//               justifyContent: "center",
-//               gap: "16px",
-//               marginTop: "32px",
-//             }}
-//           >
-//             <button
-//               style={{
-//                 ...buttonStyle,
-//               }}
-//               onClick={addQuestion}
-//             >
-//               +
-//             </button>
-//             <button style={buttonStyle}>Download</button>
-//             <button style={buttonStyle}>Save</button>
-//           </div>
-//         </main>
-//       </div>
-//     </div>
-//   );
-// };
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import apiRequest from "../../utils/apiRequest";
-
-const sidebarStyle = {
-  width: "166px",
-  height: "722px",
-  backgroundColor: "#241f63",
-  borderRadius: "18.05px",
-  padding: "16px",
-  display: "flex",
-  flexDirection: "column",
-};
-
-const menuHeaderStyle = {
-  color: "white",
-  fontSize: "11.3px",
-  fontWeight: 500,
-  marginBottom: "8px",
-};
-
-const menuItemStyle = {
-  color: "white",
-  fontSize: "9px",
-  marginBottom: "4px",
-  cursor: "pointer",
-};
+import jsPDF from "jspdf";
+// import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 
 const mainContentStyle = {
   flex: 1,
   paddingTop: "24px",
 };
 
-const headerStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: "48px",
-};
-
-const searchInputStyle = {
-  width: "20%",
-  height: "29px",
-  borderRadius: "13.4px",
-  border: "0.75px solid #3e3399",
-  padding: "0 20px",
-  fontSize: "7.5px",
-  color: "#95969c",
-};
 
 const questionStyle = {
   marginBottom: "32px",
@@ -567,7 +165,84 @@ export const CreateTest = () => {
       alert("Error fetching questions: " + error.message);
     }
   };
-
+  const sanitize = (text) =>
+  text ? text.normalize("NFKD").replace(/[^\x00-\x7F]/g, "") : "";
+  // const downloadPDF = () => {
+  //   const doc = new jsPDF();
+  //   let currentY = 20;
+  //   doc.setFont("helvetica");
+  //   doc.setFontSize(16);
+  //   doc.text("MCQ Test", 14, currentY);
+  //   currentY += 10;
+  
+  //   questions.forEach((q, index) => {
+  //     doc.setFont("helvetica");
+  //     doc.setFontSize(12);
+  //     doc.text(`${index + 1}. ${q.question}`, 14, currentY);
+  //     currentY += 5;
+  
+  //     const options = [
+  //       [`A. ${q.option1}`, q.correct_answer === "1" ? "✔️" : ""],
+  //       [`B. ${q.option2}`, q.correct_answer === "2" ? "✔️" : ""],
+  //       [`C. ${q.option3}`, q.correct_answer === "3" ? "✔️" : ""],
+  //       [`D. ${q.option4}`, q.correct_answer === "4" ? "✔️" : ""],
+  //     ];
+  
+  //     autoTable(doc, {
+  //       startY: currentY,
+  //       head: [["Options", "Correct"]],
+  //       body: options,
+  //       theme: "grid",
+  //       styles: { fontSize: 10 },
+  //       margin: { left: 14, right: 14 },
+  //     });
+  
+  //     currentY = doc.lastAutoTable.finalY + 10;
+  //   });
+  
+  //   doc.save("mcq_test.pdf");
+  // };
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    let y = 20;
+  
+    doc.setFont("helvetica");
+    doc.setFontSize(16);
+    // doc.text("MCQ Test", 14, y);
+    doc.text("MCQ Test", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
+    y += 10;
+  
+    questions.forEach((q, index) => {
+      // Add the question
+      doc.setFontSize(12);
+      doc.text(`${index + 1}. ${sanitize(q.question)}`, 14, y);
+      y += 7;
+  
+      // Add options
+      const options = [
+        `A. ${sanitize(q.option1)}`,
+        `B. ${sanitize(q.option2)}`,
+        `C. ${sanitize(q.option3)}`,
+        `D. ${sanitize(q.option4)}`
+      ];
+  
+      options.forEach((opt, i) => {
+        const isCorrect = q.correct_answer === String(i + 1);
+        doc.text(`${opt}${isCorrect ? "  ✔️" : ""}`, 20, y);
+        y += 6;
+      });
+  
+      y += 8;
+  
+      // Page break if nearing bottom
+      if (y > 270) {
+        doc.addPage();
+        y = 20;
+      }
+    });
+  
+    doc.save("mcq_test.pdf");
+  };
   return (
     <div
       style={{
@@ -774,7 +449,7 @@ export const CreateTest = () => {
             >
               +
             </button>
-            <button style={buttonStyle}>Download</button>
+            <button style={buttonStyle} onClick={downloadPDF}>Download</button>
             <button style={buttonStyle}>Save</button>
           </div>
         </main>
