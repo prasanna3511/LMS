@@ -178,7 +178,6 @@ const Dashboard = ({setRole}) => {
     getLastSessionCompletetion();
   }, []);
   const handleSubmit = async () => {
-    console.log("sessionCompletion : ", sessionCompletion.id);
     const now = new Date();
     const formattedTime = now.toTimeString().split(" ")[0];
 
@@ -200,8 +199,9 @@ const Dashboard = ({setRole}) => {
       });
 
       if (result.status === "success") {
-        alert("Your day has been ended");
-        console.log("End day success");
+        alert("Your Session Has been submitted succefully");
+        localStorage.setItem('sessionIdForAttendance',sessionCompletion.id)
+        setRole("studentAttendance")
       } else {
         alert(result.message || "Failed to end day");
       }

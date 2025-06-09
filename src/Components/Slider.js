@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate()
   const sidebarStyle = {
     width: "200px",
     backgroundColor: "#1a1a56",
@@ -11,7 +13,10 @@ const Sidebar = () => {
     borderRadius: "20px",
     margin: "2%",
   };
-
+  const logout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
   const titleStyle = {
     fontSize: "20px",
     fontWeight: "bold",
@@ -79,7 +84,7 @@ const Sidebar = () => {
       <a href="#" style={linkStyle}>Tests</a>
       <a href="#" style={linkStyle}>Accounts</a>
 
-      <button style={logoutButtonStyle}>Logout</button>
+      <button style={logoutButtonStyle} onClick={logout}>Logout</button>
     </div>
   );
 };

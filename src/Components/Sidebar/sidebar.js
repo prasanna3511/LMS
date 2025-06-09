@@ -24,18 +24,17 @@ import TestReportPage from "../Reports/TestReportAdmin";
 import SchoolReportPage from "../Reports/SchoolReport";
 import CreateSession from "../CreateSession";
 import AddSubject from "../Subject/AddSubject";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  // const [role, setRole] = useState("home");
   const [role, setRole] = useState("home");
 
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
-      // Auto-close sidebar on mobile, auto-open on desktop
       setSidebarOpen(!mobile);
     };
 
@@ -43,7 +42,11 @@ const Sidebar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+  const navigate = useNavigate()
+  const logout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
   const sidebarStyle = {
     width: isMobile ? "250px" : "200px",
     backgroundColor: "#1a1a56",
@@ -531,7 +534,7 @@ const Sidebar = () => {
 
         <div
           style={logoutButtonStyle}
-          onClick={() => console.log("Logout clicked")}
+          onClick={logout}
           onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
           onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
         >

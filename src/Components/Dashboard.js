@@ -24,7 +24,7 @@ export default function Dashboard() {
   const fetchHolidays = async (schoolId = null) => {
     try {
       setLoading(true);
-      const payload = schoolId ? { school_id: schoolId } : {};
+      const payload =  {};
       
       const result = await apiRequest({
         endpoint: "holidays/getholidaybyschoolid.php", // Adjust to your actual endpoint
@@ -67,7 +67,8 @@ export default function Dashboard() {
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-
+  const [questionCount , setQuestionCount] = useState(0);
+  const [sessionCount , setSessionCount] = useState(0);
   const startOfWeek = (date) => {
     const d = new Date(date);
     const day = d.getDay();
@@ -119,7 +120,55 @@ export default function Dashboard() {
   })} ${currentDate.getFullYear()}`;
   const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
   const weekDates = getWeekDates(currentDate);
+  const fetchAllQuestions = async () => {
+    try {
+      const result = await apiRequest({
+        endpoint: "questionbank/getallquestion.php",
+        method: "POST",
+        data:
+          userData.role === "admin"
+            ? { role: userData.role }
+            : { school_id: userData.school_id, role: userData.role },
+      });
 
+      if (result.status === "success") {
+        // alert("Session creation completed");
+        console.log("result : ",result.data)
+        // setQuestions(result.data);
+        setQuestionCount(result.data.length)
+        console.log("fetchAllQuestions", result);
+      } else {
+        alert(result.message || "Session creation failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  };
+  const fetchAllSession = async () => {
+    try {
+      const result = await apiRequest({
+        endpoint: "sessions/getsessionbyschoolid.php",
+        method: "POST",
+        data:{},
+      });
+
+      if (result.status === "success") {
+        // alert("Session creation completed");
+        console.log("result : ",result.data)
+        // setQuestions(result.data);
+        setSessionCount(result.data.length)
+        console.log("fetchAllQuestions", result);
+      } else {
+        alert(result.message || "Session creation failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  };
+  useEffect(() => {
+    fetchAllQuestions();
+    fetchAllSession()
+  }, []);
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "99%", marginLeft: 10 }}>
    <div
@@ -456,7 +505,7 @@ export default function Dashboard() {
                   alignItems: "center",
                   marginLeft: 8,
                 }}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{sessionCount}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>Total Sessions Created</p>
                 </div>
               </div>
@@ -568,7 +617,7 @@ export default function Dashboard() {
                   marginLeft: 8,
                   alignItems: "center"
                 }}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{questionCount}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>Total Question Bank Created</p>
                 </div>
               </div>

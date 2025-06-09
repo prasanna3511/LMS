@@ -107,10 +107,54 @@ export const CreateTest = () => {
       )
     );
   };
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+  const handleSaveQuestions = async () => {
+    if (!subject || !standard) {
+      alert("Please select both subject and standard.");
+      return;
+    }
+  
+  
+    for (let q of questions) {
+      // Validation (optional, but recommended)
+      if (!q.question || !q.option1 || !q.option2 || !q.option3 || !q.option4) {
+        alert("Please fill all fields for each question.");
+        return;
+      }
+  
+      const payload = {
+        question: q.question,
+        option1: q.option1,
+        option2: q.option2,
+        option3: q.option3,
+        option4: q.option4,
+        correct_answer: q.correct_answer,
+        type: q.type,
+        standard: standard,
+        subject: subject,
+        test_id: 2, // Replace with actual test_id if needed
+      };
+  
+      try {
+        const result = await apiRequest({
+          endpoint: "createTest/create_test.php",
+          method: "POST",
+          data: payload,
+        });
+  
+        if (result.status !== "success") {
+          alert("Failed to save a question: " + result.message);
+          return;
+        }
+      } catch (err) {
+        alert("Save failed: " + err.message);
+        return;
+      }
+    }
+  
+    alert("All questions saved successfully!");
   };
+  
+  
 
   const filteredQuestions = questions.filter((question) =>
     question.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -134,16 +178,15 @@ export const CreateTest = () => {
     }
 
     try {
-      const payload = { subject: subject, standard: standard, school_id: Number(userData.school_id) };
+      const payload = { subject: subject, standard: standard, school_id: Number(userData.school_id) , };
 
       const result = await apiRequest({
-        endpoint: "questionbank/getSchoolsubjectteacherSpecificQuestions.php",
+        endpoint: userData.role === 'admin'? "questionbank/getallquestion.php":"questionbank/getSchoolsubjectteacherSpecificQuestions.php",
         method: "POST",
-        data: payload,
+        data: userData.role === 'admin'?{role:"admin"}:payload,
       });
 
       if (result.status === "success") {
-        console.log("result.data : ", result.data);
         // Transform the API data to match your component structure
         const transformedQuestions = result.data.map((item, index) => ({
           id: item.id,
@@ -167,41 +210,7 @@ export const CreateTest = () => {
   };
   const sanitize = (text) =>
   text ? text.normalize("NFKD").replace(/[^\x00-\x7F]/g, "") : "";
-  // const downloadPDF = () => {
-  //   const doc = new jsPDF();
-  //   let currentY = 20;
-  //   doc.setFont("helvetica");
-  //   doc.setFontSize(16);
-  //   doc.text("MCQ Test", 14, currentY);
-  //   currentY += 10;
-  
-  //   questions.forEach((q, index) => {
-  //     doc.setFont("helvetica");
-  //     doc.setFontSize(12);
-  //     doc.text(`${index + 1}. ${q.question}`, 14, currentY);
-  //     currentY += 5;
-  
-  //     const options = [
-  //       [`A. ${q.option1}`, q.correct_answer === "1" ? "✔️" : ""],
-  //       [`B. ${q.option2}`, q.correct_answer === "2" ? "✔️" : ""],
-  //       [`C. ${q.option3}`, q.correct_answer === "3" ? "✔️" : ""],
-  //       [`D. ${q.option4}`, q.correct_answer === "4" ? "✔️" : ""],
-  //     ];
-  
-  //     autoTable(doc, {
-  //       startY: currentY,
-  //       head: [["Options", "Correct"]],
-  //       body: options,
-  //       theme: "grid",
-  //       styles: { fontSize: 10 },
-  //       margin: { left: 14, right: 14 },
-  //     });
-  
-  //     currentY = doc.lastAutoTable.finalY + 10;
-  //   });
-  
-  //   doc.save("mcq_test.pdf");
-  // };
+
   const downloadPDF = () => {
     const doc = new jsPDF();
     let y = 20;
@@ -450,7 +459,7 @@ export const CreateTest = () => {
               +
             </button>
             <button style={buttonStyle} onClick={downloadPDF}>Download</button>
-            <button style={buttonStyle}>Save</button>
+            <button style={buttonStyle} on onClick={handleSaveQuestions}>Save</button>
           </div>
         </main>
       </div>
