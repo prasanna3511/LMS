@@ -497,7 +497,7 @@ const Sidebar = () => {
             </a>
           </li>
             )}
-             {(
+             {/* {(
             getUserRole.role === "teacher" ) && (
           <li>
             <a
@@ -511,7 +511,7 @@ const Sidebar = () => {
               View Session
             </a>
           </li>
-            )}
+            )} */}
             {(getUserRole.role === "student" ||
             getUserRole.role === "admin" ||
             getUserRole.role === "teacher"||  getUserRole.role === "principle") && (
@@ -544,7 +544,7 @@ const Sidebar = () => {
       <div style={contentStyle}>
         {role === "home" && getUserRole.role === "admin" && <Dashboard />}
         {role === "home" && getUserRole.role === "teacher" && (
-          <TeacherDashboard />
+          <TeacherDashboard  setRole={setRole}/>
         )}
         {role === "home" && getUserRole.role === "student" && (
           <StudentDashboard />

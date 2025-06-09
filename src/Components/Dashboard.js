@@ -14,7 +14,7 @@ export default function Dashboard() {
   const total = present + absent;
   const attendancePercentage =
     total > 0 ? ((present / total) * 100).toFixed(1) : 0;
-
+  const userData = JSON.parse(localStorage.getItem('userData'))
   const navigate = useNavigate();
   const handleContact = () => {
     navigate("/school");
@@ -47,7 +47,7 @@ export default function Dashboard() {
     }
   };
   useEffect(()=>{
-    fetchHolidays("1")
+    fetchHolidays(userData.school_id)
   },[])
 
   const containerStyle = {
@@ -58,14 +58,6 @@ export default function Dashboard() {
     maxWidth: "320px",
     marginBottom: "2%",
   };
-
-  const sectionStyle = {
-    backgroundColor: "#F8F8F8",
-    padding: "20px",
-    borderRadius: "10px",
-    textAlign: "center",
-  };
-
   const titleStyle1 = {
     fontSize: "16px",
     fontWeight: "bold",
@@ -73,70 +65,6 @@ export default function Dashboard() {
     marginBottom: "10px",
   };
 
-  const chartContainerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
-
-  const chartStyle = {
-    width: "80px",
-    height: "80px",
-    borderRadius: "50%",
-    border: "8px solid #1a1a56",
-    borderTopColor: "transparent",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontWeight: "bold",
-    fontSize: "14px",
-  };
-
-  const textRowStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    fontSize: "12px",
-    marginTop: "10px",
-    flexWrap: "wrap",
-  };
-
-  const inputStyle = {
-    padding: "5px",
-    width: "70px",
-    margin: "5px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    textAlign: "center",
-  };
-
-  const cardStyle = {
-    backgroundColor: "#F8F8F8",
-    padding: "15px",
-    borderRadius: "10px",
-    width: "100%",
-    maxWidth: "250px",
-  };
-
-  const titleStyle = {
-    fontSize: "20px",
-    fontWeight: "bold",
-    color: "#d9534f",
-    marginBottom: "10px",
-  };
-
-  const buttonStyle = {
-    backgroundColor: "#1a1a56",
-    color: "white",
-    padding: "10px",
-    borderRadius: "20px",
-    border: "none",
-    width: "100%",
-    textAlign: "center",
-    cursor: "pointer",
-    marginTop: "20px",
-    height: "40px",
-    fontSize: "15px",
-  };
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -191,26 +119,7 @@ export default function Dashboard() {
   })} ${currentDate.getFullYear()}`;
   const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
   const weekDates = getWeekDates(currentDate);
-  const sessionData = [
-    {
-      grade: 6,
-      topic: "Math Basics",
-      description: "Introduction to fractions",
-      completed: false,
-    },
-    {
-      grade: 7,
-      topic: "Algebra",
-      description: "Linear equations",
-      completed: true,
-    },
-    {
-      grade: 8,
-      topic: "Geometry",
-      description: "Angles and lines",
-      completed: false,
-    },
-  ];
+
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "99%", marginLeft: 10 }}>
    <div

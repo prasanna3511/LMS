@@ -258,8 +258,7 @@ const CreateQuestionBank = ({ setRole }) => {
                 value={standard}
                 onChange={(e) => setStandard(e.target.value)}
               >
-                <option>Class 1</option>
-                <option>Class 2</option>
+                {[1,2,3,4,5,6,7,8,9,10].map((number)=>{ return<option value={`${number}`}>{number}</option>})}
               </select>
             </div>
           </div>
