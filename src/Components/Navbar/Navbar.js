@@ -43,7 +43,7 @@ export default function Navbar() {
           display: 'inline-flex',
           justifyContent: 'center',
           alignItems: 'center'
-        }}><img src={require('../../images/sampleimage.jpg')} style={{height: 40, width:40, borderRadius:20}} /></span>
+        }}><img src={require('../../images/userProfile.png')} style={{height: 40, width:40, borderRadius:20}} /></span>
         
         <div>
           <strong>{getUser[0]?.username}</strong><br />

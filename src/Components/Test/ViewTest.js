@@ -1,21 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import '../Reports/StudentReportPage.css';
+import apiRequest from '../../utils/apiRequest';
 
 const ViewTestPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredTests, setFilteredTests] = useState(testData);
+  const [filteredTests, setFilteredTests] = useState([]);
+  const [totalData , setTotalData] = useState([])
+  const userData = JSON.parse(localStorage.getItem("userData"));
 
   const handleSearch = (value) => {
     setSearchTerm(value)
-    const filtered = testData.filter(test =>
+    const filtered = totalData.filter(test =>
       test.name.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredTests(filtered);
   };
   const handleDelete = (indexToDelete) => {
     const updatedTests = filteredTests.filter((_, index) => index !== indexToDelete);
-    setFilteredTests(updatedTests);
+    // setFilteredTests(updatedTests);
+  };
+  useEffect(()=>{
+    getQuestionPaperName()
+  },[])
+  const getQuestionPaperName = async () => {
+
+    const payload = {
+    // name:enterTestName,
+    school_id:Number(userData.school_id)
+    };
+
+    try {
+      const result = await apiRequest({
+        endpoint: "createQuestionPapername/getquestionpaperName.php",
+        method: "POST",
+        data: userData.role === 'admin'?{}: payload,
+      });
+
+      if (result.status !== "success") {
+        alert("Failed to save a question: " + result.message);
+        return;
+      }
+      console.log("result data : ",result.data)
+      // return result.data.id
+      setFilteredTests(result.data)
+      setTotalData(result.data)
+    } catch (err) {
+      alert("Save failed: " + err.message);
+      return;
+    }
   };
 
   return (
@@ -99,12 +132,12 @@ const ViewTestPage = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredTests.map((test, index) => (
+          {filteredTests.length >0 && filteredTests.map((test, index) => (
             <tr key={index}>
               <td style={{ padding: '12px' }}>{test.name}</td>
               <td style={{ padding: '12px' }}>{test.date}</td>
-              <td style={{ padding: '12px' }}>{test.subject}</td>
-              <td style={{ padding: '12px' }}>{test.standard}</td>
+              {test.test_papers &&<td style={{ padding: '12px' }}>{test?.test_papers[0]?.subject}</td>}
+              {test.test_papers &&<td style={{ padding: '12px' }}>{test?.test_papers[0]?.standard}</td>}
               <td style={{ padding: '12px' }}>
                 <button style={buttonStyle}>Edit</button>
                 <button onClick={() => handleDelete(index)} style={buttonStyle}>Delete</button>
