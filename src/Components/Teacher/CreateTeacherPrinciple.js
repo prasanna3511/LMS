@@ -47,8 +47,10 @@ export default function TeacherPrinciple() {
   };
 
   const handleSave = async () => {
+    console.log(data)
     if (validate()) {
       // alert("Form is valid, ready to submit!");
+
       const payload = {
         full_name: formData.fullname,
         email: formData.email,
@@ -56,13 +58,13 @@ export default function TeacherPrinciple() {
         address: formData.address,
         password: formData.password,
         mobile_number: formData.mobile,
-        school_name: "Your School Name",     // Adjust this as needed
+        school_name: data.school_name,     // Adjust this as needed
         whatsapp_number: formData.whatsapp,
         date_of_birth: formData.dob,
         username: formData.username,      // You can use email or another unique ID if preferred
-        grade: 'formData.grade',
-        parent_name: "formData.username",
-        relation: "Father",                  // Adjust as needed
+        grade: formData.role === 'teacher' ?formData.grade : " ",
+        parent_name: " ",
+        relation: " ",                  // Adjust as needed
         school_id: data.id,  
         date_of_joining:formData.doj                    // Adjust as needed
       };
@@ -85,6 +87,7 @@ export default function TeacherPrinciple() {
     }
   };
 
+  // console.log(JSONdata))
   // Style definitions
   const containerStyle = {
     display: "flex",
@@ -168,6 +171,22 @@ export default function TeacherPrinciple() {
             <option>admin</option>
           </select>
           {errors.role && <div style={errorStyle}>{errors.role}</div>}
+          {formData.role === 'teacher' && <><label style={labelStyle}>Grade</label>
+          <select
+            name="grade"
+            value={formData.grade}
+            onChange={handleChange}
+            style={{ ...inputStyle, backgroundColor:'white'}}
+          >
+            <option value="">Select Grade</option>
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => {
+                  return (
+                    <option key={number} value={`${number}`}>
+                      {number}
+                    </option>
+                  );
+                })}
+          </select></>}
 
           <label style={labelStyle}>Password</label>
           <input
@@ -261,7 +280,7 @@ export default function TeacherPrinciple() {
 
       <div style={buttonContainerStyle}>
         <button style={buttonStyle}>Back</button>
-        <button style={buttonStyle} onClick={handleSave}>Create Student Login</button>
+        <button style={buttonStyle} onClick={handleSave}>Create Login</button>
         {/* <button style={buttonStyle}>Save & Add Student</button> */}
       </div>
     </div>

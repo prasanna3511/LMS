@@ -154,7 +154,8 @@ export const CreateTest = () => {
 
       const payload = {
       name:enterTestName,
-      school_id:Number(userData.school_id)
+      school_id:Number(userData.school_id),
+      created_by:Number(userData.id)
       };
 
       try {
@@ -168,7 +169,7 @@ export const CreateTest = () => {
           alert("Failed to save a question: " + result.message);
           return;
         }
-        console.log("result data : ",result.data)
+        console.log("result data in test createtion: ",result.data)
         return result.data.id
       } catch (err) {
         alert("Save failed: " + err.message);

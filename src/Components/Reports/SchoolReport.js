@@ -1,56 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import './StudentReportPage.css';
+import apiRequest from '../../utils/apiRequest';
 
 
 const SchoolReportPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRow, setSelectedRow] = useState(null); // To track selected row
-  const [schoolData, setSchoolData] = useState([
-    {
-      id: '1',
-      name: 'Greenwood High',
-      contact: '022-456789',
-      mobile: '9876543210',
-      whatsapp: '9876543210',
-      email: 'info@greenwood.com',
-      chairman: 'Mr. Desai',
-      principal: 'Mrs. Rao',
-      totalTeachers: 50,
-      totalStudents: 1200,
-      joinedStudents: 100,
-      joiningDate: '2010-06-15',
-      holidays: 20,
-      expenses: '₹50L',
-      totalStaff: 80,
-      area: 'Bangalore',
-      photo: 'https://via.placeholder.com/40'
-    },
-    {
-      id: '2',
-      name: 'Sunrise Academy',
-      contact: '020-123456',
-      mobile: '9123456780',
-      whatsapp: '9123456780',
-      email: 'contact@sunrise.edu',
-      chairman: 'Mrs. Kapoor',
-      principal: 'Mr. Singh',
-      totalTeachers: 40,
-      totalStudents: 950,
-      joinedStudents: 80,
-      joiningDate: '2012-08-01',
-      holidays: 18,
-      expenses: '₹45L',
-      totalStaff: 70,
-      area: 'Pune',
-      photo: 'https://via.placeholder.com/40'
-    }
-  ]);
+  const [schoolData, setSchoolData] = useState([]);
 
   // Filtered school data based on search term
   const filteredData = schoolData.filter((school) =>
-    school.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  school.school_info.school_name.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
 
   const handleRowClick = (index) => {
     setSelectedRow(index === selectedRow ? null : index); // Toggle row selection
@@ -66,6 +29,41 @@ const SchoolReportPage = () => {
     if (selectedRow !== null) {
       // Here, the selected row's columns are editable already, no need for extra logic for editing.
       alert('You can directly edit the fields in the row.');
+    }
+  };
+
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
+  useEffect(()=>{
+    getStduentReport()
+  },[])
+  const getStduentReport = async () => {
+
+    const payload = {
+    // name:enterTestName,
+    school_id:Number(userData.school_id),
+    teacher_id:Number(userData.id)
+    };
+
+    try {
+      const result = await apiRequest({
+        endpoint: "reports/schoolReport.php",
+        method: "POST",
+        data: userData.role === 'admin'?{}: payload,
+      });
+
+      console.log("result data school report: ",result)
+      if (result.status !== true) {
+        // alert("Failed to save a question: " + result.message);
+
+        ///// prasannna set data below
+        return;
+      }
+      setSchoolData(result.data)
+      
+    } catch (err) {
+      alert("Save failed: " + err.message);
+      return;
     }
   };
 
@@ -130,7 +128,7 @@ const SchoolReportPage = () => {
                   cursor: 'pointer',
                 }}
               >
-                {Object.keys(school).map((key, idx) => (
+                {/* {Object.keys(school).map((key, idx) => (
                   <td key={idx} style={tdStyle}>
                     {selectedRow === index ? (
                       key === 'photo' ? (
@@ -149,7 +147,27 @@ const SchoolReportPage = () => {
                       school[key] // Display regular data if not in selected row
                     )}
                   </td>
-                ))}
+                ))} */}
+                <td style={tdStyle}>{school.school_info.id}</td>
+<td style={tdStyle}>{school.school_info.school_name}</td>
+<td style={tdStyle}>{school.school_info.school_contact_number}</td>
+<td style={tdStyle}>{school.school_info.school_mobile_number}</td>
+<td style={tdStyle}>{school.school_info.school_mobile_number}</td> {/* Assuming WhatsApp is same */}
+<td style={tdStyle}>{school.school_info.school_email_id}</td>
+<td style={tdStyle}>{school.school_info.chairman_name}</td>
+<td style={tdStyle}>{school.school_info.chairman_name}</td> {/* Replace if you have principal */}
+<td style={tdStyle}>{school.teacher_count}</td>
+<td style={tdStyle}>{school.school_info.school_student_count}</td>
+<td style={tdStyle}>{school.student_count}</td>
+<td style={tdStyle}>{school.school_info.date_of_joining}</td>
+<td style={tdStyle}>{school.holiday_count}</td>
+<td style={tdStyle}>₹ 0</td> {/* Replace with real annual expenses if available */}
+<td style={tdStyle}>0</td> {/* Replace with real total staff if available */}
+<td style={tdStyle}>{school.school_info.school_address}</td>
+<td style={tdStyle}>
+  <img src="school.jpg" alt="school" style={{ width: '40px', height: '40px' }} />
+</td>
+
               </tr>
             ))}
           </tbody>

@@ -8,6 +8,7 @@ const AddSubject = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [editValue, setEditValue] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [subjectupdateId , setSubjectupdateid] = useState({})
   useEffect(() => {
     const fetchAllSubjects = async () => {
       try {
@@ -21,8 +22,7 @@ const AddSubject = () => {
         if (result.status === "success") {
           // Extract only the subject_name values
           const subjectNames = result.data.map((sub) => sub.subject_name);
-          setSubjects(subjectNames); // Set all at once
-          console.log("Subjects fetched:", subjectNames);
+          setSubjects(result.data); // Set all at once
         } else {
           alert(result.message || "Session creation failed");
         }
@@ -77,24 +77,73 @@ const AddSubject = () => {
   //   }
   // };
 
-  const handleEdit = (index) => {
+  const handleEdit = async(index,id) => {
     setEditIndex(index);
-    setEditValue(subjects[index]);
+    setEditValue(subjects[index].subject_name);
+  setSubjectupdateid(subjects[index]);
+   
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async() => {
     if (editValue.trim()) {
       const updated = [...subjects];
-      updated[editIndex] = editValue.trim();
+      updated[editIndex] = {
+        ...updated[editIndex],
+        subject_name: editValue.trim()
+      };
       setSubjects(updated);
       setEditIndex(null);
       setEditValue("");
     }
+    console.log("subjectupdateId.id : ",subjectupdateId.id , editValue.trim())
+    try {
+      const result = await apiRequest({
+        endpoint: "subject/updatesubject.php",
+        method: "POST",
+        data: {
+          subject_name: editValue.trim(),
+          id:subjectupdateId.id
+          // You can optionally pass other fields like subject_code, standard, etc.
+        },
+      });
+
+
+      if (result.status === "success") {
+        // setSubjects([...subjects, trimmedSubject]);
+        // setNewSubject("");
+        alert("Subject updated successfully!");
+      } else {
+        alert(result.message || "Failed to add subject");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
   };
 
-  const handleDelete = (index) => {
+  const handleDelete =async (index) => {
     const updated = subjects.filter((_, i) => i !== index);
     setSubjects(updated);
+    setSubjectupdateid(subjects[index]);
+    try {
+      const result = await apiRequest({
+        endpoint: "subject/deletesubject.php",
+        method: "POST",
+        data: {
+          subject_name: editValue.trim(),
+          id:subjects[index].id
+          // You can optionally pass other fields like subject_code, standard, etc.
+        },
+      });
+
+
+      if (result.status === "success") {
+        alert("Subject Deleted successfully!");
+      } else {
+        alert(result.message || "Failed to add subject");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
   };
 
   const containerStyle = {
@@ -188,8 +237,14 @@ const AddSubject = () => {
         )}
       </div>
 
-      <div style={listStyle}>
-        <h3>Existing Lectures</h3>
+      {/* <div style={{
+    ...listStyle,
+    maxHeight: "300px",        // Adjust height as needed
+    overflowY: "auto",         // Enable vertical scroll
+    border: "1px solid #ccc",  // Optional: visual boundary
+    paddingRight: "10px",      // To prevent scrollbar overlapping
+  }}>
+        <h3>Existing Subjects</h3>
         <ol>
           {subjects.map((subject, index) => (
             <li key={index} style={{ marginBottom: "10px" ,display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
@@ -212,7 +267,63 @@ const AddSubject = () => {
             </li>
           ))}
         </ol>
-      </div>
+      </div> */}
+      <div
+  style={{
+    ...listStyle,
+    maxHeight: "300px",
+    overflowY: "auto",
+    border: "1px solid #ccc",
+    paddingRight: "10px",
+  }}
+>
+  <h3 style={{ marginBottom: "10px", fontSize: 16, fontWeight: "700" }}>
+    Existing Subjects
+  </h3>
+  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <thead>
+      <tr>
+        <th
+          style={{
+            textAlign: "left",
+            padding: "8px",
+            fontSize: 14,
+            fontWeight: "600",
+          }}
+        >
+          Subject Name
+        </th>
+        <th style={{ padding: "8px", fontSize: 14, fontWeight: "600" }}>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {subjects.map((subject, index) => (
+        <tr key={index}>
+          <td style={{ padding: "8px", fontSize: 13 }}>{subject.subject_name}</td>
+          <td style={{ padding: "8px", fontSize: 13 }}>
+            <button
+              onClick={() => {handleEdit(index,subject.id);setSubjectupdateid(subject)}}
+              style={{
+                ...smallButton,
+                backgroundColor: "#1d0e6f",
+                marginRight: "5px",
+              }}
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => handleDelete(index)}
+              style={{ ...smallButton, backgroundColor: "red" }}
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
     </div>
     </div>
 

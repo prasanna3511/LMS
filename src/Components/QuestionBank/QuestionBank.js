@@ -369,7 +369,7 @@ const CreateQuestionBank = ({ setRole }) => {
           </button>
         </div>
 
-        <div className="rightSection">
+        {/* <div className="rightSection">
           <h3 style={{ marginBottom: "10px", fontSize: 16, fontWeight: "700" }}>
             Previously Created Questions
           </h3>
@@ -417,7 +417,87 @@ const CreateQuestionBank = ({ setRole }) => {
               ))}
             </tbody>
           </table>
-        </div>
+        </div> */}
+        <div className="rightSection">
+  <h3 style={{ marginBottom: "10px", fontSize: 16, fontWeight: "700" }}>
+    Previously Created Questions
+  </h3>
+
+  <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <thead>
+        <tr>
+          <th
+            style={{
+              textAlign: "left",
+              padding: "8px",
+              fontSize: 14,
+              fontWeight: "600",
+              background: "#f0f0f0",
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+            }}
+          >
+            Name
+          </th>
+          <th
+            style={{
+              textAlign: "left",
+              padding: "8px",
+              fontSize: 14,
+              fontWeight: "600",
+              background: "#f0f0f0",
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+            }}
+          >
+            Edit
+          </th>
+          <th
+            style={{
+              padding: "8px",
+              background: "#f0f0f0",
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+            }}
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {questions.map((question, index) => (
+          <tr key={index}>
+            <td style={{ padding: "8px", fontSize: 12 }}>
+              {question.question}
+            </td>
+            <td style={{ padding: "8px", fontSize: 12 }}>
+              <button style={{backgroundColor: "#1d0e6f",color:"white" ,padding: "5px 10px",
+    borderRadius: "4px",
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+    marginRight: "5px"}} onClick={() => handleEdit(question)}>Edit</button>
+            </td>
+            <td style={{ padding: "8px", fontSize: 12 }}>
+              <button style={{backgroundColor: "red",color:"white" ,padding: "5px 10px",
+    borderRadius: "4px",
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+    marginRight: "5px"}} onClick={() => handleDelete(question.id)}>Delete</button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
       </div>
     </div>
   );

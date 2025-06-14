@@ -20,6 +20,7 @@ export default function Dashboard() {
     navigate("/school");
   };
   const [holidays, setHolidays] = useState([]);
+  const [totalTest, setTotalTest] = useState([]);
   const [loading, setLoading] = useState(true);
   const fetchHolidays = async (schoolId = null) => {
     try {
@@ -46,8 +47,34 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
+  const fetchTotalTest = async (schoolId = null) => {
+    try {
+      setLoading(true);
+      const payload =  {};
+      
+      const result = await apiRequest({
+        endpoint: "createTest/getAllTestPapers.php", // Adjust to your actual endpoint
+        method: "POST",
+        data: payload,
+      });
+
+      if (result.status === "success") {
+        setTotalTest(result.data || []);
+        console.log("result.data setTotalTest : ",result.data)
+      } else {
+        console.error("Failed to fetch holidays:", result.message);
+        setTotalTest([]);
+      }
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+      setTotalTest([]);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(()=>{
     fetchHolidays(userData.school_id)
+    fetchTotalTest()
   },[])
 
   const containerStyle = {
@@ -384,12 +411,12 @@ export default function Dashboard() {
                 <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
                   <p style={{fontSize: 10}}>86</p>
-                  <p style={{fontSize: 10, marginTop: -10}}>Total Present</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>absent</p>
                 </div>
                 <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
                   <p style={{fontSize: 10}}>86</p>
-                  <p style={{fontSize: 10, marginTop: -10}}>Total Present</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total</p>
                 </div>
               </div>
             </div>
@@ -435,17 +462,17 @@ export default function Dashboard() {
               }}>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
                   <p style={{fontSize: 10}}>86</p>
-                  <p style={{fontSize: 10, marginTop: -10}}>Test Report</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Total Sessions</p>
                 </div>
                 <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
                   <p style={{fontSize: 10}}>86</p>
-                  <p style={{fontSize: 10, marginTop: -10}}>Absent</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Completed</p>
                 </div>
                 <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
                   <p style={{fontSize: 10}}>86</p>
-                  <p style={{fontSize: 10, marginTop: -10}}>Total</p>
+                  <p style={{fontSize: 10, marginTop: -10}}>Not Completed</p>
                 </div>
               </div>
             </div>
@@ -556,7 +583,7 @@ export default function Dashboard() {
                   alignItems: "center",
                   marginLeft: 8,
                 }}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{totalTest.length}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>Total Tests Created</p>
                 </div>
               </div>
@@ -838,7 +865,7 @@ export default function Dashboard() {
                         >
                           {date.getDate()}
                         </div>
-                        {holiday && (
+                        {/* {holiday && (
                           <div
                             style={{
                               position: "absolute",
@@ -856,7 +883,7 @@ export default function Dashboard() {
                           >
                             🎉
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   );

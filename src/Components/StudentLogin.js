@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import apiRequest from "../utils/apiRequest";
 
 export default function StudentLogin() {
@@ -29,6 +29,7 @@ export default function StudentLogin() {
 
     if (!formData.studentName.trim()) newErrors.studentName = "Required";
     if (!formData.grade) newErrors.grade = "Select a grade";
+    if (!formData.schoolId) newErrors.schoolId = "Select a School";
     if (!formData.password) newErrors.password = "Required";
     if (!formData.parentName.trim()) newErrors.parentName = "Required";
     if (!/^\d{10}$/.test(formData.whatsapp)) newErrors.whatsapp = "Enter 10-digit number";
@@ -40,10 +41,14 @@ export default function StudentLogin() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  const [getAllSchool , setGetAllSchool]=useState([])
 
   const handleSave = async () => {
     if (validate()) {
       // alert("Form is valid, ready to submit!");
+      const today = new Date();
+      const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  
       const payload = {
         full_name: formData.studentName,
         email: formData.email,
@@ -58,8 +63,8 @@ export default function StudentLogin() {
         grade: formData.grade,
         parent_name: formData.parentName,
         relation: "Father",                  // Adjust as needed
-        school_id: "1",                      // Adjust as needed,
-        date_of_joining:"23-10-2001"
+        school_id: formData.schoolId,                      // Adjust as needed,
+        date_of_joining:formattedDate
       };
       try {
         const result = await apiRequest({
@@ -69,7 +74,7 @@ export default function StudentLogin() {
         });
     
         if (result.status === "success") {
-          alert('done')
+          alert('Student Added Successfully')
         } else {
           alert(result.message || "Failed to add question");
         }
@@ -132,6 +137,29 @@ export default function StudentLogin() {
     margin: "0 10px",
   };
 
+  useEffect(()=>{
+    const fetchSchoolData = async()=>{
+      try {
+        const result = await apiRequest({
+          endpoint: "school/getallschool.php",
+          method: "GET",
+          data: {},
+        });
+    
+        if (result.status === "success") {
+          // alert("Session creation completed");
+          setGetAllSchool(result.data)
+          console.log("result school",result)
+          // navigate("/dashboard");
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    }
+    fetchSchoolData()
+      },[])
   return (
     <div style={{ margin: "0", marginLeft: "20px" }}>
       <h2 style={{ color: "orangered", textAlign: "left", fontSize: "30px", paddingLeft: "3%" }}>
@@ -158,10 +186,32 @@ export default function StudentLogin() {
             style={{ ...inputStyle, backgroundColor:'white'}}
           >
             <option value="">Select Grade</option>
-            <option>11th</option>
-            <option>12th</option>
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => {
+                  return (
+                    <option key={number} value={`${number}`}>
+                      {number}
+                    </option>
+                  );
+                })}
           </select>
           {errors.grade && <div style={errorStyle}>{errors.grade}</div>}
+          <label style={labelStyle}>School</label>
+          <select
+            name="schoolId"
+            value={formData.schoolId}
+            onChange={handleChange}
+            style={{ ...inputStyle, backgroundColor:'white'}}
+          >
+            <option value="">Select School</option>
+            {getAllSchool.map((school) => {
+                  return (
+                    <option key={school.id} value={school.id}>
+                      {school.school_name}
+                    </option>
+                  );
+                })}
+          </select>
+          {errors.schoolId && <div style={errorStyle}>{errors.schoolId}</div>}
 
           <label style={labelStyle}>Password</label>
           <input

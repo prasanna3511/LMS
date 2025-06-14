@@ -1,68 +1,104 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import './StudentReportPage.css';
+import apiRequest from '../../utils/apiRequest';
 
 
 const StudentReportPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRow, setSelectedRow] = useState(null); // Track selected row
   const [editData, setEditData] = useState(null); // Track data for editing
+  const [studentData , setStudentData] = useState([])
 
-  const studentData = [
-    {
-      id: '1',
-      name: 'Aarav Mehta',
-      grade: '8th',
-      school: 'Greenwood High',
-      teacher: 'Ms. Sharma',
-      parent: 'Ramesh Mehta',
-      relation: 'Father',
-      email: 'aarav@example.com',
-      dob: '2009-07-15',
-      contact: '9876543210',
-      whatsapp: '9876543210',
-      address: 'Mumbai',
-      totalSession: 40,
-      attendedSession: 38,
-      absent: 2,
-      progress: 'Excellent',
-      newProjects: 3,
-      totalTests: 4,
-      appeared: 4,
-      skipped: 0,
-      marks: 400,
-      scored: '95%',
-      photo: 'https://via.placeholder.com/40'
-    },
-    {
-      id: '2',
-      name: 'Sneha Patel',
-      grade: '9th',
-      school: 'Sunrise Academy',
-      teacher: 'Mr. Verma',
-      parent: 'Kiran Patel',
-      relation: 'Mother',
-      email: 'sneha@example.com',
-      dob: '2008-05-22',
-      contact: '9123456780',
-      whatsapp: '9123456780',
-      address: 'Pune',
-      totalSession: 42,
-      attendedSession: 40,
-      absent: 2,
-      progress: 'Good',
-      newProjects: 2,
-      totalTests: 4,
-      appeared: 3,
-      skipped: 1,
-      marks: 380,
-      scored: '90%',
-      photo: 'https://via.placeholder.com/40'
+  // const studentData = [
+  //   {
+  //     id: '1',
+  //     name: 'Aarav Mehta',
+  //     grade: '8th',
+  //     school: 'Greenwood High',
+  //     teacher: 'Ms. Sharma',
+  //     parent: 'Ramesh Mehta',
+  //     relation: 'Father',
+  //     email: 'aarav@example.com',
+  //     dob: '2009-07-15',
+  //     contact: '9876543210',
+  //     whatsapp: '9876543210',
+  //     address: 'Mumbai',
+  //     totalSession: 40,
+  //     attendedSession: 38,
+  //     absent: 2,
+  //     progress: 'Excellent',
+  //     newProjects: 3,
+  //     totalTests: 4,
+  //     appeared: 4,
+  //     skipped: 0,
+  //     marks: 400,
+  //     scored: '95%',
+  //     photo: 'https://via.placeholder.com/40'
+  //   },
+  //   {
+  //     id: '2',
+  //     name: 'Sneha Patel',
+  //     grade: '9th',
+  //     school: 'Sunrise Academy',
+  //     teacher: 'Mr. Verma',
+  //     parent: 'Kiran Patel',
+  //     relation: 'Mother',
+  //     email: 'sneha@example.com',
+  //     dob: '2008-05-22',
+  //     contact: '9123456780',
+  //     whatsapp: '9123456780',
+  //     address: 'Pune',
+  //     totalSession: 42,
+  //     attendedSession: 40,
+  //     absent: 2,
+  //     progress: 'Good',
+  //     newProjects: 2,
+  //     totalTests: 4,
+  //     appeared: 3,
+  //     skipped: 1,
+  //     marks: 380,
+  //     scored: '90%',
+  //     photo: 'https://via.placeholder.com/40'
+  //   }
+  // ];
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
+  useEffect(()=>{
+    getStduentReport()
+  },[])
+  const getStduentReport = async () => {
+
+    const payload = {
+    // name:enterTestName,
+    school_id:Number(userData.school_id),
+    teacher_id:Number(userData.id)
+    };
+
+    try {
+      const result = await apiRequest({
+        endpoint: "reports/studentReport.php",
+        method: "POST",
+        data: userData.role === 'admin'?{}: payload,
+      });
+
+      console.log("result data student report: ",result)
+      if (result.status !== true) {
+        // alert("Failed to save a question: " + result.message);
+
+        ///// prasannna set data below
+        return;
+      }
+      setStudentData(result.data)
+      
+    } catch (err) {
+      alert("Save failed: " + err.message);
+      return;
     }
-  ];
+  };
 
   const filteredData = studentData.filter((student) =>
-    student.name.toLowerCase().includes(searchTerm.toLowerCase())
+  student?.student_info?.full_name?.includes(searchTerm.toLowerCase())
   );
 
   const handleRowClick = (id) => {
@@ -140,42 +176,50 @@ const StudentReportPage = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((student, index) => (
-              <tr
-                key={index}
-                onClick={() => handleRowClick(student.id)} // Row click handler
-                style={{
-                  backgroundColor: selectedRow === student.id ? '#e0e0e0' : 'transparent',
-                  cursor: 'pointer'
-                }}
-              >
-                {Object.keys(student).map((key) => key !== 'photo' && (
-                  <td key={key} style={tdStyle}>
-                    {selectedRow === student.id && editData ? (
-                      // Show input fields in edit mode
-                      <input
-                        type="text"
-                        name={key}
-                        value={editData[key] || student[key]}
-                        onChange={handleInputChange}
-                        style={{
-                          padding: '5px',
-                          width: '100%',
-                          borderRadius: '5px',
-                          border: '1px solid #ccc',
-                        }}
-                      />
-                    ) : (
-                      key === 'photo' ? (
-                        <img src={student[key]} alt="profile" style={{ borderRadius: '50%' }} />
-                      ) : (
-                        student[key]
-                      )
-                    )}
-                  </td>
-                ))}
-              </tr>
-            ))}
+
+            {filteredData.map((student, index) => {
+  const info = student.student_info; // shortcut for cleaner code
+
+  return (
+    <tr
+      key={index}
+      onClick={() => handleRowClick(info.id)}
+      style={{
+        backgroundColor: selectedRow === info.id ? '#e0e0e0' : 'transparent',
+        cursor: 'pointer'
+      }}
+    >
+      <td style={tdStyle}>{info.id}</td>
+      <td style={tdStyle}>{info.full_name}</td>
+      <td style={tdStyle}>{info.grade}</td>
+      <td style={tdStyle}>{info.school_name}</td>
+      <td style={tdStyle}>N/A</td> {/* No teacher name in response yet */}
+      <td style={tdStyle}>{info.parent_name}</td>
+      <td style={tdStyle}>{info.relation}</td>
+      <td style={tdStyle}>{info.email}</td>
+      <td style={tdStyle}>{info.date_of_birth}</td>
+      <td style={tdStyle}>{info.mobile_number}</td>
+      <td style={tdStyle}>{info.whatsapp_number}</td>
+      <td style={tdStyle}>{info.address}</td>
+      <td style={tdStyle}>{student.total_session_count}</td>
+      <td style={tdStyle}>{student.attendance_count}</td>
+      <td style={tdStyle}>{student.total_session_count - student.attendance_count}</td>
+      <td style={tdStyle}>N/A</td> {/* Work progress - custom logic needed */}
+      <td style={tdStyle}>N/A</td> {/* New projects - not in API */}
+      <td style={tdStyle}>N/A</td> {/* Total tests - not in API */}
+      <td style={tdStyle}>N/A</td> {/* Appeared - not in API */}
+      <td style={tdStyle}>N/A</td> {/* Skipped - not in API */}
+      <td style={tdStyle}>N/A</td> {/* Total marks - not in API */}
+      <td style={tdStyle}>N/A</td> {/* Scored % - not in API */}
+      <td style={tdStyle}>
+        {info.photo ? (
+          <img src={info.photo} alt="profile" style={{ borderRadius: '50%', width: '40px', height: '40px' }} />
+        ) : 'No Photo'}
+      </td>
+    </tr>
+  );
+})}
+
           </tbody>
         </table>
       </div>
