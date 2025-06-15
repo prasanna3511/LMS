@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import logout from "../../images/logout1.png";
+import logoutimg from "../../images/logout1.png";
 import Dashboard from "../Dashboard";
 import TeacherDashboard from "../Teacher/TeacherDashboard";
 import MaterialAndFurnituresForm from "../material/MaterialInput";
@@ -538,7 +538,7 @@ const Sidebar = () => {
           onMouseEnter={(e) => (e.target.style.backgroundColor = "#2a2a76")}
           onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
         >
-          <img src={logout} alt="Logout" style={{ height: "20px" }} />
+          <img src={logoutimg} alt="Logout" style={{ height: "20px" }} />
           <span>Logout</span>
         </div>
       </div>

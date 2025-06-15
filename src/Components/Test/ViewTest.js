@@ -41,10 +41,27 @@ const ViewTestPage = () => {
     );
     setFilteredTests(filtered);
   };
-  const handleDelete = (indexToDelete) => {
+  const handleDelete = async(indexToDelete ,test) => {
     const updatedTests = filteredTests.filter(
       (_, index) => index !== indexToDelete
     );
+    try {
+      const result = await apiRequest({
+        endpoint: "createQuestionPapername/deleteQuestionPaper.php",
+        method: "POST",
+        data: {id:test.id},
+      });
+  
+      if (result.status === "success") {
+        alert('Test Deleted')
+        getQuestionPaperName()
+        // navigate("/dashboard");
+      } else {
+        // alert(result.message || "Session creation failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
     // setFilteredTests(updatedTests);
   };
   useEffect(() => {
@@ -212,9 +229,9 @@ const ViewTestPage = () => {
                     </td>
                   )}
                   <td style={{ padding: "12px" }}>
-                    <button style={buttonStyle}>Edit</button>
+                    {/* <button style={buttonStyle}>Edit</button> */}
                     <button
-                      onClick={() => handleDelete(index)}
+                      onClick={() => handleDelete(index , test)}
                       style={buttonStyle}
                     >
                       Delete

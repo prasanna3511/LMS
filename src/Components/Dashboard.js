@@ -163,7 +163,6 @@ export default function Dashboard() {
         console.log("result : ",result.data)
         // setQuestions(result.data);
         setQuestionCount(result.data.length)
-        console.log("fetchAllQuestions", result);
       } else {
         alert(result.message || "Session creation failed");
       }
@@ -184,7 +183,6 @@ export default function Dashboard() {
         console.log("result : ",result.data)
         // setQuestions(result.data);
         setSessionCount(result.data.length)
-        console.log("fetchAllQuestions", result);
       } else {
         alert(result.message || "Session creation failed");
       }

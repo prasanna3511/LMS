@@ -76,7 +76,6 @@ const CreateQuestionBank = ({ setRole }) => {
       if (result.status === "success") {
         // alert("Session creation completed");
         setQuestions(result.data);
-        console.log("fetchAllQuestions", result);
       } else {
         alert(result.message || "Session creation failed");
       }

@@ -122,13 +122,30 @@ const TeacherReportPage = () => {
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async() => {
     if (selectedRow !== null) {
       const updatedData = [...teacherData];
       updatedData.splice(selectedRow, 1);
       setTeacherData(updatedData);
       setSelectedRow(null);
       setEditMode(false);
+      try {
+        const result = await apiRequest({
+          endpoint: "users/deleteuser.php",
+          method: "POST",
+          data: {id:editData.id},
+        });
+    
+        if (result.status === "success") {
+          alert('User Deleted')
+          
+          // navigate("/dashboard");
+        } else {
+          // alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
     }
   };
 
@@ -136,11 +153,38 @@ const TeacherReportPage = () => {
     setEditData({ ...editData, [key]: e.target.value });
   };
 
-  const handleSave = () => {
+  const handleSave = async() => {
+    console.log("Updated data to be saved:", editData);
     const updatedData = [...teacherData];
     updatedData[selectedRow] = { ...editData };
     setTeacherData(updatedData);
     setEditMode(false);
+    const payload = {
+      full_name:editData.name,
+      email:editData.email,
+      mobile_number:editData.mobile,
+      whatsapp_number:editData.whatsapp,
+      date_of_birth:editData.dob,
+      id:editData.id
+    }
+
+    try {
+      const result = await apiRequest({
+        endpoint: "users/updateUserFromReports.php",
+        method: "POST",
+        data: payload,
+      });
+  
+      if (result.status === "success") {
+        alert('User Updated Successfully')
+        
+        // navigate("/dashboard");
+      } else {
+        // alert(result.message || "Session creation failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
   };
 
   return (
@@ -246,6 +290,8 @@ const TeacherReportPage = () => {
               Edit
             </button>
           )}
+          {
+            userData.role === 'admin' &&
           <button
             style={buttonStyle}
             onClick={handleDelete}
@@ -253,6 +299,7 @@ const TeacherReportPage = () => {
           >
             Delete
           </button>
+          }
         </div>
       </div>
     </div>

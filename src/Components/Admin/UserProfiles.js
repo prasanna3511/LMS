@@ -101,6 +101,8 @@ const UserProfilesTable = () => {
     setEditMode(false);
     await fetchAllUsers();
   };
+  const roleOptions = ['student', 'teacher', 'admin'];
+  const stdOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(search.toLowerCase())
@@ -138,7 +140,7 @@ const UserProfilesTable = () => {
             <th style={{ padding: '12px' }}>Registration Date</th>
           </tr>
         </thead>
-        <tbody>
+        {/* <tbody>
           {filteredUsers.map((user, index) => {
             const isSelected = selectedRows.includes(index);
             const isEditable = isSelected && editMode;
@@ -164,7 +166,84 @@ const UserProfilesTable = () => {
               </tr>
             );
           })}
-        </tbody>
+        </tbody> */}
+         <tbody>
+            {filteredUsers.map((user, index) => {
+              const isSelected = selectedRows.includes(index);
+              const isEditable = isSelected && editMode;
+              return (
+                <tr key={index}>
+                  <td style={{ padding: '12px' }}>
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => handleCheckboxChange(index)}
+                    />
+                  </td>
+
+                  {/* Name (editable) */}
+                  <td style={{ padding: '12px' }}>
+                    {isEditable ? (
+                      <input
+                        type="text"
+                        value={user.name}
+                        onChange={(e) => handleInputChange(index, 'name', e.target.value)}
+                        style={{ padding: '6px', border: '1px solid #ccc', borderRadius: '4px' }}
+                      />
+                    ) : (
+                      user.name
+                    )}
+                  </td>
+
+                  {/* Password (non-editable) */}
+                  <td style={{ padding: '12px' }}>{user.password}</td>
+
+                  {/* Role (editable dropdown) */}
+                  <td style={{ padding: '12px' }}>
+                    {isEditable ? (
+                      <select
+                        value={user.role}
+                        onChange={(e) => handleInputChange(index, 'role', e.target.value)}
+                        style={{ padding: '6px', border: '1px solid #ccc', borderRadius: '4px' }}
+                      >
+                        {roleOptions.map((role) => (
+                          <option key={role} value={role}>{role}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      user.role
+                    )}
+                  </td>
+
+                  {/* Created By (non-editable) */}
+                  <td style={{ padding: '12px' }}>{user.createdBy}</td>
+
+                  {/* Std (editable dropdown) */}
+                  <td style={{ padding: '12px' }}>
+                    {isEditable ? (
+                      <select
+                        value={user.std}
+                        onChange={(e) => handleInputChange(index, 'std', e.target.value)}
+                        style={{ padding: '6px', border: '1px solid #ccc', borderRadius: '4px' }}
+                      >
+                        {stdOptions.map((std) => (
+                          <option key={std} value={std}>{std}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      user.std
+                    )}
+                  </td>
+
+                  {/* School Name (non-editable) */}
+                  <td style={{ padding: '12px' }}>{user.schoolName}</td>
+
+                  {/* Registration Date (non-editable) */}
+                  <td style={{ padding: '12px' }}>{user.registrationDate}</td>
+                </tr>
+              );
+            })}
+          </tbody>
       </table>
 
       {/* Buttons */}
