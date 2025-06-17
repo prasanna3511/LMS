@@ -52,13 +52,16 @@ const TeacherReportPage = () => {
     getTeacherReport();
   }, []);
   const getTeacherReport = async () => {
-    const payload = {
+    let payload = {
       // name:enterTestName,
-      school_id: Number(userData.school_id),
       teacher_id: Number(userData.id),
     };
+    if(userData.role === 'principle')
+      
+    payload={school_id: Number(userData.school_id)}
 
     try {
+      console.log("payload",payload)
       const result = await apiRequest({
         endpoint: "reports/teacherReport.php",
         method: "POST",

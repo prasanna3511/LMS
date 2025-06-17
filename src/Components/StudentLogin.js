@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import apiRequest from "../utils/apiRequest";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentLogin() {
   const [formData, setFormData] = useState({
@@ -13,9 +14,10 @@ export default function StudentLogin() {
     mobile: "",
     dob: "",
   });
+  const userData = JSON.parse(localStorage.getItem("userData"));
 
   const [errors, setErrors] = useState({});
-
+  const navigate = useNavigate()
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -63,7 +65,7 @@ export default function StudentLogin() {
         grade: formData.grade,
         parent_name: formData.parentName,
         relation: "Father",                  // Adjust as needed
-        school_id: formData.schoolId,                      // Adjust as needed,
+        school_id: userData.role === 'principle'?userData.school_id:formData.schoolId,                      // Adjust as needed,
         date_of_joining:formattedDate
       };
       try {
@@ -195,6 +197,8 @@ export default function StudentLogin() {
                 })}
           </select>
           {errors.grade && <div style={errorStyle}>{errors.grade}</div>}
+         
+          { userData.role !== 'principle'&&<>
           <label style={labelStyle}>School</label>
           <select
             name="schoolId"
@@ -212,7 +216,7 @@ export default function StudentLogin() {
                 })}
           </select>
           {errors.schoolId && <div style={errorStyle}>{errors.schoolId}</div>}
-
+          </>}
           <label style={labelStyle}>Password</label>
           <input
             name="password"
@@ -293,9 +297,8 @@ export default function StudentLogin() {
       </div>
 
       <div style={buttonContainerStyle}>
-        <button style={buttonStyle}>Back</button>
+        <button style={buttonStyle} onClick={()=>navigate(-1)}>Back</button>
         <button style={buttonStyle} onClick={handleSave}>Create Student Login</button>
-        {/* <button style={buttonStyle}>Save & Add Student</button> */}
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ const MaterialAndFurnituresForm = ({ setRole }) => {
     totalBillAmount: "",
     schoolName: "",
   });
+  const userData = JSON.parse(localStorage.getItem('userData'))
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -79,7 +80,7 @@ const MaterialAndFurnituresForm = ({ setRole }) => {
       order_by: formData.orderBy,
       bill_amount: Number(formData.totalBillAmount),
       school_name: "test",
-      schoold_id: Number(selectedSchool),
+      schoold_id: userData.role === 'admin'?Number(selectedSchool):userData.school_id,
     };
     try {
       const result = await apiRequest({
@@ -201,6 +202,8 @@ const MaterialAndFurnituresForm = ({ setRole }) => {
               <div style={errorStyle}>{errors.totalBillAmount}</div>
             )}
           </div>
+          {
+            userData.role === 'admin' &&
           <div>
             <label>School Name</label>
             <br />
@@ -218,6 +221,7 @@ const MaterialAndFurnituresForm = ({ setRole }) => {
               <div style={errorStyle}>{errors.schoolName}</div>
             )}
           </div>
+          }
         </form>
 
         {/* Save Button */}

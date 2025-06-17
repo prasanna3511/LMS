@@ -291,7 +291,7 @@ const Sidebar = () => {
            {( getUserRole.role === "principle") && (
             <li>
               <a
-                onClick={() => handleLinkClick("material")}
+                onClick={() => navigate('/student')}
                 style={linkStyle}
                 onMouseEnter={(e) =>
                   (e.target.style.backgroundColor = "#2a2a76")
