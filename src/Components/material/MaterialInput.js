@@ -62,13 +62,14 @@ const MaterialAndFurnituresForm = ({ setRole }) => {
     if (!formData.orderBy.trim()) newErrors.orderBy = "Order by is required";
     if (!formData.totalBillAmount.trim() || isNaN(formData.totalBillAmount))
       newErrors.totalBillAmount = "Enter a valid bill amount";
-    if (!selectedSchool) newErrors.schoolName = "Please select a school";
+    if (!selectedSchool && userData.role === 'admin') newErrors.schoolName = "Please select a school";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSave = async (e) => {
+
     if (!validateForm()) return;
     e.preventDefault();
     let apidata = {

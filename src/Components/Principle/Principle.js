@@ -1,78 +1,144 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Manager1 from "../../images/Teacher.png";
+import Navbar from "../Navbar/Navbar";
+import apiRequest from "../../utils/apiRequest";
 
 export default function PrincipleDashboard() {
-  const [present, setPresent] = useState(30);
-  const [absent, setAbsent] = useState(2);
-  const total = present + absent;
-  const attendancePercentage =
-    total > 0 ? ((present / total) * 100).toFixed(1) : 0;
-    const [currentDate, setCurrentDate] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(new Date());
-  
-    const startOfWeek = (date) => {
-      const d = new Date(date);
-      const day = d.getDay();
-      const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
-      return new Date(d.setDate(diff));
-    };
-  
-    const getWeekDates = (date) => {
-      const start = startOfWeek(date);
-      return Array.from({ length: 7 }, (_, i) => {
-        const d = new Date(start);
-        d.setDate(start.getDate() + i);
-        return d;
+  const [holidays, setHolidays] = useState([]);
+  const [reportData , setReportData] = useState({})
+  const [nextholiday, setnextholiday] = useState();
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
+  const fetchHolidays = async (schoolId = null) => {
+    try {
+      // setLoading(true);
+      const payload = { school_id: schoolId };
+
+      const result = await apiRequest({
+        endpoint: "holidays/getholidaybyschoolid.php", // Adjust to your actual endpoint
+        method: "POST",
+        data: payload,
       });
-    };
-  
-    const isSameDay = (d1, d2) =>
-      d1.getDate() === d2.getDate() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getFullYear() === d2.getFullYear();
-  
-    const goToPreviousWeek = () => {
-      const prev = new Date(currentDate);
-      prev.setDate(currentDate.getDate() - 7);
-      setCurrentDate(prev);
-    };
-  
-    const goToNextWeek = () => {
-      const next = new Date(currentDate);
-      next.setDate(currentDate.getDate() + 7);
-      setCurrentDate(next);
-    };
-  
-    const monthYear = `${currentDate.toLocaleString("default", {
-      month: "long",
-    })} ${currentDate.getFullYear()}`;
-    const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
-    const weekDates = getWeekDates(currentDate);
-    const sessionData = [
-      {
-        grade: 6,
-        topic: "Math Basics",
-        description: "Introduction to fractions",
-        completed: false,
-      },
-      {
-        grade: 7,
-        topic: "Algebra",
-        description: "Linear equations",
-        completed: true,
-      },
-      {
-        grade: 8,
-        topic: "Geometry",
-        description: "Angles and lines",
-        completed: false,
-      },
-    ];
+
+      if (result.status === "success") {
+        setHolidays(result.data || []);
+        const allHolidays = result.data || [];
+        const today = new Date().toISOString().split("T")[0];
+        const futureHolidays = allHolidays.filter(
+          (holiday) => holiday.date > today
+        );
+        futureHolidays.sort((a, b) => a.date.localeCompare(b.date));
+        console.log("futureHolidays[0] : ",futureHolidays[0])
+        setnextholiday(futureHolidays[0]);
+      } else {
+        console.error("Failed to fetch holidays:", result.message);
+        setHolidays([]);
+      }
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+      setHolidays([]);
+    } finally {
+      // setLoading(false);
+    }
+  };
+  const fetchReportsPrinicple = async (schoolId = null) => {
+    try {
+      // setLoading(true);
+      const payload = { school_id: schoolId };
+
+      const result = await apiRequest({
+        endpoint: "reports/principleDashboardReport.php", // Adjust to your actual endpoint
+        method: "POST",
+        data: payload,
+      });
+
+      if (result.status === true) {
+        console.log("all data : ",result.data)
+        setReportData(result.data)
+        // setHolidays(result.data || []);
+        // const allHolidays = result.data || [];
+        // const today = new Date().toISOString().split("T")[0];
+        // const futureHolidays = allHolidays.filter(
+        //   (holiday) => holiday.date > today
+        // );
+        // futureHolidays.sort((a, b) => a.date.localeCompare(b.date));
+        // console.log("futureHolidays[0] : ",futureHolidays[0])
+        // setnextholiday(futureHolidays[0]);
+      } else {
+        console.error("Failed to reports holidays:", result);
+        setHolidays([]);
+      }
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+      setHolidays([]);
+    } finally {
+      // setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchHolidays(userData.school_id);
+    fetchReportsPrinicple(userData.school_id)
+  }, []);
+
+
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const startOfWeek = (date) => {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+    return new Date(d.setDate(diff));
+  };
+
+  const getWeekDates = (date) => {
+    const start = startOfWeek(date);
+    return Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      return d;
+    });
+  };
+
+  const isSameDay = (d1, d2) =>
+    d1.getDate() === d2.getDate() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getFullYear() === d2.getFullYear();
+
+  const goToPreviousWeek = () => {
+    const prev = new Date(currentDate);
+    prev.setDate(currentDate.getDate() - 7);
+    setCurrentDate(prev);
+  };
+
+  const goToNextWeek = () => {
+    const next = new Date(currentDate);
+    next.setDate(currentDate.getDate() + 7);
+    setCurrentDate(next);
+  };
+
+  const monthYear = `${currentDate.toLocaleString("default", {
+    month: "long",
+  })} ${currentDate.getFullYear()}`;
+  const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
+  const weekDates = getWeekDates(currentDate);
+
   const navigate = useNavigate();
-  const handleContact = () => {
-    navigate("/Login");
+  const isHoliday = (date) => {
+    return holidays.some((holiday) => {
+      const holidayDate = new Date(holiday.date || holiday.holiday_date);
+      return isSameDay(date, holidayDate);
+    });
+  };
+
+  // Get holiday info for a specific date
+  const getHolidayInfo = (date) => {
+    return holidays.find((holiday) => {
+      const holidayDate = new Date(holiday.date || holiday.holiday_date);
+      return isSameDay(date, holidayDate);
+    });
   };
 
   const containerStyle = {
@@ -82,83 +148,11 @@ export default function PrincipleDashboard() {
     width: "320px",
     marginBottom: "2%",
   };
-
-  const sectionStyle = {
-    backgroundColor: "#F8F8F8",
-    padding: "20px",
-    borderRadius: "10px",
-    textAlign: "center",
-  };
-
   const titleStyle1 = {
     fontSize: "16px",
     fontWeight: "bold",
     color: "#d9534f",
     marginBottom: "10px",
-  };
-
-  const chartContainerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
-
-  const chartStyle = {
-    width: "80px",
-    height: "80px",
-    borderRadius: "50%",
-    border: "8px solid #1a1a56",
-    borderTopColor: "transparent",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontWeight: "bold",
-    fontSize: "14px",
-  };
-
-  const textRowStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    fontSize: "12px",
-    marginTop: "10px",
-  };
-
-  const inputStyle = {
-    padding: "5px",
-    width: "70px",
-    margin: "5px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    textAlign: "center",
-  };
-
-  const cardStyle = {
-    // backgroundColor: "#ABBFFC",
-    backgroundColor: "#F8F8F8",
-    padding: "15px",
-    borderRadius: "10px",
-    width: "250px",
-  };
-
-  const titleStyle = {
-    fontSize: "20px",
-    fontWeight: "bold",
-    color: "#d9534f",
-    marginBottom: "10px",
-  };
-
-  const buttonStyle = {
-    backgroundColor: "#1a1a56",
-    color: "white",
-    padding: "10px",
-    borderRadius: "20px",
-    border: "none",
-    width: "100%",
-    textAlign: "center",
-    cursor: "pointer",
-    marginTop: "20px",
-    height: "40px",
-    fontSize: "15px",
   };
 
   return (
@@ -175,7 +169,7 @@ export default function PrincipleDashboard() {
           style={{
             padding: "15px",
             borderRadius: "10px",
-            marginBottom: "20px",
+            marginBottom: "50px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -212,40 +206,7 @@ export default function PrincipleDashboard() {
               Search
             </button>
           </div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-              }}
-            >
-              <div
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  backgroundColor: "#f0f0f0",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontWeight: "bold",
-                }}
-              >
-                👤
-              </div>
-              <div>
-                <p style={{ margin: 0, fontWeight: "bold" }}>Bhavin</p>
-                <p style={{ margin: 0, fontSize: "12px", color: "gray" }}>
-                  Admin
-                </p>
-              </div>
-            </div>
-            <img
-              style={{ height: 30, width: 30, marginLeft: 20 }}
-              src={require("../../images/bell-ringing.png")}
-            />
-          </div>
+          <Navbar />
         </div>
       </div>
       {/* panel code */}
@@ -580,7 +541,7 @@ export default function PrincipleDashboard() {
                   borderRadius: 10,
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent:'space-evenly'
+                  justifyContent: "space-evenly",
                 }}
               >
                 <div
@@ -593,9 +554,28 @@ export default function PrincipleDashboard() {
                     marginLeft: 8,
                   }}
                 >
-                  <p style={{ fontSize: 10 }}>86</p>
+                  <p style={{ fontSize: 10 }}>{reportData.total_sessions}</p>
+                  <p style={{ fontSize: 10, marginTop: -10 }}>Total Sessions</p>
+                </div>
+                <div
+                  style={{
+                    height: "80%",
+                    border: "1px solid grey",
+                    width: "0.1px",
+                  }}
+                ></div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ fontSize: 10 }}>{reportData.total_sessions - reportData.remaining_sessions}</p>
                   <p style={{ fontSize: 10, marginTop: -10 }}>
-                    Total Sessions
+                    Pending Session
                   </p>
                 </div>
                 <div
@@ -614,27 +594,8 @@ export default function PrincipleDashboard() {
                     alignItems: "center",
                   }}
                 >
-                  <p style={{ fontSize: 10 }}>86</p>
-                  <p style={{ fontSize: 10, marginTop: -10 }}>Pending Session</p>
-                </div>
-                <div
-                  style={{
-                    height: "80%",
-                    border: "1px solid grey",
-                    width: "0.1px",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <p style={{ fontSize: 10 }}>86</p>
-                  <p style={{ fontSize: 10, marginTop: -10 }}>Total Session</p>
+                  <p style={{ fontSize: 10 }}>{reportData.remaining_sessions}</p>
+                  <p style={{ fontSize: 10, marginTop: -10 }}>Completed Session</p>
                 </div>
               </div>
             </div>
@@ -676,7 +637,7 @@ export default function PrincipleDashboard() {
                     marginLeft: 10,
                   }}
                 >
-                 Holiday Report
+                  Holiday Report
                 </p>
               </div>
               <div
@@ -702,9 +663,7 @@ export default function PrincipleDashboard() {
                     marginLeft: 8,
                   }}
                 >
-                  <p style={{ fontSize: 10}}>
-                    Upcoming Holiday
-                  </p>
+                  <p style={{ fontSize: 10 }}>Upcoming Holiday {nextholiday?.date}</p>
                 </div>
               </div>
             </div>
@@ -781,9 +740,7 @@ export default function PrincipleDashboard() {
                     alignItems: "center",
                   }}
                 >
-                  <p style={{ fontSize: 10}}>
-                   Recent Expense
-                  </p>
+                  <p style={{ fontSize: 10 }}>Total Expense : {reportData.total_bill_amount}</p>
                 </div>
               </div>
             </div>
@@ -850,7 +807,7 @@ export default function PrincipleDashboard() {
                     alignItems: "center",
                   }}
                 >
-                  <p style={{ fontSize: 10 }}>86</p>
+                  <p style={{ fontSize: 10 }}>{reportData.test_count}</p>
                   <p style={{ fontSize: 10, marginTop: -10 }}>
                     Total Tests Created
                   </p>
@@ -858,7 +815,6 @@ export default function PrincipleDashboard() {
               </div>
             </div>
           </div>
-     
         </div>
 
         <div
@@ -871,44 +827,44 @@ export default function PrincipleDashboard() {
           <div style={containerStyle}>
             {/* Attendance Report */}
             <div
-      style={{
-        width: "98%",
-        padding: "10px",
-        fontFamily: "Arial, sans-serif",
-        backgroundColor: "white",
-        borderRadius: "10px",
-        marginBottom:10,
-        backgroundColor:'#F8F8F8'
-      }}
-    >
-      {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontSize: "14px",
-          marginBottom: "15px",
-        }}
-      >
-        <div style={{ cursor: "pointer" }} onClick={goToPreviousWeek}>
-          ❮
-        </div>
-        <div style={{ fontWeight: "bold" }}>{monthYear}</div>
-        <div style={{ cursor: "pointer" }} onClick={goToNextWeek}>
-          ❯
-        </div>
-      </div>
+              style={{
+                width: "98%",
+                padding: "10px",
+                fontFamily: "Arial, sans-serif",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                marginBottom: 10,
+                backgroundColor: "#F8F8F8",
+              }}
+            >
+              {/* Header */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  fontSize: "14px",
+                  marginBottom: "15px",
+                }}
+              >
+                <div style={{ cursor: "pointer" }} onClick={goToPreviousWeek}>
+                  ❮
+                </div>
+                <div style={{ fontWeight: "bold" }}>{monthYear}</div>
+                <div style={{ cursor: "pointer" }} onClick={goToNextWeek}>
+                  ❯
+                </div>
+              </div>
 
-      {/* Week Row */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        {weekDates.map((date, index) => {
+              {/* Week Row */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                {/* {weekDates.map((date, index) => {
           const selected = isSameDay(date, selectedDate);
           return (
             <div
@@ -953,9 +909,86 @@ export default function PrincipleDashboard() {
               </div>
             </div>
           );
-        })}
-      </div>
-    </div>
+        })} */}
+                {weekDates.map((date, index) => {
+                  const selected = isSameDay(date, selectedDate);
+                  const holiday = isHoliday(date);
+                  const holidayInfo = getHolidayInfo(date);
+
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => setSelectedDate(date)}
+                      style={{
+                        width: "32px",
+                        textAlign: "center",
+                        cursor: "pointer",
+                        position: "relative",
+                      }}
+                      title={
+                        holiday
+                          ? `Holiday: ${
+                              holidayInfo?.name ||
+                              holidayInfo?.holiday_name ||
+                              "Holiday"
+                            }`
+                          : ""
+                      }
+                    >
+                      <div
+                        style={{
+                          backgroundColor: selected
+                            ? "#43369d"
+                            : holiday
+                            ? "#ff6b6b"
+                            : "transparent",
+                          color: selected || holiday ? "white" : "#333",
+                          borderRadius: "25px",
+                          padding: "6px 0",
+                          height: "60px",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          border: selected
+                            ? "2px solid #261d82"
+                            : holiday
+                            ? "2px solid #ff4757"
+                            : "none",
+                        }}
+                      >
+                        <div style={{ fontSize: "12px" }}>
+                          {weekDays[index]}
+                        </div>
+                        <div
+                          style={{
+                            marginTop: "4px",
+                            width: "24px",
+                            height: "24px",
+                            lineHeight: "24px",
+                            fontSize: "13px",
+                            borderRadius: "50%",
+                            backgroundColor: selected
+                              ? "#b0a7f9"
+                              : holiday
+                              ? "#ffa8a8"
+                              : "#eee",
+                            color: selected || holiday ? "#000" : "#555",
+                            border: selected
+                              ? "1px solid #43369d"
+                              : holiday
+                              ? "1px solid #ff4757"
+                              : "none",
+                          }}
+                        >
+                          {date.getDate()}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
             {/* Message Box */}
             <div>

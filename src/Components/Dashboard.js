@@ -754,52 +754,6 @@ export default function Dashboard() {
           alignItems: "center",
         }}
       >
-        {/* {weekDates.map((date, index) => {
-          const selected = isSameDay(date, selectedDate);
-          return (
-            <div
-              key={index}
-              onClick={() => setSelectedDate(date)}
-              style={{
-                width: "32px",
-                textAlign: "center",
-                cursor: "pointer",
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: selected ? "#43369d" : "transparent",
-                  color: selected ? "white" : "#333",
-                  borderRadius: "25px",
-                  padding: "6px 0",
-                  height: "60px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  border: selected ? "2px solid #261d82" : "none",
-                }}
-              >
-                <div style={{ fontSize: "12px" }}>{weekDays[index]}</div>
-                <div
-                  style={{
-                    marginTop: "4px",
-                    width: "24px",
-                    height: "24px",
-                    lineHeight: "24px",
-                    fontSize: "13px",
-                    borderRadius: "50%",
-                    backgroundColor: selected ? "#b0a7f9" : "#eee",
-                    color: selected ? "#000" : "#555",
-                    border: selected ? "1px solid #43369d" : "none",
-                  }}
-                >
-                  {date.getDate()}
-                </div>
-              </div>
-            </div>
-          );
-        })} */}
          {weekDates.map((date, index) => {
                   const selected = isSameDay(date, selectedDate);
                   const holiday = isHoliday(date);
@@ -886,42 +840,7 @@ export default function Dashboard() {
                     </div>
                   );
                 })}
-                {/* Holiday Legend */}
-              {/* <div style={{ marginTop: "10px", fontSize: "10px" }}>
-                <div style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
-                  <div
-                    style={{
-                      width: "12px",
-                      height: "12px",
-                      backgroundColor: "#ff6b6b",
-                      borderRadius: "50%",
-                      marginRight: "5px",
-                    }}
-                  ></div>
-                  <span>Holiday</span>
-                </div>
-              </div> */}
-
-              {/* Selected Date Holiday Info
-              {isHoliday(selectedDate) && (
-                <div
-                  style={{
-                    marginTop: "10px",
-                    padding: "8px",
-                    backgroundColor: "#fff3cd",
-                    borderRadius: "5px",
-                    fontSize: "12px",
-                    border: "1px solid #ffeaa7",
-                  }}
-                >
-                  <strong>Holiday:</strong> {getHolidayInfo(selectedDate)?.name || getHolidayInfo(selectedDate)?.holiday_name}
-                  {getHolidayInfo(selectedDate)?.description && (
-                    <div style={{ marginTop: "4px", color: "#666" }}>
-                      {getHolidayInfo(selectedDate).description}
-                    </div>
-                  )}
-                </div>
-              )} */}
+  
       </div>
     </div>
             </div>
