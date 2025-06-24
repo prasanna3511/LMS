@@ -8,10 +8,42 @@ import Navbar from "../Navbar/Navbar";
 export default function StudentDashboard() {
   const [present, setPresent] = useState(30);
   const [absent, setAbsent] = useState(2);
+  const [specialProjectCount, setSpecialProjectCount] = useState();
   const total = present + absent;
+  const user = JSON.parse(localStorage.getItem("userData"));
   const attendancePercentage =
     total > 0 ? ((present / total) * 100).toFixed(1) : 0;
-
+    const fetchSpecialProjectCount = async () => {
+      try {
+        const studentId = user?.id;
+  
+        if (!studentId) {
+          console.error("Student ID not found in local storage");
+          return;
+        }
+  
+        const result = await apiRequest({
+          endpoint: "specialproject/getspecialprojectbystudentid.php", // 👈 your PHP API endpoint
+          method: "POST", // or "GET" if you prefer
+          data: { student_id: studentId },
+        });
+  
+        if (result.status === "success") {
+          console.log("Project Count:", result.data.project_count || 0);
+          // You can use setState here if you're using React
+          setSpecialProjectCount(result.data.project_count || 0);
+        } else {
+          console.error("Failed to fetch project count:", result.message);
+        }
+      } catch (error) {
+        console.error("Error fetching project count:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchHolidays("1");
+      fetchSpecialProjectCount();
+    }, []);
   const navigate = useNavigate();
   const handleContact = () => {
     navigate("/Login");
@@ -24,7 +56,7 @@ export default function StudentDashboard() {
       const payload = schoolId ? { school_id: schoolId } : {};
       
       const result = await apiRequest({
-        endpoint: "holidays/getholidaybyschoolid.php", // Adjust to your actual endpoint
+        endpoint: "holidays/getholidaybyschoolid.php",
         method: "POST",
         data: payload,
       });
@@ -44,7 +76,7 @@ export default function StudentDashboard() {
     }
   };
   useEffect(()=>{
-    fetchHolidays("1")
+    fetchHolidays(user.school_id)
   },[])
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -52,7 +84,7 @@ export default function StudentDashboard() {
   const startOfWeek = (date) => {
     const d = new Date(date);
     const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); 
     return new Date(d.setDate(diff));
   };
 
@@ -549,7 +581,7 @@ export default function StudentDashboard() {
                     marginLeft: 8,
                   }}
                 >
-                  <p style={{ fontSize: 10 }}>8 </p>
+                  <p style={{ fontSize: 10 }}>{specialProjectCount} </p>
                   <p style={{ fontSize: 10, marginTop: -10 }}>
                     Number Project Done
                   </p>
@@ -979,7 +1011,7 @@ export default function StudentDashboard() {
                         >
                           {date.getDate()}
                         </div>
-                        {holiday && (
+                        {/* {holiday && (
                           <div
                             style={{
                               position: "absolute",
@@ -997,7 +1029,7 @@ export default function StudentDashboard() {
                           >
                             🎉
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   );

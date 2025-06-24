@@ -24,12 +24,14 @@ import TestReportPage from "../Reports/TestReportAdmin";
 import SchoolReportPage from "../Reports/SchoolReport";
 import CreateSession from "../CreateSession";
 import AddSubject from "../Subject/AddSubject";
+import SpecialProjectReportForm from "../SpecialProject/ProjectReport";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [role, setRole] = useState("home");
+  // const [role, setRole] = useState("projectReport");
 
   useEffect(() => {
     const handleResize = () => {
@@ -339,7 +341,7 @@ const Sidebar = () => {
           {getUserRole.role === "student" && (
             <li>
               <a
-                onClick={() => handleLinkClick("specialProject")}
+                onClick={() => handleLinkClick("projectReport")}
                 style={linkStyle}
                 onMouseEnter={(e) =>
                   (e.target.style.backgroundColor = "#2a2a76")
@@ -575,6 +577,7 @@ const Sidebar = () => {
         {role === "userProfiles" && <UserProfilesTable />}
         {role === "createSession" && <CreateSession />}
         {role === "addSubject" && <AddSubject />}
+        {role === "specialprojectreportform" && <SpecialProjectReportForm />}
       </div>
     </div>
   );

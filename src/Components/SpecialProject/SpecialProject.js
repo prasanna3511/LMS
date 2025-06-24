@@ -1,6 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import apiRequest from '../../utils/apiRequest';
+import Navbar from '../Navbar/Navbar';
 
 const SpecialProjectForm = () => {
+  const [allSubjects, setAllSubjects] = useState([]);
+
+  useEffect(() => {
+    const fetchAllSubjects = async () => {
+      try {
+        const result = await apiRequest({
+          endpoint: "subject/getallsubject.php",
+          method: "GET",
+          data: {},
+        });
+
+        if (result.status === "success") {
+          // Extract only the subject_name values
+          const subjectNames = result.data.map((sub) => sub.subject_name);
+          setAllSubjects(subjectNames); // Set all at once
+          console.log("Subjects fetched:", subjectNames);
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    };
+    fetchAllSubjects();
+  }, []);
   const [formData, setFormData] = useState({
     standard: '',
     subject: '',
@@ -31,15 +58,63 @@ const SpecialProjectForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+
+    try {
+      const user = JSON.parse(localStorage.getItem("userData"));
+      const studentId = user?.id;
+
+      if (!studentId) {
+        console.error("Student ID not found in local storage");
+        alert("Student ID not found. Please log in again.");
+        return;
+      }
+
+      const payload = {
+        standard: formData.standard,
+        subject: formData.subject,
+        project_name: formData.projectName,
+        student_id: studentId,
+        student_name: user.full_name,
+        description: formData.description,
+        school_name: user.school_name,
+        created_date: formData.creationDate,
+        guide_name: formData.guideName,
+      };
+
+      const result = await apiRequest({
+        endpoint: "specialproject/addspecialproject.php", // ✅ update with your actual path if needed
+        method: "POST",
+        data: payload,
+      });
+
+      if (result.status === "success") {
+        alert("Project saved successfully!");
+        setFormData({
+          standard: "",
+          subject: "",
+          projectName: "",
+          studentName: "",
+          description: "",
+          schoolName: "",
+          guideName: "",
+          creationDate: "",
+          additionalStudents: [],
+        });
+      } else {
+        console.error("Failed to create project:", result.message);
+        alert("Error: " + result.message);
+      }
+    } catch (error) {
+      console.error("Error submitting project:", error);
+      alert("Something went wrong while submitting the project.");
+    }
   };
 
   const styles = {
     container: {
       padding: '20px',
-      // maxWidth: '900px',
       margin: 'auto',
       fontFamily: 'Arial, sans-serif'
     },
@@ -98,27 +173,58 @@ const SpecialProjectForm = () => {
 
   return (
     <form onSubmit={handleSubmit} style={styles.container}>
+      <div style={{width:'100%',display:'flex', justifyContent:'flex-end'}}>
+      <Navbar />
+        </div>
       <div style={{display:'flex',flexDirection:'row' , alignItems:'center'}} >
 
       <div style={styles.heading}>Special Project </div>
       <div style={{...styles.row,marginLeft:10}}>
         <div style={styles.column}>
           <label style={styles.label}>Standard</label>
-          <input
+          {/* <input
             name="standard"
             style={styles.input}
             value={formData.standard}
             onChange={handleChange}
-          />
+          /> */}
+          <select
+            name="standard"
+            value={formData.standard}
+            onChange={handleChange}
+            style={{ ...styles.input, backgroundColor:'white'}}
+          >
+            <option value="">Select standard</option>
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => {
+                  return (
+                    <option key={number} value={`${number}`}>
+                      {number}
+                    </option>
+                  );
+                })}
+          </select>
         </div>
         <div style={styles.column}>
           <label style={styles.label}>Subject</label>
-          <input
+          {/* <input
             name="subject"
             style={styles.input}
             value={formData.subject}
             onChange={handleChange}
-          />
+          /> */}
+             <select
+                className="selectDropdown"
+                value={formData.subject}
+                onChange={handleChange}
+                style={styles.input}
+              >
+                <option value="">Select Subject</option>
+                {allSubjects.map((subj) => (
+                  <option key={subj} value={subj}>
+                    {subj}
+                  </option>
+                ))}
+              </select>
         </div>
       </div>
       </div>

@@ -31,7 +31,7 @@ export default function StudentLogin() {
 
     if (!formData.studentName.trim()) newErrors.studentName = "Required";
     if (!formData.grade) newErrors.grade = "Select a grade";
-    if (!formData.schoolId) newErrors.schoolId = "Select a School";
+    // if (!formData.schoolId) newErrors.schoolId = "Select a School";
     if (!formData.password) newErrors.password = "Required";
     if (!formData.parentName.trim()) newErrors.parentName = "Required";
     if (!/^\d{10}$/.test(formData.whatsapp)) newErrors.whatsapp = "Enter 10-digit number";
@@ -43,7 +43,8 @@ export default function StudentLogin() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  const [getAllSchool , setGetAllSchool]=useState([])
+  const [getAllSchool , setGetAllSchool]=useState([]);
+ 
 
   const handleSave = async () => {
     if (validate()) {
