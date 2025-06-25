@@ -60,7 +60,20 @@ const SpecialProjectForm = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-
+    console.log("formdatta is : ",formData)
+    if (
+      !formData.standard ||
+      !formData.subject ||
+      !formData.projectName.trim() ||
+      // (!formData.studentName.trim() && formData.additionalStudents.length === 0) ||
+      !formData.description.trim() ||
+      !formData.schoolName.trim() ||
+      !formData.guideName.trim() ||
+      !formData.creationDate
+    ) {
+      alert("Please fill out all required fields.");
+      return;
+    }
     try {
       const user = JSON.parse(localStorage.getItem("userData"));
       const studentId = user?.id;
@@ -206,13 +219,8 @@ const SpecialProjectForm = () => {
         </div>
         <div style={styles.column}>
           <label style={styles.label}>Subject</label>
-          {/* <input
-            name="subject"
-            style={styles.input}
-            value={formData.subject}
-            onChange={handleChange}
-          /> */}
              <select
+             name="subject"
                 className="selectDropdown"
                 value={formData.subject}
                 onChange={handleChange}
