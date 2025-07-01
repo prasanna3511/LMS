@@ -100,7 +100,7 @@ const downloadPDF = (selectedQuestions) => {
 
   doc.setFont("helvetica");
   doc.setFontSize(16);
-  doc.text("MCQ Test", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
+  doc.text("Theory Test", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
 
   y += 10;
 

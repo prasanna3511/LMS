@@ -156,7 +156,7 @@ export default function SchoolInfo() {
           {errors.chairmanName && <div style={errorStyle}>{errors.chairmanName}</div>}
 
           <label style={labelStyle}>Chairman Mobile Number</label>
-          <input type="password"  value={formData.chairmanMobile}
+          <input type="number"  value={formData.chairmanMobile}
           name="chairmanMobile"
             onChange={handleChange}
             style={inputStyle}

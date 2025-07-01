@@ -7,7 +7,7 @@ import Navbar from "./Navbar/Navbar";
 import './Dashboard.css'
 import apiRequest from "../utils/apiRequest";
 
-export default function Dashboard() {
+export default function Dashboard({setRole}) {
   const [present, setPresent] = useState(30);
   const [absent, setAbsent] = useState(2);
 
@@ -258,11 +258,11 @@ export default function Dashboard() {
           border: "none",
           cursor: "pointer",
           fontSize: "15px",
-          width: "180px",
+          width: "120px",
         }}
       >
         <a style={{ color: "white", textDecoration: "none" }}>
-          Add New School
+          New School
         </a>
       </button>
       <button
@@ -275,11 +275,32 @@ export default function Dashboard() {
           border: "none",
           cursor: "pointer",
           fontSize: "15px",
-          width: "180px",
+          width: "120px",
         }}
       >
         <a style={{ color: "white", textDecoration: "none" }}>
           Create Login
+        </a>
+      </button>
+      <button
+        onClick={()=> navigate('/CreateTeacher',{
+          state:{
+            data:null
+          }
+        })}
+        style={{
+          backgroundColor: "#1a1a56",
+          color: "white",
+          padding: "10px 15px",
+          borderRadius: "17px",
+          border: "none",
+          cursor: "pointer",
+          fontSize: "15px",
+          width: "120px",
+        }}
+      >
+        <a style={{ color: "white", textDecoration: "none" }}>
+          Create Staff
         </a>
       </button>
     </div>
@@ -373,7 +394,9 @@ export default function Dashboard() {
               display: "flex",
               flexDirection: "column",
               marginBottom: "10px",
-            }}>
+            }}
+            onClick={()=>setRole("studentReport")}
+            >
               <div style={{
                 width: "45px",
                 height: "45px",
@@ -429,7 +452,10 @@ export default function Dashboard() {
               display: "flex",
               flexDirection: "column",
               marginBottom: "10px",
-            }}>
+              
+            }}
+            onClick={()=>setRole("teacherReport")}
+            >
               <div style={{
                 width: "45px",
                 height: "45px",
@@ -495,7 +521,9 @@ export default function Dashboard() {
               display: "flex",
               flexDirection: "column",
               marginBottom: "10px",
-            }}>
+            }}
+            onClick={()=>setRole("createSession")}
+            >
               <div style={{
                 width: "45px",
                 height: "45px",
@@ -546,7 +574,9 @@ export default function Dashboard() {
               display: "flex",
               flexDirection: "column",
               marginBottom: "10px",
-            }}>
+            }}
+            onClick={()=>setRole("test")}
+            >
               <div style={{
                 width: "45px",
                 height: "45px",
@@ -607,7 +637,9 @@ export default function Dashboard() {
               display: "flex",
               flexDirection: "column",
               marginBottom: "10px",
-            }}>
+            }}
+            onClick={()=>setRole("questionBank")}
+            >
               <div style={{
                 width: "45px",
                 height: "45px",
@@ -658,7 +690,10 @@ export default function Dashboard() {
               display: "flex",
               flexDirection: "column",
               marginBottom: "10px",
-            }}>
+            }}
+            onClick={()=>setRole("testReport")}
+            
+            >
               <div style={{
                 width: "45px",
                 height: "45px",

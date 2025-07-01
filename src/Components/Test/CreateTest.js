@@ -88,7 +88,7 @@ export const CreateTest = () => {
       option3: "",
       option4: "",
       correct_answer: "1",
-      type: "MCQ",
+      type: "Theory",
     };
     setQuestions([...questions, newQuestion]);
   };
@@ -249,8 +249,8 @@ export const CreateTest = () => {
 
     doc.setFont("helvetica");
     doc.setFontSize(16);
-    // doc.text("MCQ Test", 14, y);
-    doc.text("MCQ Test", doc.internal.pageSize.getWidth() / 2, y, {
+    // doc.text("Theory Test", 14, y);
+    doc.text("Theory Test", doc.internal.pageSize.getWidth() / 2, y, {
       align: "center",
     });
     y += 10;

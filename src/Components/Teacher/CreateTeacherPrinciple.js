@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import apiRequest from "../../utils/apiRequest";
 import { useLocation } from "react-router-dom";
 
@@ -27,7 +27,32 @@ export default function TeacherPrinciple() {
       [name]: value,
     }));
   };
+  const [getAllSchool, setGetAllSchool] = useState([]);
+  const [selectedSchool, setSelectedSchool] = useState("");
 
+  useEffect(() => {
+    const fetchSchoolData = async () => {
+      try {
+        const result = await apiRequest({
+          endpoint: "school/getallschool.php",
+          method: "GET",
+          data: {},
+        });
+
+        if (result.status === "success") {
+          // alert("Session creation completed");
+          setGetAllSchool(result.data);
+          console.log("result", result);
+          // navigate("/dashboard");
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    };
+    fetchSchoolData();
+  }, []);
   const validate = () => {
     const newErrors = {};
 
@@ -41,6 +66,7 @@ export default function TeacherPrinciple() {
     if (!/^\d{10}$/.test(formData.mobile)) newErrors.mobile = "Enter 10-digit number";
     if (!formData.dob) newErrors.dob = "Select date of birth";
     if (!formData.doj) newErrors.doj = "Select date of birth";
+    if (!selectedSchool) newErrors.schoolName = "Select a school";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -64,13 +90,13 @@ export default function TeacherPrinciple() {
         username: formData.username,      // You can use email or another unique ID if preferred
         grade: formData.role === 'teacher' ?formData.grade : " ",
         parent_name: " ",
-        relation: " ",                  // Adjust as needed
-        school_id: data.id,  
-        date_of_joining:formData.doj                    // Adjust as needed
+        relation: " ",             
+        school_id: !data? selectedSchool :data.id,  
+        date_of_joining:formData.doj  
       };
       try {
         const result = await apiRequest({
-          endpoint: "users/create.php", // change to your correct endpoint
+          endpoint: "users/create.php", 
           method: "POST",
           data: payload,
         });
@@ -220,7 +246,24 @@ export default function TeacherPrinciple() {
             style={inputStyle}
           />
           {errors.whatsapp && <div style={errorStyle}>{errors.whatsapp}</div>}
-        </div>
+{ !data &&
+         <> <label style={labelStyle}>School Name</label>
+            <select
+              style={{ ...inputStyle, backgroundColor: "white" }}
+              value={selectedSchool}
+              onChange={(e) => setSelectedSchool(e.target.value)}
+            >
+              <option value="">School</option>
+              {getAllSchool.map((school) => (
+                <option value={school.id}>{school.school_name}</option>
+              ))}
+            </select>
+            {errors.schoolName && (
+              <div style={errorStyle}>{errors.schoolName}</div>
+            )}
+            </>
+
+}        </div>
 
         <div style={formStyle}>
           <label style={labelStyle}>Email Id</label>
@@ -279,7 +322,7 @@ export default function TeacherPrinciple() {
       </div>
 
       <div style={buttonContainerStyle}>
-        <button style={buttonStyle}>Back</button>
+        {/* <button style={buttonStyle}>Back</button> */}
         <button style={buttonStyle} onClick={handleSave}>Create Login</button>
         {/* <button style={buttonStyle}>Save & Add Student</button> */}
       </div>

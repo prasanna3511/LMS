@@ -88,7 +88,7 @@ fetchAllSessions()
     // if (demoLink && !/^https?:\/\/.+/.test(demoLink)) {
     //   newErrors.demoLink = "Demo link must be a valid URL.";
     // }
-    if (!demoDesc.trim()) newErrors.demoDesc = "Demo description is required.";
+    // if (!demoDesc.trim()) newErrors.demoDesc = "Demo description is required.";
     console.log("newErrors : ",newErrors)
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -152,7 +152,7 @@ fetchAllSessions()
             name_of_session: sessionName,
             practical_name: practicalName,
             demo_link: demoLink,
-            demo_description: demoDesc,
+            demo_description: demoDesc?demoDesc:"null",
             status: 'active',
             school_id,
             practical_description:'  '
@@ -208,6 +208,29 @@ fetchAllSessions()
       alert(err.message || "Something went wrong");
     }
   }
+  const [allSubjects, setAllSubjects] = useState([]);
+  useEffect(() => {
+    const fetchAllSubjects = async () => {
+      try {
+        const result = await apiRequest({
+          endpoint: "subject/getallsubject.php",
+          method: "GET",
+          data: {},
+        });
+
+        if (result.status === "success") {
+          // Extract only the subject_name values
+          const subjectNames = result.data.map((sub) => sub.subject_name);
+          setAllSubjects(subjectNames); // Set all at once
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    };
+    fetchAllSubjects();
+  }, []);
   return (
     <div style={{ width: '100%' }}>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
@@ -287,10 +310,12 @@ fetchAllSessions()
                   <select style={{ padding: '8px', borderRadius: '15px', border: '1px solid #ccc', flex: 1, width: 100 }}
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}>
-                    <option value="">Subject</option>
-                    <option value="math">Mathematics</option>
-                    <option value="science">Science</option>
-                    <option value="history">History</option>
+                     <option value="">Select Subject</option>
+                {allSubjects.map((subj) => (
+                  <option key={subj} value={subj}>
+                    {subj}
+                  </option>
+                ))}
                     {/* Add more subjects as needed */}
                   </select>
                   <select style={{ padding: '8px', borderRadius: '15px', border: '1px solid #ccc', flex: 1, width: 100 }}

@@ -547,7 +547,7 @@ const Sidebar = () => {
 
       {/* Main content */}
       <div style={contentStyle}>
-        {role === "home" && getUserRole.role === "admin" && <Dashboard />}
+        {role === "home" && getUserRole.role === "admin" && <Dashboard setRole={setRole}/>}
         {role === "home" && getUserRole.role === "teacher" && (
           <TeacherDashboard  setRole={setRole}/>
         )}

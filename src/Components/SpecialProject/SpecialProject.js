@@ -4,6 +4,14 @@ import Navbar from '../Navbar/Navbar';
 
 const SpecialProjectForm = () => {
   const [allSubjects, setAllSubjects] = useState([]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+useEffect(() => {
+  const handleResize = () => setIsMobile(window.innerWidth <= 768);
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
 
   useEffect(() => {
     const fetchAllSubjects = async () => {
@@ -140,7 +148,8 @@ const SpecialProjectForm = () => {
     row: {
       display: 'flex',
       gap: '20px',
-      marginBottom: '15px'
+      marginBottom: '15px',
+      flexDirection: isMobile ? 'column' : 'row',
     },
     column: {
       flex: 1,
@@ -151,7 +160,8 @@ const SpecialProjectForm = () => {
       padding: '10px',
       borderRadius: '20px',
       border: '1px solid #ccc',
-      marginTop: '5px'
+      marginTop: '5px',
+      width: '98%' 
     },
     textarea: {
       width: '100%',
@@ -243,7 +253,7 @@ const SpecialProjectForm = () => {
           <label style={styles.label}>Project Name</label>
           <input
             name="projectName"
-            style={styles.input}
+            style={{...styles.input,marginRight:5}}
             value={formData.projectName}
             onChange={handleChange}
           />
@@ -298,7 +308,8 @@ const SpecialProjectForm = () => {
         <input
           type="date"
           name="creationDate"
-          style={{...styles.input,width:'47%'}}
+          // style={{...styles.input,width:'47%'}}
+          style={{...styles.input, width: isMobile ? '100%' : '47%'}}
           value={formData.creationDate}
           onChange={handleChange}
         />

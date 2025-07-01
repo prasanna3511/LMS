@@ -8,7 +8,7 @@ const CreateQuestionBank = ({ setRole }) => {
   const [practicalQuestion, setPracticalQuestion] = useState("");
   const [options, setOptions] = useState(["", "", "", ""]);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [qType, setQType] = useState("MCQ");
+  const [qType, setQType] = useState("Theory");
   const [subject, setSubject] = useState("Math");
   const [questions, setQuestions] = useState([]);
   const [standard, setStandard] = useState("Class 1");
@@ -100,7 +100,7 @@ const CreateQuestionBank = ({ setRole }) => {
     setPracticalQuestion("");
     setOptions(["", "", "", ""]);
     setSelectedOption(null);
-    setQType("MCQ");
+    setQType("Theory");
     setSubject("Math");
     setStandard("Class 1");
     setEditingQuestionId(null);
@@ -115,11 +115,11 @@ const CreateQuestionBank = ({ setRole }) => {
     const apidata = {
       id: editingQuestionId,
       question: practicalQuestion,
-      option1: qType === "MCQ" ? options[0] : "1",
-      option2: qType === "MCQ" ? options[1] : "1",
-      option3: qType === "MCQ" ? options[2] : "1",
-      option4: qType === "MCQ" ? options[3] : "1",
-      correct_answer: qType === "MCQ" ? options[selectedOption] || "1" : "1",
+      option1: qType === "Theory" ? options[0] : "1",
+      option2: qType === "Theory" ? options[1] : "1",
+      option3: qType === "Theory" ? options[2] : "1",
+      option4: qType === "Theory" ? options[3] : "1",
+      correct_answer: qType === "Theory" ? options[selectedOption] || "1" : "1",
       type: qType,
       status: "active",
       created_date: createdDate,
@@ -207,8 +207,8 @@ const CreateQuestionBank = ({ setRole }) => {
                 className="selectDropdown"
               >
                 <option>Select Type</option>
-                <option>MCQ</option>
                 <option>Theory</option>
+                <option>Practical</option>
               </select>
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -262,7 +262,7 @@ const CreateQuestionBank = ({ setRole }) => {
             </div>
           </div>
 
-          {qType === "MCQ" && (
+          {qType === "Theory" && (
             <>
               <div style={{ marginBottom: "10px" }}>
                 <label>Enter Theory Question</label>
@@ -335,7 +335,7 @@ const CreateQuestionBank = ({ setRole }) => {
             </>
           )}
 
-          {qType === "Theory" && (
+          {qType === "Practical" && (
             <div style={{ marginBottom: "20px" }}>
               <label>Practical Question</label>
               <br />
