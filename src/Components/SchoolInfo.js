@@ -224,6 +224,12 @@ export default function SchoolInfo() {
       </div>
 
       <div style={buttonContainerStyle}>
+      <button
+    style={{ ...buttonStyle }} // gray color for Back button
+    onClick={() => navigate(-1)}
+  >
+    Back
+  </button>
         <button style={buttonStyle} onClick={handleSubmit}>Save</button>
       </div>
     </div>

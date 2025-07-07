@@ -168,9 +168,9 @@ const TeacherReportPage = () => {
       mobile_number:editData.mobile,
       whatsapp_number:editData.whatsapp,
       date_of_birth:editData.dob,
+      password:editData.password,
       id:editData.id
     }
-
     try {
       const result = await apiRequest({
         endpoint: "users/updateUserFromReports.php",
@@ -259,6 +259,7 @@ const TeacherReportPage = () => {
                         "mobile",
                         "whatsapp",
                         "email",
+                        "password",
                       ].includes(key) ? (
                         <input
                           type="text"

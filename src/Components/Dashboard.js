@@ -10,7 +10,8 @@ import apiRequest from "../utils/apiRequest";
 export default function Dashboard({setRole}) {
   const [present, setPresent] = useState(30);
   const [absent, setAbsent] = useState(2);
-
+  const [getAllSchool, setGetAllSchool] = useState([]);
+  const [selectedSchool, setSelectedSchool] = useState("");
   const total = present + absent;
   const attendancePercentage =
     total > 0 ? ((present / total) * 100).toFixed(1) : 0;
@@ -50,7 +51,7 @@ export default function Dashboard({setRole}) {
   const fetchTotalTest = async (schoolId = null) => {
     try {
       setLoading(true);
-      const payload =  {};
+      const payload =selectedSchool?  {school_id:selectedSchool}:{};
       
       const result = await apiRequest({
         endpoint: "createTest/getAllTestPapers.php", // Adjust to your actual endpoint
@@ -75,7 +76,7 @@ export default function Dashboard({setRole}) {
   useEffect(()=>{
     fetchHolidays(userData.school_id)
     fetchTotalTest()
-  },[])
+  },[selectedSchool])
 
   const containerStyle = {
     display: "flex",
@@ -96,6 +97,27 @@ export default function Dashboard({setRole}) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [questionCount , setQuestionCount] = useState(0);
   const [sessionCount , setSessionCount] = useState(0);
+ 
+  useEffect(() => {
+    const fetchSchoolData = async () => {
+      try {
+        const result = await apiRequest({
+          endpoint: "school/getallschool.php",
+          method: "GET",
+          data: {},
+        });
+
+        if (result.status === "success") {
+          setGetAllSchool(result.data);
+        } else {
+          alert(result.message || "Session creation failed");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
+    };
+    fetchSchoolData();
+  }, []);
   const startOfWeek = (date) => {
     const d = new Date(date);
     const day = d.getDay();
@@ -153,7 +175,7 @@ export default function Dashboard({setRole}) {
         endpoint: "questionbank/getallquestion.php",
         method: "POST",
         data:
-          userData.role === "admin"
+        selectedSchool?  { school_id: Number(selectedSchool), role: 'teacher' }:userData.role === "admin"
             ? { role: userData.role }
             : { school_id: userData.school_id, role: userData.role },
       });
@@ -175,16 +197,17 @@ export default function Dashboard({setRole}) {
       const result = await apiRequest({
         endpoint: "sessions/getsessionbyschoolid.php",
         method: "POST",
-        data:{},
+        data:selectedSchool?{school_id:Number(selectedSchool)}:{},
       });
-
+console.log("called again",selectedSchool)
       if (result.status === "success") {
         // alert("Session creation completed");
         console.log("result : ",result.data)
         // setQuestions(result.data);
         setSessionCount(result.data.length)
       } else {
-        alert(result.message || "Session creation failed");
+        setSessionCount(0)
+        // alert(result.message || "Session creation failed");
       }
     } catch (err) {
       alert(err.message || "Something went wrong");
@@ -193,7 +216,7 @@ export default function Dashboard({setRole}) {
   useEffect(() => {
     fetchAllQuestions();
     fetchAllSession()
-  }, []);
+  }, [selectedSchool]);
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "99%", marginLeft: 10 }}>
    <div
@@ -227,7 +250,7 @@ export default function Dashboard({setRole}) {
         flexWrap: "wrap",
       }}
     >
-      <input
+      {/* <input
         type="text"
         placeholder="Select School"
         style={{
@@ -239,7 +262,29 @@ export default function Dashboard({setRole}) {
           // flex: 1,
           width: "200px",
         }}
-      />
+      /> */}
+      <div>
+ 
+            <select
+              style={{   padding: "10px",
+              borderRadius: "17px",
+              border: "1px solid #ccc",
+              outline: "none",
+              fontSize: "15px",
+              // flex: 1,
+              width: "200px", backgroundColor: "white" }}
+              value={selectedSchool}
+              onChange={(e) => setSelectedSchool(e.target.value)}
+            >
+              <option value="">School</option>
+              {getAllSchool.map((school) => (
+                <option value={school.id}>{school.school_name}</option>
+              ))}
+            </select>
+            {/* {errors.schoolName && (
+              <div style={errorStyle}>{errors.schoolName}</div>
+            )} */}
+          </div>
     <div
       style={{
         display: "flex",

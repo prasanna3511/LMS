@@ -400,20 +400,7 @@ fetchAllSessions()
                 <th style={styles.tableHeader}>Delete</th>
               </tr>
             </thead>
-            {/* <tbody>
-              <tr>
-                <td style={styles.tableCell}>xcvdfhgfghfug</td>
-                <td></td>
-                <td>
-                  <button
-                    style={styles.deleteButton}
-                    onClick={() => alert('Delete clicked')}
-                  >
-                    🗑️
-                  </button>
-                </td>
-              </tr>
-            </tbody> */}
+        
             <tbody>
   {allSessions.length === 0 ? (
     <tr>
@@ -541,6 +528,7 @@ const styles = {
     padding: '20px',
     height: 300,
     marginTop: '80px',
+    overflow: 'auto',
   },
   sessionsHeader: {
     fontWeight: 'bold',

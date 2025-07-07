@@ -26,6 +26,7 @@ import CreateSession from "../CreateSession";
 import AddSubject from "../Subject/AddSubject";
 import SpecialProjectReportForm from "../SpecialProject/ProjectReport";
 import { useNavigate } from "react-router-dom";
+import CreateTestReport from "../CreateTestReport/CreateTestReport";
 
 const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -239,6 +240,22 @@ const Sidebar = () => {
                 }
               >
                 Create Question Bank
+              </a>
+            </li>
+          )}
+            {(getUserRole.role === "admin" || getUserRole.role === "teacher") && (
+            <li>
+              <a
+                onClick={() => handleLinkClick("createTestReport")}
+                style={linkStyle}
+                onMouseEnter={(e) =>
+                  (e.target.style.backgroundColor = "#2a2a76")
+                }
+                onMouseLeave={(e) =>
+                  (e.target.style.backgroundColor = "transparent")
+                }
+              >
+                Create Test Report
               </a>
             </li>
           )}
@@ -565,6 +582,8 @@ const Sidebar = () => {
         {role === "projectReportTable" && <SpecialProjectTable />}
         {role === "test" && <CreateTest />}
         {role === "studentTable" && <StudentDashboard />}
+        {role === "createTestReport" && <CreateTestReport />}
+        {/* createTestReport */}
         
         {role === "questionBank" && <QuestionBank setRole={setRole} />}
         {role === "questionBankTable" && <QuestionBankTable />}

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import apiRequest from "../../utils/apiRequest";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function TeacherPrinciple() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullname: "",
     role: "",
@@ -75,8 +76,6 @@ export default function TeacherPrinciple() {
   const handleSave = async () => {
     console.log(data)
     if (validate()) {
-      // alert("Form is valid, ready to submit!");
-
       const payload = {
         full_name: formData.fullname,
         email: formData.email,
@@ -109,12 +108,9 @@ export default function TeacherPrinciple() {
       } catch (err) {
         alert(err.message || "Something went wrong");
       }
-      // Proceed with API call or next steps
     }
   };
 
-  // console.log(JSONdata))
-  // Style definitions
   const containerStyle = {
     display: "flex",
     justifyContent: "space-between",
@@ -322,7 +318,7 @@ export default function TeacherPrinciple() {
       </div>
 
       <div style={buttonContainerStyle}>
-        {/* <button style={buttonStyle}>Back</button> */}
+        <button style={buttonStyle} onClick={() => navigate(-1)}>Back</button>
         <button style={buttonStyle} onClick={handleSave}>Create Login</button>
         {/* <button style={buttonStyle}>Save & Add Student</button> */}
       </div>
