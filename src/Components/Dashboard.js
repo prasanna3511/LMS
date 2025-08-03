@@ -11,7 +11,12 @@ export default function Dashboard({setRole}) {
   const [present, setPresent] = useState(30);
   const [absent, setAbsent] = useState(2);
   const [getAllSchool, setGetAllSchool] = useState([]);
-  const [selectedSchool, setSelectedSchool] = useState("");
+  const [selectedSchool, setSelectedSchool] = useState(null);
+  const [studentReportCount, setStudentReportCount] = useState({totalSession:0,totalAttended:0})
+  const [teacherReportData, setTeacherReportData ]= useState({ 
+    totalSessions:0,
+    totalCompletedSessions:0})
+  const [testData, setTestData]= useState(null);
   const total = present + absent;
   const attendancePercentage =
     total > 0 ? ((present / total) * 100).toFixed(1) : 0;
@@ -75,8 +80,140 @@ export default function Dashboard({setRole}) {
   };
   useEffect(()=>{
     fetchHolidays(userData.school_id)
-    fetchTotalTest()
+    fetchTotalTest();
+    fetchAllTestReport();
+    getTeacherReport();
   },[selectedSchool])
+  const fetchAllTestReport = async()=>{
+    console.log("called")
+    let api = selectedSchool ?`student_test_report/getTestReport.php?school_id=${Number(selectedSchool)}`:`student_test_report/getTestReport.php`;
+    try {
+      // const result = await apiRequest({
+      //   endpoint: "student_test_report/getTestReport.php",
+      //   method: "POST",
+      //   data: {teacher_id : userData.id},
+      // });
+      const result = await apiRequest({
+        endpoint: api,
+        method: "GET",
+      });
+      console.log("report :",result)
+      if (result.status === "success") {
+        // alert("Session creation completed");
+        // console.log("users",result.data)
+        console.log("report data ",result.data)
+        setTestData(result.data)
+
+        
+        // navigate("/dashboard");
+      } else {
+        // alert(result.message || "Session creation failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  }
+  const getTeacherReport = async () => {
+    let payload = {
+      teacher_id: Number(userData.id),
+    };
+  
+    if (selectedSchool) {
+      payload = { school_id: Number(selectedSchool) };
+    }
+  
+    try {
+      console.log("payload", payload);
+      const result = await apiRequest({
+        endpoint: "reports/teacherReport.php",
+        method: "POST",
+        data: (userData.role === "admin" && !selectedSchool) ? {} : payload,
+      });
+  
+      console.log("result data teacher report: ", result);
+  
+      if (result.status !== true) {
+        return;
+      }
+  
+      // Initialize totals
+      let totalAttendance = 0;
+      let totalPresent = 0;
+      let totalAbsent = 0;
+      let totalSessions = 0;
+      let totalCompletedSessions = 0;
+      let totalPendingTests = 0;
+      let totalCreatedTests = 0;
+  
+      const formattedData = result.data.map((item) => {
+        const attendance = Number(item.attendance_count || 0);
+        const present = Number(item.present_days || 0);
+        const absent = Number(item.absent_days || 0);
+        const sessions = Number(item.session_count || 0);
+        const completed = Number(item.school_session_count || 0);
+        const pending = Number(item.pending_test_count || 0);
+        const created = Number(item.test_created_count || 0);
+  
+        // Accumulate totals
+        totalAttendance += attendance;
+        totalPresent += present;
+        totalAbsent += absent;
+        totalSessions += sessions;
+        totalCompletedSessions += completed;
+        totalPendingTests += pending;
+        totalCreatedTests += created;
+  
+        return {
+          id: item.teacher_info.id,
+          name: item.teacher_info.full_name,
+          school: item.teacher_info.school_name,
+          password: item.teacher_info.password,
+          mobile: item.teacher_info.mobile_number,
+          whatsapp: item.teacher_info.whatsapp_number,
+          email: item.teacher_info.email,
+          dob: item.teacher_info.date_of_birth,
+          joiningDate: item.teacher_info.date_of_joining,
+          address: item.teacher_info.address,
+          totalAttendance: attendance,
+          presentDays: present,
+          absentDays: absent,
+          totalSession: sessions,
+          completedSessions: completed,
+          pendingTests: pending,
+          createdTests: created,
+          photo: item.teacher_info.photo || "https://via.placeholder.com/40",
+        };
+      });
+  
+      console.log("Total Summary =>", {
+        totalAttendance,
+        totalPresent,
+        totalAbsent,
+        totalSessions,
+        totalCompletedSessions,
+        totalPendingTests,
+        totalCreatedTests
+      });
+      setTeacherReportData({totalSessions:totalSessions,totalCompletedSessions:totalCompletedSessions})
+      // setTeacherData(formattedData);
+  
+      // Optional: Store totals in state
+      // setTeacherSummary({
+      //   totalAttendance,
+      //   totalPresent,
+      //   totalAbsent,
+      //   totalSessions,
+      //   totalCompletedSessions,
+      //   totalPendingTests,
+      //   totalCreatedTests
+      // });
+  
+    } catch (err) {
+      alert("Save failed: " + err.message);
+      return;
+    }
+  };
+  
 
   const containerStyle = {
     display: "flex",
@@ -117,6 +254,9 @@ export default function Dashboard({setRole}) {
       }
     };
     fetchSchoolData();
+    getStduentReport();
+    getTeacherReport();
+
   }, []);
   const startOfWeek = (date) => {
     const d = new Date(date);
@@ -215,8 +355,49 @@ console.log("called again",selectedSchool)
   };
   useEffect(() => {
     fetchAllQuestions();
-    fetchAllSession()
+    fetchAllSession();
+    getStduentReport();
   }, [selectedSchool]);
+  const getStduentReport = async () => {
+    const payload = {
+      // name:enterTestName,
+      school_id: Number(selectedSchool),
+      teacher_id: Number(userData.id),
+    };
+
+    try {
+      const result = await apiRequest({
+        endpoint: "reports/studentReport.php",
+        method: "POST",
+        data: (userData.role === "admin" && !selectedSchool) ? {} : payload,
+      });
+
+      console.log("result data student report: ", result);
+      const data = result.data;
+      let totalSessions = 0;
+        let totalAttended = 0;
+    
+        data.forEach((student) => {
+          totalSessions += Number(student.total_session_count || 0);
+          totalAttended += Number(student.attendance_count || 0);
+        });
+    
+        console.log(`Total Sessions: ${totalSessions}, Attended Sessions: ${totalAttended}`);
+        setStudentReportCount({totalSession:totalAttended,totalAttended:totalSessions})
+      if (result.status !== true) {
+        
+    
+        // alert("Failed to save a question: " + result.message);
+
+        ///// prasannna set data below
+        return;
+      }
+      // setStudentData(result.data);
+    } catch (err) {
+      alert("Save failed: " + err.message);
+      return;
+    }
+  };
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "99%", marginLeft: 10 }}>
    <div
@@ -471,17 +652,17 @@ console.log("called again",selectedSchool)
                 alignItems: "center"
               }}>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{studentReportCount.totalAttended}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>Total Present</p>
                 </div>
                 <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{  studentReportCount.totalSession - studentReportCount.totalAttended}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>absent</p>
                 </div>
                 <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{studentReportCount.totalSession}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>Total</p>
                 </div>
               </div>
@@ -530,17 +711,17 @@ console.log("called again",selectedSchool)
                 alignItems: "center"
               }}>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{teacherReportData.totalSessions}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>Total Sessions</p>
                 </div>
                 <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{teacherReportData.totalCompletedSessions}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>Completed</p>
                 </div>
                 <div style={{height: "80%", border: "1px solid grey", width: "0.1px"}}></div>
                 <div style={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "center", alignItems: "center"}}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{teacherReportData.totalSessions-teacherReportData.totalCompletedSessions}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>Not Completed</p>
                 </div>
               </div>
@@ -773,7 +954,7 @@ console.log("called again",selectedSchool)
                   marginLeft: 8,
                   alignItems: "center"
                 }}>
-                  <p style={{fontSize: 10}}>86</p>
+                  <p style={{fontSize: 10}}>{testData?.length}</p>
                   <p style={{fontSize: 10, marginTop: -10}}>Total Tests Created</p>
                 </div>
               </div>

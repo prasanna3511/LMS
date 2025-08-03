@@ -243,7 +243,7 @@ const Sidebar = () => {
               </a>
             </li>
           )}
-            {(getUserRole.role === "admin" || getUserRole.role === "teacher") && (
+            {( getUserRole.role === "teacher") && (
             <li>
               <a
                 onClick={() => handleLinkClick("createTestReport")}

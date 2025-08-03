@@ -59,26 +59,6 @@ const StudentAttendance = () => {
       alert(err.message || "Something went wrong");
     }
   }
-  // const addAttendance = async()=>{
-  //   try {
-  //     const result = await apiRequest({
-  //       endpoint: "studenattendance/addstudentattendance.php",
-  //       method: "POST",
-  //       data: {session_id : '',student_id:0, teacher_id:Number(userData.id),description:'',attendance:'present/absent'},
-  //     });
-  
-  //     if (result.status === "success") {
-  //       // alert("Session creation completed");
-  //       // console.log("users",result.data)
-  //       setStudents(result.data)
-  //       // navigate("/dashboard");
-  //     } else {
-  //       // alert(result.message || "Session creation failed");
-  //     }
-  //   } catch (err) {
-  //     alert(err.message || "Something went wrong");
-  //   }
-  // }
   const filteredStudents = standard
   ? students.filter(student => student.grade === standard)
   : students;
@@ -116,12 +96,6 @@ const StudentAttendance = () => {
     }
   };
   
-  // const handleCheckboxChange = (index) => {
-  //   const updatedStudents = [...students];
-  //   updatedStudents[index].present = !updatedStudents[index].present;
-  //   setStudents(updatedStudents);
-  // };
-
   const handleCheckboxChange = (id) => {
     const updatedStudents = students.map(student => {
       if (student.id === id) {
@@ -132,11 +106,6 @@ const StudentAttendance = () => {
     setStudents(updatedStudents);
   };
   
-  // const handleDescriptionChange = (index, value) => {
-  //   const updatedStudents = [...students];
-  //   updatedStudents[index].description = value;
-  //   setStudents(updatedStudents);
-  // };
   const handleDescriptionChange = (id, value) => {
     const updatedStudents = students.map(student => {
       if (student.id === id) {

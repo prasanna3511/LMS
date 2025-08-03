@@ -83,7 +83,7 @@ export default function TeacherPrinciple() {
         address: formData.address,
         password: formData.password,
         mobile_number: formData.mobile,
-        school_name: data.school_name,     // Adjust this as needed
+        school_name: data?.school_name ?? " ",     // Adjust this as needed
         whatsapp_number: formData.whatsapp,
         date_of_birth: formData.dob,
         username: formData.username,      // You can use email or another unique ID if preferred

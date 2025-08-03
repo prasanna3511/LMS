@@ -13,6 +13,7 @@ const Dashboard = ({setRole}) => {
   const [holidaysLength, setHolidaysLength] = useState(0)
   const [holidays, setHolidays] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [totalTest, setTotalTest] = useState([])
   useEffect(() => {
     fetchholidaycount();
   }, []);
@@ -249,9 +250,38 @@ const Dashboard = ({setRole}) => {
     };
 
     fetchQuestions();
+    fetchAllTestReport();
   }, []);
 
+  const fetchAllTestReport = async()=>{
+    console.log("called")
+    let api = userData.role === 'admin' ?`student_test_report/getTestReport.php`:`student_test_report/getTestReport.php?school_id=${Number(userData.school_id)}`;
+    try {
+      // const result = await apiRequest({
+      //   endpoint: "student_test_report/getTestReport.php",
+      //   method: "POST",
+      //   data: {teacher_id : userData.id},
+      // });
+      const result = await apiRequest({
+        endpoint: api,
+        method: "GET",
+      });
+      console.log("report :",result)
+      if (result.status === "success") {
+        // alert("Session creation completed");
+        // console.log("users",result.data)
+        console.log("report data ",result.data)
+        setTotalTest(result.data)
 
+        
+        // navigate("/dashboard");
+      } else {
+        // alert(result.message || "Session creation failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  }
   // Responsive styles
   const containerStyle = {
     fontFamily: "Arial, sans-serif",
@@ -683,7 +713,7 @@ const Dashboard = ({setRole}) => {
                     borderRadius: "5px",
                   }}
                 >
-                  <p style={{ fontSize: "10px", margin: "0" }}>86</p>
+                  <p style={{ fontSize: "10px", margin: "0" }}>{totalTest.length}</p>
                   <p style={{ fontSize: "10px", margin: "0" }}>
                     Total Tests Created
                   </p>

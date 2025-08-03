@@ -1,39 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import './StudentReportPage.css';
+import apiRequest from '../../utils/apiRequest';
 
 
 const TestReportPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRow, setSelectedRow] = useState(null); // To track selected row
   const [testData, setTestData] = useState([
-    {
-      teacherName: 'Ms. Sharma',
-      testNo: 'TST101',
-      testDate: '2024-09-12',
-      studentName: 'Aarav Mehta',
-      studentId: 'STU001',
-      schoolName: 'Greenwood High',
-      marksObtained: 38,
-      totalMarks: 40,
-      status: 'Passed'
-    },
-    {
-      teacherName: 'Mr. Verma',
-      testNo: 'TST102',
-      testDate: '2024-09-18',
-      studentName: 'Sneha Patel',
-      studentId: 'STU002',
-      schoolName: 'Sunrise Academy',
-      marksObtained: 32,
-      totalMarks: 40,
-      status: 'Passed'
-    }
   ]);
 
   // Filtered test data based on search term
   const filteredData = testData.filter((test) =>
-    test.studentName.toLowerCase().includes(searchTerm.toLowerCase())
+    test?.full_name?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
   const handleRowClick = (index) => {
@@ -46,15 +25,92 @@ const TestReportPage = () => {
     setTestData(updatedData);
   };
 
-  const handleEdit = () => {
+  const handleEdit = async() => {
     if (selectedRow !== null) {
+      const editedRow = testData[selectedRow];
+    console.log("Edited row data:", editedRow);
+    const payload = {
+      id : Number(editedRow.id),
+      marks:Number(editedRow.marks),
+      out_of_marks:Number(editedRow.out_of_marks),
+    }
+    try {
+      const result = await apiRequest({
+        endpoint: "student_test_report/update_testMarks.php", 
+        method: "POST",
+        data: payload,
+      });
+  
+      if (result.status === "success") {
+        alert('Marks Updated')
+      } else {
+        alert(result.message || "Failed to add question");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
       setSelectedRow(null); // Deselect after editing (Optional)
     }
   };
 
-  const handleDelete = () => {
+  const userData = JSON.parse(localStorage.getItem('userData'))
+
+  const fetchAllTestReport = async()=>{
+    console.log("called")
+    let api = userData.role === 'admin' ?`student_test_report/getTestReport.php`:`student_test_report/getTestReport.php?school_id=${Number(userData.school_id)}`;
+    try {
+      // const result = await apiRequest({
+      //   endpoint: "student_test_report/getTestReport.php",
+      //   method: "POST",
+      //   data: {teacher_id : userData.id},
+      // });
+      const result = await apiRequest({
+        endpoint: api,
+        method: "GET",
+      });
+      console.log("report :",result)
+      if (result.status === "success") {
+        // alert("Session creation completed");
+        // console.log("users",result.data)
+        console.log("report data ",result.data)
+        setTestData(result.data)
+
+        
+        // navigate("/dashboard");
+      } else {
+        // alert(result.message || "Session creation failed");
+      }
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
+  }
+useEffect(()=>{
+  fetchAllTestReport()
+},[])
+  const handleDelete =async () => {
     if (selectedRow !== null) {
       const updatedData = testData.filter((_, index) => index !== selectedRow);
+      const editedRow = testData[selectedRow];
+      const payload = {
+        id : Number(editedRow.id),
+        marks:Number(editedRow.marks),
+        out_of_marks:Number(editedRow.out_of_marks),
+      }
+      try {
+        const result = await apiRequest({
+          endpoint: "student_test_report/delete_marks.php", 
+          method: "POST",
+          data: payload,
+        });
+    
+        if (result.status === "success") {
+          alert('Report for the selected deleted')
+        } else {
+          alert(result.message || "Failed to add question");
+        }
+      } catch (err) {
+        alert(err.message || "Something went wrong");
+      }
       setTestData(updatedData);
       setSelectedRow(null); // Deselect after delete
     }
@@ -80,47 +136,88 @@ const TestReportPage = () => {
       <h2 style={{ color: '#F75F00', marginTop: '30px' }}>Test Report</h2>
 
       <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
-        <thead>
-          <tr style={{ textAlign: 'left', backgroundColor: '#f5f5f5' }}>
-            <th style={thStyle}>Teacher Name</th>
-            <th style={thStyle}>Test No.</th>
-            <th style={thStyle}>Test Date</th>
-            <th style={thStyle}>Student Name</th>
-            <th style={thStyle}>Student ID</th>
-            <th style={thStyle}>School Name</th>
-            <th style={thStyle}>Marks Obtained</th>
-            <th style={thStyle}>Total Marks</th>
-            <th style={thStyle}>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((test, index) => (
-            <tr
-              key={index}
-              onClick={() => handleRowClick(index)} // Click to select row
-              style={{
-                backgroundColor: selectedRow === index ? '#e0e0e0' : 'transparent',
-                cursor: 'pointer',
-              }}
-            >
-              {Object.keys(test).map((key, idx) => (
-                <td key={idx} style={tdStyle}>
-                  {selectedRow === index ? (
-                    // Show editable input fields if row is selected
-                    <input
-                      type="text"
-                      value={test[key]}
-                      onChange={(e) => handleInputChange(e, key, index)}
-                      style={{ padding: '5px', width: '100%', borderRadius: '5px' }}
-                    />
-                  ) : (
-                    test[key] // Display regular data
-                  )}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
+      <thead>
+  <tr style={{ textAlign: 'left', backgroundColor: '#f5f5f5' }}>
+    <th style={thStyle}>Student Name</th>
+    <th style={thStyle}>Test Name</th>
+    <th style={thStyle}>Marks Obtained</th>
+    <th style={thStyle}>Out of</th>
+    <th style={thStyle}>Remaining</th>
+  </tr>
+</thead>
+<tbody>
+  {filteredData.map((test, index) => (
+    <tr
+      key={index}
+      onClick={() => handleRowClick(index)}
+      style={{
+        backgroundColor: selectedRow === index ? '#e0e0e0' : 'transparent',
+        cursor: 'pointer',
+      }}
+    >
+      <td style={tdStyle}>
+        {
+        // selectedRow === index ? (
+        //   <input
+        //     type="text"
+        //     value={test.full_name}
+        //     onClick={(e) => e.stopPropagation()}
+        //     onChange={(e) => handleInputChange(e, 'full_name', index)}
+        //     style={{ padding: '5px', width: '100%', borderRadius: '5px' }}
+        //   />
+        // ) : (
+          test.full_name
+        // )
+        }
+      </td>
+      <td style={tdStyle}>
+        {
+        // selectedRow === index ? (
+        //   <input
+        //     type="text"
+        //     value={test.test_name}
+        //     onClick={(e) => e.stopPropagation()}
+        //     onChange={(e) => handleInputChange(e, 'test_name', index)}
+        //     style={{ padding: '5px', width: '100%', borderRadius: '5px' }}
+        //   />
+        // ) : (
+          test.test_name
+        // )
+        }
+      </td>
+      <td style={tdStyle}>
+        {selectedRow === index ? (
+          <input
+            type="text"
+            value={test.marks}
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => handleInputChange(e, 'marks', index)}
+            style={{ padding: '5px', width: '100%', borderRadius: '5px' }}
+          />
+        ) : (
+          test.marks
+        )}
+      </td>
+      <td style={tdStyle}>
+        {selectedRow === index ? (
+          <input
+            type="text"
+            onClick={(e) => e.stopPropagation()}
+            value={test.out_of_marks}
+            onChange={(e) => handleInputChange(e, 'out_of_marks', index)}
+            style={{ padding: '5px', width: '100%', borderRadius: '5px' }}
+          />
+        ) : (
+          test.out_of_marks
+        )}
+      </td>
+      <td style={tdStyle}>
+        {test.out_of_marks - test.marks}
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
 
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
