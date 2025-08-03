@@ -6,6 +6,7 @@ import Login from "../Components/Login";
 import Navbar from "./Navbar/Navbar";
 import './Dashboard.css'
 import apiRequest from "../utils/apiRequest";
+import MessageBox from "./MessageComponent";
 
 export default function Dashboard({setRole}) {
   const [present, setPresent] = useState(30);
@@ -41,7 +42,6 @@ export default function Dashboard({setRole}) {
 
       if (result.status === "success") {
         setHolidays(result.data || []);
-        console.log("result.data : ",result.data)
       } else {
         console.error("Failed to fetch holidays:", result.message);
         setHolidays([]);
@@ -66,7 +66,6 @@ export default function Dashboard({setRole}) {
 
       if (result.status === "success") {
         setTotalTest(result.data || []);
-        console.log("result.data setTotalTest : ",result.data)
       } else {
         console.error("Failed to fetch holidays:", result.message);
         setTotalTest([]);
@@ -85,27 +84,14 @@ export default function Dashboard({setRole}) {
     getTeacherReport();
   },[selectedSchool])
   const fetchAllTestReport = async()=>{
-    console.log("called")
     let api = selectedSchool ?`student_test_report/getTestReport.php?school_id=${Number(selectedSchool)}`:`student_test_report/getTestReport.php`;
     try {
-      // const result = await apiRequest({
-      //   endpoint: "student_test_report/getTestReport.php",
-      //   method: "POST",
-      //   data: {teacher_id : userData.id},
-      // });
       const result = await apiRequest({
         endpoint: api,
         method: "GET",
       });
-      console.log("report :",result)
       if (result.status === "success") {
-        // alert("Session creation completed");
-        // console.log("users",result.data)
-        console.log("report data ",result.data)
-        setTestData(result.data)
-
-        
-        // navigate("/dashboard");
+        setTestData(result.data);
       } else {
         // alert(result.message || "Session creation failed");
       }
@@ -123,15 +109,11 @@ export default function Dashboard({setRole}) {
     }
   
     try {
-      console.log("payload", payload);
       const result = await apiRequest({
         endpoint: "reports/teacherReport.php",
         method: "POST",
         data: (userData.role === "admin" && !selectedSchool) ? {} : payload,
-      });
-  
-      console.log("result data teacher report: ", result);
-  
+      });  
       if (result.status !== true) {
         return;
       }
@@ -184,30 +166,9 @@ export default function Dashboard({setRole}) {
           photo: item.teacher_info.photo || "https://via.placeholder.com/40",
         };
       });
-  
-      console.log("Total Summary =>", {
-        totalAttendance,
-        totalPresent,
-        totalAbsent,
-        totalSessions,
-        totalCompletedSessions,
-        totalPendingTests,
-        totalCreatedTests
-      });
+
       setTeacherReportData({totalSessions:totalSessions,totalCompletedSessions:totalCompletedSessions})
-      // setTeacherData(formattedData);
-  
-      // Optional: Store totals in state
-      // setTeacherSummary({
-      //   totalAttendance,
-      //   totalPresent,
-      //   totalAbsent,
-      //   totalSessions,
-      //   totalCompletedSessions,
-      //   totalPendingTests,
-      //   totalCreatedTests
-      // });
-  
+
     } catch (err) {
       alert("Save failed: " + err.message);
       return;
@@ -321,9 +282,6 @@ export default function Dashboard({setRole}) {
       });
 
       if (result.status === "success") {
-        // alert("Session creation completed");
-        console.log("result : ",result.data)
-        // setQuestions(result.data);
         setQuestionCount(result.data.length)
       } else {
         alert(result.message || "Session creation failed");
@@ -339,11 +297,8 @@ export default function Dashboard({setRole}) {
         method: "POST",
         data:selectedSchool?{school_id:Number(selectedSchool)}:{},
       });
-console.log("called again",selectedSchool)
+
       if (result.status === "success") {
-        // alert("Session creation completed");
-        console.log("result : ",result.data)
-        // setQuestions(result.data);
         setSessionCount(result.data.length)
       } else {
         setSessionCount(0)
@@ -371,8 +326,6 @@ console.log("called again",selectedSchool)
         method: "POST",
         data: (userData.role === "admin" && !selectedSchool) ? {} : payload,
       });
-
-      console.log("result data student report: ", result);
       const data = result.data;
       let totalSessions = 0;
         let totalAttended = 0;
@@ -381,15 +334,8 @@ console.log("called again",selectedSchool)
           totalSessions += Number(student.total_session_count || 0);
           totalAttended += Number(student.attendance_count || 0);
         });
-    
-        console.log(`Total Sessions: ${totalSessions}, Attended Sessions: ${totalAttended}`);
         setStudentReportCount({totalSession:totalAttended,totalAttended:totalSessions})
       if (result.status !== true) {
-        
-    
-        // alert("Failed to save a question: " + result.message);
-
-        ///// prasannna set data below
         return;
       }
       // setStudentData(result.data);
@@ -1108,24 +1054,7 @@ console.log("called again",selectedSchool)
              {/* <p style={titleStyle1}>Holidays</p> */}
        
             {/* Message Box */}
-            <div>
-              <p style={titleStyle1}>Message Box</p>
-              <div
-                style={{
-                  backgroundColor: "#F8F8F8",
-                  padding: "20px",
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  height: "100px",
-                }}
-              >
-                &nbsp;{" "}
-                <input
-                  type="text"
-                  style={{ borderRadius: "10px", height: "100%", width: "100%" }}
-                />{" "}
-              </div>
-            </div>
+            <MessageBox/>
 
             {/* Special Projects */}
             <div>

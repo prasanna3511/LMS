@@ -95,7 +95,6 @@ const AddSubject = () => {
       setEditIndex(null);
       setEditValue("");
     }
-    console.log("subjectupdateId.id : ",subjectupdateId.id , editValue.trim())
     try {
       const result = await apiRequest({
         endpoint: "subject/updatesubject.php",

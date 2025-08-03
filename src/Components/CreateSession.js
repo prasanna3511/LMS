@@ -44,7 +44,7 @@ const fetchSchoolData = async()=>{
     if (result.status === "success") {
       // alert("Session creation completed");
       setGetAllSchool(result.data)
-      console.log("result",result)
+
       // navigate("/dashboard");
     } else {
       alert(result.message || "Session creation failed");
@@ -89,7 +89,7 @@ fetchAllSessions()
     //   newErrors.demoLink = "Demo link must be a valid URL.";
     // }
     // if (!demoDesc.trim()) newErrors.demoDesc = "Demo description is required.";
-    console.log("newErrors : ",newErrors)
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -144,7 +144,6 @@ fetchAllSessions()
     if (validateForm()) {
       try {
         for (let school_id of selectedSchools) {
-          console.log(school_id)
           const apidata = {
             subject:subject,
             standard:standard,

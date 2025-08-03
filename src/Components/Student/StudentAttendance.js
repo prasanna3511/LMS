@@ -22,8 +22,6 @@ const StudentAttendance = () => {
       });
   
       if (result.status === "success") {
-        // alert("Session creation completed");
-        console.log(result.data)
         setAllSessions(result.data)
         // navigate("/dashboard");
       } else {

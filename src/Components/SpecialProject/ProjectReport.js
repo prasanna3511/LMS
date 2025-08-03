@@ -94,7 +94,6 @@ const SpecialProjectReportForm = () => {
           data: { id: userData.id },
         });
         if (result.status === "success") {
-          console.log("users data fetched:", result.data);
           const { user, school } = result.data;
           // setFormData((prev) => ({
           //   ...prev,

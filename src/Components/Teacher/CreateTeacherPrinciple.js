@@ -18,7 +18,6 @@ export default function TeacherPrinciple() {
   });
   const location = useLocation();
   const { data } = location.state || {};
-  console.log("data : ",data)
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -41,10 +40,7 @@ export default function TeacherPrinciple() {
         });
 
         if (result.status === "success") {
-          // alert("Session creation completed");
           setGetAllSchool(result.data);
-          console.log("result", result);
-          // navigate("/dashboard");
         } else {
           alert(result.message || "Session creation failed");
         }
@@ -74,7 +70,6 @@ export default function TeacherPrinciple() {
   };
 
   const handleSave = async () => {
-    console.log(data)
     if (validate()) {
       const payload = {
         full_name: formData.fullname,

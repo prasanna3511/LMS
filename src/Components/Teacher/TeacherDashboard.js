@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import apiRequest from "../../utils/apiRequest";
 import { useNavigate } from "react-router-dom";
+import MessageBox from "../MessageComponent";
 
 const Dashboard = ({setRole}) => {
   const navigate = useNavigate();
@@ -84,7 +85,6 @@ const Dashboard = ({setRole}) => {
       },
     });
     if (res.status === "success") {
-      console.log("res getTodaysSession: ", res);
       setTodaysSession(res.data);
     } else {
       console.error(res.message);
@@ -115,9 +115,7 @@ const Dashboard = ({setRole}) => {
       });
 
       if (result.status === "success") {
-        // navigate("/dashboard");
         alert("Your Day is started");
-        console.log("successss ");
       } else {
         alert(result.message || "Session Deletion failed");
       }
@@ -167,7 +165,6 @@ const Dashboard = ({setRole}) => {
       if (result.status === "success") {
         // alert("Your day has been ended");
         setLastSession(result);
-        console.log("End day success", result);
       } else {
         alert(result.message || "Failed to end day");
       }
@@ -219,9 +216,7 @@ const Dashboard = ({setRole}) => {
       },
     });
     if (res.status === 'success') {
-      console.log("res : ",res.data)
       setHolidaysLength(res.data.length);
-      console.log("response : ",res)
       setHolidays(res.data)
     } else {
       console.error(res.message);
@@ -254,7 +249,6 @@ const Dashboard = ({setRole}) => {
   }, []);
 
   const fetchAllTestReport = async()=>{
-    console.log("called")
     let api = userData.role === 'admin' ?`student_test_report/getTestReport.php`:`student_test_report/getTestReport.php?school_id=${Number(userData.school_id)}`;
     try {
       // const result = await apiRequest({
@@ -266,15 +260,8 @@ const Dashboard = ({setRole}) => {
         endpoint: api,
         method: "GET",
       });
-      console.log("report :",result)
       if (result.status === "success") {
-        // alert("Session creation completed");
-        // console.log("users",result.data)
-        console.log("report data ",result.data)
-        setTotalTest(result.data)
-
-        
-        // navigate("/dashboard");
+        setTotalTest(result.data);
       } else {
         // alert(result.message || "Session creation failed");
       }
@@ -917,20 +904,7 @@ const Dashboard = ({setRole}) => {
             </div>
 
             {/* Message Box */}
-            <div style={messageBoxStyle}>
-              <h4 style={{ margin: "0 0 10px 0" }}>Message box:</h4>
-              <textarea
-                rows="4"
-                style={{
-                  width: "100%",
-                  resize: "vertical",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  padding: "10px",
-                  boxSizing: "border-box",
-                }}
-              ></textarea>
-            </div>
+            <MessageBox/>
 
             {/* Special Project */}
             <div style={specialProjectStyle}>

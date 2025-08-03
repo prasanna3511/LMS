@@ -68,7 +68,6 @@ export const CreateTest = () => {
         if (result.status === "success") {
           const subjectNames = result.data.map((sub) => sub.subject_name);
           setAllSubjects(subjectNames);
-          console.log("Subjects fetched:", subjectNames);
         } else {
           alert(result.message || "Session creation failed");
         }
@@ -169,7 +168,6 @@ export const CreateTest = () => {
           alert("Failed to save a question: " + result.message);
           return;
         }
-        console.log("result data in test createtion: ",result.data)
         return result.data.id
       } catch (err) {
         alert("Save failed: " + err.message);

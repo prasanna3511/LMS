@@ -4,6 +4,7 @@ import { useState } from "react";
 import Manager1 from "../../images/Teacher.png";
 import Navbar from "../Navbar/Navbar";
 import apiRequest from "../../utils/apiRequest";
+import MessageBox from "../MessageComponent";
 
 export default function PrincipleDashboard() {
   const [holidays, setHolidays] = useState([]);
@@ -991,24 +992,7 @@ export default function PrincipleDashboard() {
             </div>
 
             {/* Message Box */}
-            <div>
-              <p style={titleStyle1}>Message Box</p>
-              <div
-                style={{
-                  backgroundColor: "#F8F8F8",
-                  padding: "20px",
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  height: "100px",
-                }}
-              >
-                &nbsp;{" "}
-                <input
-                  type="text"
-                  style={{ borderRadius: "10px", height: "100%" }}
-                />{" "}
-              </div>
-            </div>
+            <MessageBox/>
 
             {/* Special Projects */}
             <div>

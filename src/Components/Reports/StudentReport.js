@@ -70,7 +70,6 @@ const StudentReportPage = () => {
     const updatedData = studentData.map((student) =>
     student.student_info.id === editData.student_info.id ? editData : student
   );
-  console.log("updated student data : ",editData)
 
   setStudentData(updatedData); 
     setEditData(null); // Exit edit mode

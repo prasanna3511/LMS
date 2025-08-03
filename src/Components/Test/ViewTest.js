@@ -24,7 +24,6 @@ const ViewTestPage = () => {
         if (result.status === "success") {
           const subjectNames = result.data.map((sub) => sub.subject_name);
           setAllSubjects(subjectNames);
-          console.log("Subjects fetched:", subjectNames);
         } else {
           alert(result.message || "Session creation failed");
         }
@@ -102,8 +101,6 @@ const ViewTestPage = () => {
         alert("Failed to save a question: " + result.message);
         return;
       }
-      console.log("result data : ", result.data);
-      // return result.data.id
       setFilteredTests(result.data);
       setTotalData(result.data);
     } catch (err) {

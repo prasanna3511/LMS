@@ -4,6 +4,7 @@ import { useState } from "react";
 import Manager1 from "../../images/Teacher.png";
 import apiRequest from "../../utils/apiRequest";
 import Navbar from "../Navbar/Navbar";
+import MessageBox from "../MessageComponent";
 
 export default function StudentDashboard() {
   const [present, setPresent] = useState(30);
@@ -29,8 +30,6 @@ export default function StudentDashboard() {
         });
   
         if (result.status === "success") {
-          console.log("Project Count:", result.data.project_count || 0);
-          // You can use setState here if you're using React
           setSpecialProjectCount(result.data.project_count || 0);
         } else {
           console.error("Failed to fetch project count:", result.message);
@@ -63,7 +62,6 @@ export default function StudentDashboard() {
 
       if (result.status === "success") {
         setHolidays(result.data || []);
-        console.log("result.data : ",result.data)
       } else {
         console.error("Failed to fetch holidays:", result.message);
         setHolidays([]);
@@ -1074,24 +1072,7 @@ export default function StudentDashboard() {
     </div>
             </div>
             {/* Message Box */}
-            <div>
-              <p style={titleStyle1}>Message Box</p>
-              <div
-                style={{
-                  backgroundColor: "#F8F8F8",
-                  padding: "20px",
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  height: "100px",
-                }}
-              >
-                &nbsp;{" "}
-                <input
-                  type="text"
-                  style={{ borderRadius: "10px", height: "100%" }}
-                />{" "}
-              </div>
-            </div>
+            <MessageBox/>
 
             {/* Special Projects */}
             <div>

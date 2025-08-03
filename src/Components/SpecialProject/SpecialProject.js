@@ -25,8 +25,7 @@ useEffect(() => {
         if (result.status === "success") {
           // Extract only the subject_name values
           const subjectNames = result.data.map((sub) => sub.subject_name);
-          setAllSubjects(subjectNames); // Set all at once
-          console.log("Subjects fetched:", subjectNames);
+          setAllSubjects(subjectNames);
         } else {
           alert(result.message || "Session creation failed");
         }
@@ -68,7 +67,6 @@ useEffect(() => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("formdatta is : ",formData)
     if (
       !formData.standard ||
       !formData.subject ||

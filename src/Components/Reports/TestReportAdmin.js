@@ -56,27 +56,14 @@ const TestReportPage = () => {
   const userData = JSON.parse(localStorage.getItem('userData'))
 
   const fetchAllTestReport = async()=>{
-    console.log("called")
     let api = userData.role === 'admin' ?`student_test_report/getTestReport.php`:`student_test_report/getTestReport.php?school_id=${Number(userData.school_id)}`;
     try {
-      // const result = await apiRequest({
-      //   endpoint: "student_test_report/getTestReport.php",
-      //   method: "POST",
-      //   data: {teacher_id : userData.id},
-      // });
       const result = await apiRequest({
         endpoint: api,
         method: "GET",
       });
-      console.log("report :",result)
       if (result.status === "success") {
-        // alert("Session creation completed");
-        // console.log("users",result.data)
-        console.log("report data ",result.data)
-        setTestData(result.data)
-
-        
-        // navigate("/dashboard");
+        setTestData(result.data);
       } else {
         // alert(result.message || "Session creation failed");
       }
