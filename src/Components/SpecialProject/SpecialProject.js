@@ -100,6 +100,7 @@ useEffect(() => {
         school_name: user.school_name,
         created_date: formData.creationDate,
         guide_name: formData.guideName,
+        school_id: Number(user.school_id)
       };
 
       const result = await apiRequest({

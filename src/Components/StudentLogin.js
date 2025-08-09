@@ -51,7 +51,7 @@ export default function StudentLogin() {
       // alert("Form is valid, ready to submit!");
       const today = new Date();
       const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-  
+      const selectedSchool = getAllSchool.find(s => s.id == formData.schoolId);
       const payload = {
         full_name: formData.studentName,
         email: formData.email,
@@ -59,7 +59,7 @@ export default function StudentLogin() {
         address: formData.address,
         password: formData.password,
         mobile_number: formData.mobile,
-        school_name: "Your School Name",     // Adjust this as needed
+        school_name: selectedSchool ? selectedSchool.school_name : "",     // Adjust this as needed
         whatsapp_number: formData.whatsapp,
         date_of_birth: formData.dob,
         username: formData.studentName,      // You can use email or another unique ID if preferred

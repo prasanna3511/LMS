@@ -10,6 +10,7 @@ export default function PrincipleDashboard() {
   const [holidays, setHolidays] = useState([]);
   const [reportData , setReportData] = useState({})
   const [nextholiday, setnextholiday] = useState();
+  const [specialProjects, setSpecialProjects] = useState([]);
   const userData = JSON.parse(localStorage.getItem("userData"));
 
   const fetchHolidays = async (schoolId = null) => {
@@ -78,9 +79,34 @@ export default function PrincipleDashboard() {
       // setLoading(false);
     }
   };
+  const fetchSpecialProjects = async () => {
+    try {
+      // setLoading(true);
+      const payload = { school_id: Number(userData?.school_id) };
+
+      const result = await apiRequest({
+        endpoint: "specialproject/getSpecialProjectDetailsByStudentId.php",
+        method: "POST",
+        data: payload,
+      });
+
+      if (result.status === "success") {
+        setSpecialProjects(result.data || []);
+      } else {
+        console.error("Failed to fetch holidays:", result.message);
+        setSpecialProjects([]);
+      }
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+      setHolidays([]);
+    } finally {
+      // setLoading(false);
+    }
+  };
   useEffect(() => {
     fetchHolidays(userData.school_id);
-    fetchReportsPrinicple(userData.school_id)
+    fetchReportsPrinicple(userData.school_id);
+    fetchSpecialProjects()
   }, []);
 
 
@@ -995,18 +1021,52 @@ export default function PrincipleDashboard() {
             <MessageBox/>
 
             {/* Special Projects */}
-            <div>
+            <div
+              style={{
+                maxHeight: "200px",
+                overflowY: "auto",
+              }}
+            >
               <p style={titleStyle1}>Special Projects</p>
               <div
                 style={{
                   backgroundColor: "#F8F8F8",
-                  padding: "20px",
+                  padding: "10px",
                   borderRadius: "10px",
-                  textAlign: "center",
-                  height: "100px",
+                  textAlign: "left",
+                  minHeight: "100px",
+                  maxHeight: "100px",
+                  overflowY: "auto",
                 }}
               >
-                &nbsp;
+                {specialProjects.length > 0 ? (
+                  specialProjects.map((proj) => (
+                    <div
+                      key={proj.id}
+                      style={{
+                        padding: "8px",
+                        borderBottom: "1px solid #ddd",
+                      }}
+                    >
+                      <strong>{proj.project_name}</strong> <br />
+                      <span style={{ fontSize: "12px", color: "#555" }}>
+                        Guide: {proj.guide_name}
+                      </span>
+                      <br />
+                      <span style={{ fontSize: "12px", color: "#777" }}>
+                        {new Date(proj.created_date).toLocaleDateString()}
+                      </span>
+                      <br />
+                      <span style={{ fontSize: "12px" }}>
+                        {proj.description}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p style={{ fontSize: "14px", color: "#999" }}>
+                    No projects found
+                  </p>
+                )}
               </div>
             </div>
           </div>

@@ -9,40 +9,42 @@ import MessageBox from "../MessageComponent";
 export default function StudentDashboard() {
   const [present, setPresent] = useState(30);
   const [absent, setAbsent] = useState(2);
-  const [specialProjectCount, setSpecialProjectCount] = useState();
+  const [specialProjectCount, setSpecialProjectCount] = useState(0);
+  const [specialProjects, setSpecialProjects] = useState([]);
+
   const total = present + absent;
   const user = JSON.parse(localStorage.getItem("userData"));
   const attendancePercentage =
     total > 0 ? ((present / total) * 100).toFixed(1) : 0;
-    const fetchSpecialProjectCount = async () => {
-      try {
-        const studentId = user?.id;
-  
-        if (!studentId) {
-          console.error("Student ID not found in local storage");
-          return;
-        }
-  
-        const result = await apiRequest({
-          endpoint: "specialproject/getspecialprojectbystudentid.php", // 👈 your PHP API endpoint
-          method: "POST", // or "GET" if you prefer
-          data: { student_id: studentId },
-        });
-  
-        if (result.status === "success") {
-          setSpecialProjectCount(result.data.project_count || 0);
-        } else {
-          console.error("Failed to fetch project count:", result.message);
-        }
-      } catch (error) {
-        console.error("Error fetching project count:", error);
+  const fetchSpecialProjectCount = async () => {
+    try {
+      const studentId = user?.id;
+
+      if (!studentId) {
+        console.error("Student ID not found in local storage");
+        return;
       }
-    };
-  
-    useEffect(() => {
-      fetchHolidays("1");
-      fetchSpecialProjectCount();
-    }, []);
+
+      const result = await apiRequest({
+        endpoint: "specialproject/getspecialprojectbystudentid.php", // 👈 your PHP API endpoint
+        method: "POST", // or "GET" if you prefer
+        data: { student_id: studentId },
+      });
+
+      if (result.status === "success") {
+        setSpecialProjectCount(result.data.project_count || 0);
+      } else {
+        console.error("Failed to fetch project count:", result.message);
+      }
+    } catch (error) {
+      console.error("Error fetching project count:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchHolidays("1");
+    fetchSpecialProjectCount();
+  }, []);
   const navigate = useNavigate();
   const handleContact = () => {
     navigate("/Login");
@@ -53,7 +55,7 @@ export default function StudentDashboard() {
     try {
       setLoading(true);
       const payload = schoolId ? { school_id: schoolId } : {};
-      
+
       const result = await apiRequest({
         endpoint: "holidays/getholidaybyschoolid.php",
         method: "POST",
@@ -73,16 +75,41 @@ export default function StudentDashboard() {
       setLoading(false);
     }
   };
-  useEffect(()=>{
-    fetchHolidays(user.school_id)
-  },[])
+  const fetchSpecialProjects = async () => {
+    try {
+      setLoading(true);
+      const payload = { student_id: Number(user?.id) };
+
+      const result = await apiRequest({
+        endpoint: "specialproject/getSpecialProjectDetailsByStudentId.php",
+        method: "POST",
+        data: payload,
+      });
+
+      if (result.status === "success") {
+        setSpecialProjects(result.data || []);
+      } else {
+        console.error("Failed to fetch holidays:", result.message);
+        setSpecialProjects([]);
+      }
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+      setHolidays([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchHolidays(user.school_id);
+    fetchSpecialProjects();
+  }, []);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const startOfWeek = (date) => {
     const d = new Date(date);
     const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1); 
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
     return new Date(d.setDate(diff));
   };
 
@@ -95,7 +122,7 @@ export default function StudentDashboard() {
     });
   };
   const isHoliday = (date) => {
-    return holidays.some(holiday => {
+    return holidays.some((holiday) => {
       const holidayDate = new Date(holiday.date || holiday.holiday_date);
       return isSameDay(date, holidayDate);
     });
@@ -103,7 +130,7 @@ export default function StudentDashboard() {
 
   // Get holiday info for a specific date
   const getHolidayInfo = (date) => {
-    return holidays.find(holiday => {
+    return holidays.find((holiday) => {
       const holidayDate = new Date(holiday.date || holiday.holiday_date);
       return isSameDay(date, holidayDate);
     });
@@ -137,83 +164,11 @@ export default function StudentDashboard() {
     width: "320px",
     marginBottom: "2%",
   };
-
-  const sectionStyle = {
-    backgroundColor: "#F8F8F8",
-    padding: "20px",
-    borderRadius: "10px",
-    textAlign: "center",
-  };
-
   const titleStyle1 = {
     fontSize: "16px",
     fontWeight: "bold",
     color: "#d9534f",
     marginBottom: "10px",
-  };
-
-  const chartContainerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
-
-  const chartStyle = {
-    width: "80px",
-    height: "80px",
-    borderRadius: "50%",
-    border: "8px solid #1a1a56",
-    borderTopColor: "transparent",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontWeight: "bold",
-    fontSize: "14px",
-  };
-
-  const textRowStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    fontSize: "12px",
-    marginTop: "10px",
-  };
-
-  const inputStyle = {
-    padding: "5px",
-    width: "70px",
-    margin: "5px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    textAlign: "center",
-  };
-
-  const cardStyle = {
-    // backgroundColor: "#ABBFFC",
-    backgroundColor: "#F8F8F8",
-    padding: "15px",
-    borderRadius: "10px",
-    width: "250px",
-  };
-
-  const titleStyle = {
-    fontSize: "20px",
-    fontWeight: "bold",
-    color: "#d9534f",
-    marginBottom: "10px",
-  };
-
-  const buttonStyle = {
-    backgroundColor: "#1a1a56",
-    color: "white",
-    padding: "10px",
-    borderRadius: "20px",
-    border: "none",
-    width: "100%",
-    textAlign: "center",
-    cursor: "pointer",
-    marginTop: "20px",
-    height: "40px",
-    fontSize: "15px",
   };
 
   return (
@@ -267,7 +222,7 @@ export default function StudentDashboard() {
               Search
             </button>
           </div>
-          <Navbar/>
+          <Navbar />
         </div>
       </div>
       {/* panel code */}
@@ -435,7 +390,7 @@ export default function StudentDashboard() {
                   Attendance Report
                 </p>
               </div>
-             
+
               <div
                 style={{
                   width: "80%",
@@ -858,49 +813,48 @@ export default function StudentDashboard() {
                 </div>
               </div>
             </div> */}
-   <div>
-      <p style={titleStyle1}>Holidays</p>
+            <div>
+              <p style={titleStyle1}>Holidays</p>
 
-            <div
-      style={{
-        width: "98%",
-        padding: "10px",
-        fontFamily: "Arial, sans-serif",
-        backgroundColor: "white",
-        borderRadius: "10px",
-        marginBottom:10,
-        backgroundColor:'#F8F8F8',
-      }}
-    >
-      
-      {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontSize: "14px",
-          marginBottom: "15px",
-        }}
-      >
-        <div style={{ cursor: "pointer" }} onClick={goToPreviousWeek}>
-          ❮
-        </div>
-        <div style={{ fontWeight: "bold" }}>{monthYear}</div>
-        <div style={{ cursor: "pointer" }} onClick={goToNextWeek}>
-          ❯
-        </div>
-      </div>
+              <div
+                style={{
+                  width: "98%",
+                  padding: "10px",
+                  fontFamily: "Arial, sans-serif",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  marginBottom: 10,
+                  backgroundColor: "#F8F8F8",
+                }}
+              >
+                {/* Header */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <div style={{ cursor: "pointer" }} onClick={goToPreviousWeek}>
+                    ❮
+                  </div>
+                  <div style={{ fontWeight: "bold" }}>{monthYear}</div>
+                  <div style={{ cursor: "pointer" }} onClick={goToNextWeek}>
+                    ❯
+                  </div>
+                </div>
 
-      {/* Week Row */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        {/* {weekDates.map((date, index) => {
+                {/* Week Row */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  {/* {weekDates.map((date, index) => {
           const selected = isSameDay(date, selectedDate);
           return (
             <div
@@ -946,70 +900,80 @@ export default function StudentDashboard() {
             </div>
           );
         })} */}
-         {weekDates.map((date, index) => {
-                  const selected = isSameDay(date, selectedDate);
-                  const holiday = isHoliday(date);
-                  const holidayInfo = getHolidayInfo(date);
-                  
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => setSelectedDate(date)}
-                      style={{
-                        width: "32px",
-                        textAlign: "center",
-                        cursor: "pointer",
-                        position: "relative",
-                      }}
-                      title={holiday ? `Holiday: ${holidayInfo?.name || holidayInfo?.holiday_name || 'Holiday'}` : ''}
-                    >
+                  {weekDates.map((date, index) => {
+                    const selected = isSameDay(date, selectedDate);
+                    const holiday = isHoliday(date);
+                    const holidayInfo = getHolidayInfo(date);
+
+                    return (
                       <div
+                        key={index}
+                        onClick={() => setSelectedDate(date)}
                         style={{
-                          backgroundColor: selected 
-                            ? "#43369d" 
-                            : holiday 
-                            ? "#ff6b6b" 
-                            : "transparent",
-                          color: selected || holiday ? "white" : "#333",
-                          borderRadius: "25px",
-                          padding: "6px 0",
-                          height: "60px",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          border: selected 
-                            ? "2px solid #261d82" 
-                            : holiday 
-                            ? "2px solid #ff4757" 
-                            : "none",
+                          width: "32px",
+                          textAlign: "center",
+                          cursor: "pointer",
+                          position: "relative",
                         }}
+                        title={
+                          holiday
+                            ? `Holiday: ${
+                                holidayInfo?.name ||
+                                holidayInfo?.holiday_name ||
+                                "Holiday"
+                              }`
+                            : ""
+                        }
                       >
-                        <div style={{ fontSize: "12px" }}>{weekDays[index]}</div>
                         <div
                           style={{
-                            marginTop: "4px",
-                            width: "24px",
-                            height: "24px",
-                            lineHeight: "24px",
-                            fontSize: "13px",
-                            borderRadius: "50%",
-                            backgroundColor: selected 
-                              ? "#b0a7f9" 
-                              : holiday 
-                              ? "#ffa8a8" 
-                              : "#eee",
-                            color: selected || holiday ? "#000" : "#555",
-                            border: selected 
-                              ? "1px solid #43369d" 
-                              : holiday 
-                              ? "1px solid #ff4757" 
+                            backgroundColor: selected
+                              ? "#43369d"
+                              : holiday
+                              ? "#ff6b6b"
+                              : "transparent",
+                            color: selected || holiday ? "white" : "#333",
+                            borderRadius: "25px",
+                            padding: "6px 0",
+                            height: "60px",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            border: selected
+                              ? "2px solid #261d82"
+                              : holiday
+                              ? "2px solid #ff4757"
                               : "none",
                           }}
                         >
-                          {date.getDate()}
-                        </div>
-                        {/* {holiday && (
+                          <div style={{ fontSize: "12px" }}>
+                            {weekDays[index]}
+                          </div>
+                          <div
+                            style={{
+                              marginTop: "4px",
+                              width: "24px",
+                              height: "24px",
+                              lineHeight: "24px",
+                              fontSize: "13px",
+                              borderRadius: "50%",
+                              backgroundColor: selected
+                                ? "#b0a7f9"
+                                : holiday
+                                ? "#ffa8a8"
+                                : "#eee",
+                              color: selected || holiday ? "#000" : "#555",
+                              border: selected
+                                ? "1px solid #43369d"
+                                : holiday
+                                ? "1px solid #ff4757"
+                                : "none",
+                            }}
+                          >
+                            {date.getDate()}
+                          </div>
+                          {/* {holiday && (
                           <div
                             style={{
                               position: "absolute",
@@ -1028,12 +992,12 @@ export default function StudentDashboard() {
                             🎉
                           </div>
                         )} */}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-                {/* Holiday Legend */}
-              {/* <div style={{ marginTop: "10px", fontSize: "10px" }}>
+                    );
+                  })}
+                  {/* Holiday Legend */}
+                  {/* <div style={{ marginTop: "10px", fontSize: "10px" }}>
                 <div style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
                   <div
                     style={{
@@ -1048,7 +1012,7 @@ export default function StudentDashboard() {
                 </div>
               </div> */}
 
-              {/* Selected Date Holiday Info
+                  {/* Selected Date Holiday Info
               {isHoliday(selectedDate) && (
                 <div
                   style={{
@@ -1068,25 +1032,59 @@ export default function StudentDashboard() {
                   )}
                 </div>
               )} */}
-      </div>
-    </div>
+                </div>
+              </div>
             </div>
             {/* Message Box */}
-            <MessageBox/>
+            <MessageBox />
 
             {/* Special Projects */}
-            <div>
+            <div
+              style={{
+                maxHeight: "200px",
+                overflowY: "auto",
+              }}
+            >
               <p style={titleStyle1}>Special Projects</p>
               <div
                 style={{
                   backgroundColor: "#F8F8F8",
-                  padding: "20px",
+                  padding: "10px",
                   borderRadius: "10px",
-                  textAlign: "center",
-                  height: "100px",
+                  textAlign: "left",
+                  minHeight: "100px",
+                  maxHeight: "200px",
+                  overflowY: "auto",
                 }}
               >
-                &nbsp;
+                {specialProjects.length > 0 ? (
+                  specialProjects.map((proj) => (
+                    <div
+                      key={proj.id}
+                      style={{
+                        padding: "8px",
+                        borderBottom: "1px solid #ddd",
+                      }}
+                    >
+                      <strong>{proj.project_name}</strong> <br />
+                      <span style={{ fontSize: "12px", color: "#555" }}>
+                        Guide: {proj.guide_name}
+                      </span>
+                      <br />
+                      <span style={{ fontSize: "12px", color: "#777" }}>
+                        {new Date(proj.created_date).toLocaleDateString()}
+                      </span>
+                      <br />
+                      <span style={{ fontSize: "12px" }}>
+                        {proj.description}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p style={{ fontSize: "14px", color: "#999" }}>
+                    No projects found
+                  </p>
+                )}
               </div>
             </div>
           </div>
