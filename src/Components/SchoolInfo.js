@@ -67,11 +67,12 @@ export default function SchoolInfo() {
             if (result.status === "success") {
               alert("School addition completed",);
               console.log("result : ",result)
-              navigate('/CreateTeacher',{
-                state:{
-                  data:result.data
-                }
-              })
+               navigate(-1)
+              // navigate('/CreateTeacher',{
+              //   state:{
+              //     data:result.data
+              //   }
+              // })
               // navigate("/dashboard");
             } else {
               alert(result.message || "School addition failed");

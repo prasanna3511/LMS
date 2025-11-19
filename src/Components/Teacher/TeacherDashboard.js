@@ -496,9 +496,16 @@ const Dashboard = ({setRole}) => {
         </div>
 
         <div className="welcome-banner" style={welcomeStyle}>
-          <h2 style={{ color: "#ff6600", margin: "0" }}>
+          <div style={{display: "flex" , flexDirection:'column'}}>
+          <h2 style={{ color: "#ff6600", marginTop:20 }}>
             Welcome Back Teacher !
           </h2>
+          <p style={{marginTop:-10, fontSize:10,color:'#676767'}}>
+
+          {JSON.parse(localStorage.getItem('userData')).user_school_name}
+          </p>
+          </div>
+
           {lastSession?.data !== null && (
             <button
               style={{

@@ -344,7 +344,6 @@ fetchSpecialProjects();
     const payload = {
       // name:enterTestName,
       school_id: Number(selectedSchool),
-      teacher_id: Number(userData.id),
     };
 
     try {
@@ -356,8 +355,8 @@ fetchSpecialProjects();
       const data = result.data;
       let totalSessions = 0;
         let totalAttended = 0;
-    
-        data.forEach((student) => {
+    console.log("stuuudeenntntt data : ",result)
+        data?.forEach((student) => {
           totalSessions += Number(student.total_session_count || 0);
           totalAttended += Number(student.attendance_count || 0);
         });

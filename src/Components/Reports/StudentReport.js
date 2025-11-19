@@ -66,42 +66,111 @@ const StudentReportPage = () => {
     }));
   };
 
-  const handleSave =async () => {
-    const updatedData = studentData.map((student) =>
-    student.student_info.id === editData.student_info.id ? editData : student
-  );
+  // const handleSave =async () => {
+  //   const updatedData = studentData.map((student) =>
+  //   student.student_info.id === editData.student_info.id ? editData : student
+  // );
 
-  setStudentData(updatedData); 
-    setEditData(null); // Exit edit mode
-    setSelectedRow(null); // Deselect row
-    const payload = {
-      full_name:editData.student_info.full_name,
-      email:editData.student_info.email,
-      mobile_number:editData.student_info.mobile_number,
-      whatsapp_number:editData.student_info.whatsapp_number,
-      date_of_birth:editData.student_info.date_of_birth,
-      id:editData.student_info.id
-    }
+  // setStudentData(updatedData); 
+  //   setEditData(null); // Exit edit mode
+  //   setSelectedRow(null); // Deselect row
+  //   // const payload = {
+  //   //   full_name:editData.student_info.full_name,
+  //   //   email:editData.student_info.email,
+  //   //   mobile_number:editData.student_info.mobile_number,
+  //   //   whatsapp_number:editData.student_info.whatsapp_number,
+  //   //   date_of_birth:editData.student_info.date_of_birth,
+  //   //   id:editData.student_info.id
+  //   // }
+  //   const payload = {
+  //     full_name: editData.student_info.full_name,
+  //     email: editData.student_info.email,
+  //     mobile_number: editData.student_info.mobile_number,
+  //     whatsapp_number: editData.student_info.whatsapp_number,
+  //     date_of_birth: editData.student_info.date_of_birth,
+  //     id: editData.student_info.id,
+  //     ...(editData.profile_image && {
+  //       profile_image: JSON.stringify(editData.profile_image),
+  //       profile_image_type: editData.profile_image_type
+  //     })
+  //   };
+  //   console.log("payload : ",)
+  //   try {
+  //     const result = await apiRequest({
+  //       endpoint: "users/updateUserFromReports.php",
+  //       method: "POST",
+  //       data: payload,
+  //     });
+  //     console.log(payload)
+  //     if (result.status === "success") {
+  //       alert('User Updated Successfully')
+        
+  //       // navigate("/dashboard");
+  //     } else {
+  //       // alert(result.message || "Session creation failed");
+  //     }
+  //   } catch (err) {
+  //     alert(err.message || "Something went wrong");
+  //   }
+  // };
 
+  const handleSave = async () => {
     try {
-      const result = await apiRequest({
+      // First call — update other user fields
+      const userResult = await apiRequest({
         endpoint: "users/updateUserFromReports.php",
         method: "POST",
-        data: payload,
+        data: {
+          full_name: editData.student_info.full_name,
+          email: editData.student_info.email,
+          mobile_number: editData.student_info.mobile_number,
+          whatsapp_number: editData.student_info.whatsapp_number,
+          date_of_birth: editData.student_info.date_of_birth,
+          id: editData.student_info.id
+        },
       });
-      console.log(payload)
-      if (result.status === "success") {
-        alert('User Updated Successfully')
-        
-        // navigate("/dashboard");
-      } else {
-        // alert(result.message || "Session creation failed");
+  
+      if (userResult.status !== "success") {
+        throw new Error(userResult.message || "User update failed");
       }
+  console.log("editData  : ",editData)
+      // Second call — only if there's a new profile image
+      if (editData.profile_image_file && editData.profile_image_file.type) {
+        console.log("now inside i am ")
+        const imagePayload = new FormData();
+        imagePayload.append("id", editData.student_info.id);
+        imagePayload.append("profile_image", editData.profile_image_file); // file or base64
+        imagePayload.append("profile_image_type", editData.profile_image_file.type);
+  
+        const imageResult = await apiRequest({
+          endpoint: "users/updateProfileImage.php",
+          method: "POST",
+          data: imagePayload,
+          params:null,
+          isFormData: true // so apiRequest sets correct headers
+        });
+  
+        if (imageResult.status !== "success") {
+          throw new Error(imageResult.message || "Image update failed");
+        }
+        console.log("image rfesusdkjnskdj : ",imageResult)
+      }
+      alert("User updated successfully");
+  
+      setStudentData(prev =>
+        prev.map(student =>
+          student.student_info.id === editData.student_info.id ? editData : student
+        )
+      );
+      setEditData(null);
+      setSelectedRow(null);
+  
     } catch (err) {
       alert(err.message || "Something went wrong");
     }
   };
-
+  
+  
   const handleDelete = async() => {
     if (selectedRow) {
       const updatedData = studentData.filter(
@@ -369,22 +438,58 @@ const StudentReportPage = () => {
         <td style={tdStyle}>N/A</td>
         <td style={tdStyle}>N/A</td>
         <td style={tdStyle}>N/A</td>
+        <td style={tdStyle}>N/A</td>
 
         <td style={tdStyle}>
-          {info.photo ? (
-            <img
-              src={info.photo}
-              alt="profile"
-              style={{
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-              }}
-            />
-          ) : (
-            "No Photo"
-          )}
-        </td>
+  {isEditing ? (
+    <>
+      <input
+  type="file"
+  onChange={(e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setEditData((prev) => ({
+        ...prev,
+        profile_image_file: file, // actual file to upload
+        student_info: {
+          ...prev.student_info,
+          photo: URL.createObjectURL(file) // for preview
+        }
+      }));
+    }
+  }}
+/>
+
+      {editData.student_info.photo && (
+        <img
+          src={editData.student_info.photo}
+          alt="preview"
+          style={{
+            borderRadius: "50%",
+            width: "40px",
+            height: "40px",
+            marginTop: "5px"
+          }}
+        />
+      )}
+    </>
+  ) : (
+    info.profile_image ? (
+      <img
+        src={`https://shatrunjaygroup.com/lms/api/users/${info.profile_image}`}
+        alt="profile"
+        style={{
+          borderRadius: "50%",
+          width: "40px",
+          height: "40px",
+        }}
+      />
+    ) : (
+      "No Photo"
+    )
+  )}
+</td>
+
       </tr>
     );
   })}

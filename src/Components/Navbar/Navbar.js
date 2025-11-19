@@ -43,13 +43,26 @@ export default function Navbar() {
           display: 'inline-flex',
           justifyContent: 'center',
           alignItems: 'center'
-        }}><img src={require('../../images/userProfile.png')} style={{height: 40, width:40, borderRadius:20}} /></span>
+        }}> {(
+          getUser[0]?.profile_image ? (
+            <img
+              src={`https://shatrunjaygroup.com/lms/api/users/${getUser[0]?.profile_image}`}
+              alt="profile"
+              style={{
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+              }}
+            />
+          ) : 
+        <img src={require('../../images/userProfile.png')} style={{height: 40, width:40, borderRadius:20}} />
+        )}</span>
         
         <div>
           <strong>{getUser[0]?.username}</strong><br />
           <span style={{ fontSize: '12px', color: '#888' }}>{getUser[0]?.role}</span>
         </div>
-        <span style={{
+        {/* <span style={{
           background: '#e2e4fb',
           borderRadius: '50%',
           width: '40px',
@@ -58,7 +71,7 @@ export default function Navbar() {
           justifyContent: 'center',
           alignItems: 'center',
           marginLeft:20
-        }}>🔔</span>
+        }}>🔔</span> */}
       </div>
   )
 }

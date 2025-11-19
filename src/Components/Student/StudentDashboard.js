@@ -185,7 +185,7 @@ export default function StudentDashboard() {
           style={{
             padding: "15px",
             borderRadius: "10px",
-            marginBottom: "20px",
+            // marginBottom: "20px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -226,13 +226,14 @@ export default function StudentDashboard() {
         </div>
       </div>
       {/* panel code */}
-      <div style={{ display: "flex", flexDirection: "row", marginTop: -25 }}>
+      <div style={{ display: "flex", flexDirection: "row", flexWrap:'wrap' }}>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             width: "70%",
             justifyContent: "center",
+            minWidth:400
           }}
         >
           <div
@@ -248,7 +249,7 @@ export default function StudentDashboard() {
               height: 75,
             }}
           >
-            <div>
+            <div style={{marginTop:10}}>
               <h3
                 style={{
                   margin: "5px 0",
@@ -257,6 +258,10 @@ export default function StudentDashboard() {
               >
                 Welcome back, Student
               </h3>
+              <p style={{marginTop:-5, fontSize:10,color:'#676767'}}>
+
+          {JSON.parse(localStorage.getItem('userData')).user_school_name}
+          </p>
             </div>
             <div>
               <img
@@ -280,6 +285,7 @@ export default function StudentDashboard() {
               flexDirection: "row",
               justifyContent: "space-between",
               marginTop: 10,
+              flexWrap:'wrap'
             }}
           >
             <div
@@ -291,6 +297,7 @@ export default function StudentDashboard() {
                 marginTop: 10,
                 display: "flex",
                 flexDirection: "column",
+                minWidth:300
               }}
             >
               <div
@@ -345,7 +352,7 @@ export default function StudentDashboard() {
                     alignItems: "center",
                   }}
                 >
-                  <p style={{ fontSize: 10 }}>Name of stduent </p>
+                  <p style={{ fontSize: 10 }}>{user?.full_name}</p>
                 </div>
               </div>
             </div>
@@ -358,6 +365,8 @@ export default function StudentDashboard() {
                 marginTop: 10,
                 display: "flex",
                 flexDirection: "column",
+                minWidth:300,
+                alignSelf:'center'
               }}
             >
               <div
@@ -469,6 +478,7 @@ export default function StudentDashboard() {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap:'wrap'
             }}
           >
             <div
@@ -480,6 +490,8 @@ export default function StudentDashboard() {
                 marginTop: 10,
                 display: "flex",
                 flexDirection: "column",
+                minWidth:300,
+
               }}
             >
               <div
@@ -550,6 +562,7 @@ export default function StudentDashboard() {
                 marginTop: 10,
                 display: "flex",
                 flexDirection: "column",
+                minWidth:300,
               }}
             >
               <div
@@ -617,6 +630,7 @@ export default function StudentDashboard() {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap:'wrap'
             }}
           >
             <div
@@ -628,6 +642,8 @@ export default function StudentDashboard() {
                 marginTop: 10,
                 display: "flex",
                 flexDirection: "column",
+                minWidth:300,
+
               }}
             >
               <div
@@ -698,6 +714,8 @@ export default function StudentDashboard() {
                 marginTop: 10,
                 display: "flex",
                 flexDirection: "column",
+                minWidth:300,
+
               }}
             >
               <div
@@ -758,10 +776,6 @@ export default function StudentDashboard() {
               </div>
             </div>
           </div>
-          {/* <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div>
-          <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div>
-          <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div>
-          <div style={{width:'50%',height:142,backgroundColor:'#ABBFFC80'}}></div> */}
         </div>
 
         <div
@@ -772,47 +786,7 @@ export default function StudentDashboard() {
           }}
         >
           <div style={containerStyle}>
-            {/* Attendance Report */}
-            {/* <div>
-              <p style={titleStyle1}>Attendance Report</p>
-              <div style={sectionStyle}>
-                <div style={chartContainerStyle}>
-                  <div style={chartStyle}>{attendancePercentage}%</div>
-                </div>
-                <div style={textRowStyle}>
-                  <span>
-                    <input
-                      type="number"
-                      value={present}
-                      onChange={(e) => setPresent(Number(e.target.value))}
-                      style={inputStyle}
-                      placeholder="Present"
-                    />{" "}
-                    <br /> Present Students
-                  </span>
-                  <span>
-                    <input
-                      type="number"
-                      value={absent}
-                      onChange={(e) => setAbsent(Number(e.target.value))}
-                      style={inputStyle}
-                      placeholder="Absent"
-                    />{" "}
-                    <br /> Absent Students
-                  </span>
-                  <span>
-                    <input
-                      type="number"
-                      value={total}
-                      onChange={(e) => setPresent(Number(e.target.value))}
-                      style={inputStyle}
-                      placeholder="Total"
-                    />{" "}
-                    <br /> Total Students
-                  </span>
-                </div>
-              </div>
-            </div> */}
+        
             <div>
               <p style={titleStyle1}>Holidays</p>
 
@@ -854,52 +828,7 @@ export default function StudentDashboard() {
                     alignItems: "center",
                   }}
                 >
-                  {/* {weekDates.map((date, index) => {
-          const selected = isSameDay(date, selectedDate);
-          return (
-            <div
-              key={index}
-              onClick={() => setSelectedDate(date)}
-              style={{
-                width: "32px",
-                textAlign: "center",
-                cursor: "pointer",
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: selected ? "#43369d" : "transparent",
-                  color: selected ? "white" : "#333",
-                  borderRadius: "25px",
-                  padding: "6px 0",
-                  height: "60px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  border: selected ? "2px solid #261d82" : "none",
-                }}
-              >
-                <div style={{ fontSize: "12px" }}>{weekDays[index]}</div>
-                <div
-                  style={{
-                    marginTop: "4px",
-                    width: "24px",
-                    height: "24px",
-                    lineHeight: "24px",
-                    fontSize: "13px",
-                    borderRadius: "50%",
-                    backgroundColor: selected ? "#b0a7f9" : "#eee",
-                    color: selected ? "#000" : "#555",
-                    border: selected ? "1px solid #43369d" : "none",
-                  }}
-                >
-                  {date.getDate()}
-                </div>
-              </div>
-            </div>
-          );
-        })} */}
+            
                   {weekDates.map((date, index) => {
                     const selected = isSameDay(date, selectedDate);
                     const holiday = isHoliday(date);
@@ -973,66 +902,12 @@ export default function StudentDashboard() {
                           >
                             {date.getDate()}
                           </div>
-                          {/* {holiday && (
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "-5px",
-                              right: "-5px",
-                              width: "12px",
-                              height: "12px",
-                              backgroundColor: "#ff4757",
-                              borderRadius: "50%",
-                              fontSize: "8px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            🎉
-                          </div>
-                        )} */}
                         </div>
                       </div>
                     );
                   })}
                   {/* Holiday Legend */}
-                  {/* <div style={{ marginTop: "10px", fontSize: "10px" }}>
-                <div style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
-                  <div
-                    style={{
-                      width: "12px",
-                      height: "12px",
-                      backgroundColor: "#ff6b6b",
-                      borderRadius: "50%",
-                      marginRight: "5px",
-                    }}
-                  ></div>
-                  <span>Holiday</span>
-                </div>
-              </div> */}
-
-                  {/* Selected Date Holiday Info
-              {isHoliday(selectedDate) && (
-                <div
-                  style={{
-                    marginTop: "10px",
-                    padding: "8px",
-                    backgroundColor: "#fff3cd",
-                    borderRadius: "5px",
-                    fontSize: "12px",
-                    border: "1px solid #ffeaa7",
-                  }}
-                >
-                  <strong>Holiday:</strong> {getHolidayInfo(selectedDate)?.name || getHolidayInfo(selectedDate)?.holiday_name}
-                  {getHolidayInfo(selectedDate)?.description && (
-                    <div style={{ marginTop: "4px", color: "#666" }}>
-                      {getHolidayInfo(selectedDate).description}
-                    </div>
-                  )}
-                </div>
-              )} */}
-                </div>
+                         </div>
               </div>
             </div>
             {/* Message Box */}
